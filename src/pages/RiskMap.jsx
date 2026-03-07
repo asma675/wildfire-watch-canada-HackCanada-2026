@@ -69,9 +69,11 @@ const PROVINCIAL_LINKS = [
 export default function RiskMap() {
   const [selectedZone, setSelectedZone] = useState(null);
   const [showSources, setShowSources] = useState(false);
+  const [showPredictionPanel, setShowPredictionPanel] = useState(false);
   const [layers, setLayers] = useState({
     zones: true,
     liveFires: true,
+    firePredictions: false,
     ndvi: false,
     airQuality: false,
     historical: false,
