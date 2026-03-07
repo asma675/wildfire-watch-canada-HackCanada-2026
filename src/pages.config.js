@@ -54,6 +54,7 @@ import Alerts from './pages/Alerts';
 import FireSafety from './pages/FireSafety';
 import FireDepartments from './pages/FireDepartments';
 import HealthImpact from './pages/HealthImpact';
+import UserHealth from './pages/UserHealth';
 import __Layout from './Layout.jsx';
 
 
@@ -65,6 +66,7 @@ export const PAGES = {
     "FireSafety": FireSafety,
     "FireDepartments": FireDepartments,
     "HealthImpact": HealthImpact,
+    "UserHealth": UserHealth,
 }
 
 export const pagesConfig = {
