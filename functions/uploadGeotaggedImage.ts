@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
         contents: [{
           parts: [
             {
-              text: `Analyze this image taken at location ${latitude}, ${longitude} in ${province}, Canada (zone: ${zoneName || 'unknown'}). 
+              text: `Analyze this image taken at location ${latitude}, ${longitude} in ${province}, Canada (zone: ${zone_name || 'unknown'}). 
               
               Answer ONLY with a JSON object in this exact format (no markdown, no extra text):
               {
