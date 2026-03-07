@@ -167,6 +167,48 @@ export default function RiskMap() {
 
         <LayerToggles layers={layers} onChange={toggleLayer} />
 
+        {/* Prediction time slider */}
+        {layers.firePredictions && !loadingPredictions && predictionData?.predictions?.length > 0 && (
+          <TimeSlider dayOffset={predictionDay} onChange={setPredictionDay} minDay={1} maxDay={14} />
+        )}
+
+        {/* Environmental damage year slider */}
+        {layers.envDamage && envDamage.length > 0 && (() => {
+          const years = envDamage.map(d => d.year).filter(Boolean).sort();
+          if (years.length < 2) return null;
+          const minY = years[0]; const maxY = years[years.length - 1];
+          const val = envDamageYear || maxY;
+          return (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] w-[min(380px,calc(100vw-100px))]
+                            bg-[#1a1a2e]/95 backdrop-blur-xl rounded-2xl border border-purple-500/25 p-3 shadow-2xl">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs font-semibold text-purple-300">Environmental Damage Timeline</span>
+                <span className="ml-auto text-xs font-bold text-white bg-purple-500/20 border border-purple-500/30 rounded-md px-2 py-0.5">
+                  Up to {val}
+                </span>
+                <button
+                  onClick={() => setEnvDamageYear(null)}
+                  className="text-[9px] text-slate-500 hover:text-slate-300 underline ml-1"
+                >All</button>
+              </div>
+              <input
+                type="range"
+                min={minY}
+                max={maxY}
+                value={val}
+                onChange={e => setEnvDamageYear(Number(e.target.value))}
+                className="w-full accent-purple-400 cursor-pointer"
+              />
+              <div className="flex justify-between text-[9px] text-slate-600 mt-0.5">
+                <span>{minY}</span><span>{maxY}</span>
+              </div>
+              <p className="text-[9px] text-slate-600 text-center mt-1">
+                Newer damage = more opaque · Drag to see progression over time
+              </p>
+            </div>
+          );
+        })()}
+
         {/* Fire stats badge — bottom left */}
         <div className="absolute bottom-4 left-3 z-[1000] flex flex-col gap-2 max-w-[220px]">
           {loadingFires && (
