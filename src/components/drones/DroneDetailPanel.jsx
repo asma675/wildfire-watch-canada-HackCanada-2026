@@ -152,8 +152,10 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
         )}
         {guidance && (
           <div className="rounded-xl border border-pink-500/20 bg-pink-500/5 p-4">
-            <p className="text-[10px] font-semibold text-pink-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <BrainCircuit className="w-3 h-3" /> AI Mission Guidance
+            <p className={`text-[10px] font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 ${activeMode === "thermal_scan" ? "text-orange-400" : "text-pink-400"}`}>
+              {activeMode === "thermal_scan"
+                ? <><Thermometer className="w-3 h-3" /> Thermal Imaging Report</>
+                : <><BrainCircuit className="w-3 h-3" /> AI Mission Guidance</>}
             </p>
             <div className="prose prose-sm prose-invert max-w-none text-xs [&>*]:text-slate-300 [&>h1,&>h2,&>h3]:text-white [&>h1,&>h2,&>h3]:font-semibold [&>ul]:list-disc [&>ul]:ml-4 [&>ol]:list-decimal [&>ol]:ml-4">
               <ReactMarkdown>{guidance}</ReactMarkdown>
