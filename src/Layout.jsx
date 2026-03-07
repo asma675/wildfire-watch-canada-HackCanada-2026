@@ -29,6 +29,7 @@ const navItems = [
   { name: "Fire Departments", icon: Building2, page: "FireDepartments" },
   { name: "Drones", icon: Cpu, page: "Drones" },
   { name: "Field Imaging", icon: Camera, page: "FieldImaging" },
+  { name: "AI Chat", icon: Radio, page: "AIChat" },
   { name: "Knowledge Base", icon: BookOpen, page: "KnowledgeBase" },
   { name: "Health Impact", icon: Heart, page: "HealthImpact" },
   { name: "User Health", icon: Activity, page: "UserHealth" },
