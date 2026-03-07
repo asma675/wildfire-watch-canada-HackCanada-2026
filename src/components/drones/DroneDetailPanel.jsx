@@ -68,8 +68,7 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
           <EvacuationPanel drone={drone} zone={zone} wearable={wearable} onClose={() => setShowEvacuation(false)} />
         ) : (
           <>
-        
-        {/* Stats */}
+            {/* Stats */}
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-white/5 rounded-xl p-3 text-center">
             <Battery className="w-4 h-4 text-green-400 mx-auto mb-1" />
