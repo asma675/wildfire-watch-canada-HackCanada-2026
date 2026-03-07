@@ -13,7 +13,8 @@ import {
   Menu,
   X,
   Radio,
-  AlertTriangle
+  AlertTriangle,
+  Cpu
 } from "lucide-react";
 import NotificationBell from "@/components/notifications/NotificationBell";
 
