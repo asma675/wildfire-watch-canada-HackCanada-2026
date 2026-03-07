@@ -146,9 +146,11 @@ export default function Drones() {
         </div>
 
         {/* Tabs */}
-        <div className="px-5 flex gap-2 border-b border-white/5 pb-3">
+        <div className="px-5 flex gap-2 border-b border-white/5 pb-3 overflow-x-auto">
           {[
             { id: "drones", label: "Drones", icon: Cpu },
+            { id: "map", label: "Live Map", icon: Map },
+            { id: "metrics", label: "Metrics", icon: BarChart2 },
             { id: "wearables", label: `Health Alerts ${wearables.length > 0 ? `(${wearables.length})` : ""}`, icon: Activity },
           ].map(tab => (
             <button
