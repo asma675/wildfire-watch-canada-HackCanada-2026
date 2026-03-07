@@ -168,6 +168,7 @@ export default function RiskMap() {
 
           {layers.zones && <ZoneLayer zones={zones} onZoneClick={setSelectedZone} />}
           {layers.ndvi && <NDVILayer zones={zones} />}
+          {layers.satelliteHotspots && <SatelliteHotspotLayer hotspots={hotspotData?.hotspots || []} />}
           {layers.liveFires && <LiveFireLayer fires={fires} />}
           {layers.firePredictions && <FirePredictionLayer predictions={predictionData?.predictions} dayOffset={predictionDay} />}
           {layers.airQuality && <AirQualityLayer stations={airQuality} />}
