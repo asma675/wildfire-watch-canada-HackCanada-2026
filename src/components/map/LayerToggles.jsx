@@ -1,9 +1,10 @@
 import React from "react";
-import { Layers, TreePine, Flame, Wind, Skull, History, Radar, BrainCircuit } from "lucide-react";
+import { Layers, TreePine, Flame, Wind, Skull, History, Radar, BrainCircuit, Satellite } from "lucide-react";
 
 const layerDefs = [
   { key: "zones", label: "Risk Zones", icon: Radar, color: "text-amber-400" },
   { key: "liveFires", label: "Live Fires (CWFIS)", icon: Flame, color: "text-red-400" },
+  { key: "satelliteHotspots", label: "Satellite Hotspots", icon: Satellite, color: "text-orange-400" },
   { key: "firePredictions", label: "AI Fire Predictions", icon: BrainCircuit, color: "text-pink-400" },
   { key: "ndvi", label: "Vegetation (NDVI)", icon: TreePine, color: "text-green-400" },
   { key: "airQuality", label: "Air Quality", icon: Wind, color: "text-blue-400" },
