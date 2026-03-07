@@ -13,15 +13,15 @@ For each predicted risk zone, provide:
 2. Latitude/longitude (center of risk area)
 3. Risk level: "CRITICAL", "HIGH", or "MODERATE"
 4. Risk score 0-100
-5. A concise but detailed explanation (2-3 sentences) covering WHY this area is at risk — reference specific conditions like:
-   - Current drought/moisture deficit (FFMC, DMC, DC indices if available)
-   - Temperature anomalies vs seasonal norms
-   - Wind forecast (speed, direction)  
-   - Vegetation dryness (NDVI, fuel moisture)
-   - Historical fire occurrence in this region
-   - Proximity to existing fires
-   - Any recent lightning activity
-6. Primary risk factors as an array of short tags (e.g. "Low humidity", "High winds", "Drought", "Dry fuels", "Lightning forecast", "Near active fire")
+5. A concise but detailed explanation (2-3 sentences) covering WHY this area is at risk
+6. Primary risk factors as an array of short tags (e.g. "Low humidity", "High winds", "Drought", "Dry fuels")
+7. Weather forecast data for the region:
+   - temp_c: forecasted max temperature in Celsius (number)
+   - precip_mm: forecasted precipitation in mm over next 7 days (number)
+   - wind_kmh: forecasted max wind speed in km/h (number)
+   - humidity_pct: forecasted average relative humidity percentage (number)
+   - weather_summary: one short sentence describing the forecast (string)
+   - temp_anomaly: temperature deviation from seasonal norm in °C, positive=warmer (number)
 
 Focus on regions with dry conditions, drought stress, upcoming heat/wind events, or historically fire-prone boreal/grassland areas. Today's date is ${new Date().toISOString().split('T')[0]}.
 
