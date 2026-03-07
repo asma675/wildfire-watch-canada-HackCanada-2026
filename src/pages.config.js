@@ -49,12 +49,22 @@
  */
 import Dashboard from './pages/Dashboard';
 import RiskMap from './pages/RiskMap';
+import Zones from './pages/Zones';
+import Alerts from './pages/Alerts';
+import FireSafety from './pages/FireSafety';
+import FireDepartments from './pages/FireDepartments';
+import HealthImpact from './pages/HealthImpact';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "Dashboard": Dashboard,
     "RiskMap": RiskMap,
+    "Zones": Zones,
+    "Alerts": Alerts,
+    "FireSafety": FireSafety,
+    "FireDepartments": FireDepartments,
+    "HealthImpact": HealthImpact,
 }
 
 export const pagesConfig = {
