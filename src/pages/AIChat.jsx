@@ -63,10 +63,23 @@ export default function AIChatPage() {
     }
   };
 
-  const speakResponse = async (text) => {
+  const getVoiceIdForLanguage = (language) => {
+    const voiceMap = {
+      English: 'EXAVITQu4vr4xnSDxMaL',    // Rachel (neutral)
+      Spanish: 'IKne3meq5KwVNHVAmeWl',    // Diego (Spanish)
+      French: 'gSvkkqnULapFVHVN55a3',    // Adrien (French)
+      Russian: 'LZw821naxvyAUzlsPXeO',   // Ivan (Russian)
+      Ukrainian: 'Xb7hH8MSUJpSbvqL51Co',  // Olena (Slavic)
+      Hindi: 'nPczCjzI2devNBz1zQrb'      // Ravi (Hindi)
+    };
+    return voiceMap[language] || voiceMap['English'];
+  };
+
+  const speakResponse = async (text, language = 'English') => {
     setIsSpeaking(true);
     try {
-      const response = await base44.functions.invoke("textToSpeech", { text });
+      const voiceId = getVoiceIdForLanguage(language);
+      const response = await base44.functions.invoke("textToSpeech", { text, voiceId });
       const audio = new Audio(`data:audio/mpeg;base64,${response.data.audioBase64}`);
       audio.onended = () => setIsSpeaking(false);
       await audio.play();
