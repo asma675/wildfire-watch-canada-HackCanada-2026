@@ -44,9 +44,11 @@ export default function Layout({ children, currentPageName }) {
       <aside className="hidden lg:flex flex-col w-64 bg-[#1a1a2e] border-r border-white/5 fixed h-full z-30">
         <div className="p-5 border-b border-white/5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center">
-              <Flame className="w-5 h-5 text-white" />
-            </div>
+            <img 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69abd0aca9b6f6b19517dd6d/84466b33c_image.png" 
+              alt="Wildfire Watch Logo"
+              className="w-12 h-12 object-contain"
+            />
             <div>
               <h1 className="text-base font-bold text-white tracking-tight">Wildfire Watch</h1>
               <p className="text-[10px] font-medium text-amber-400/80 uppercase tracking-widest">Canada</p>

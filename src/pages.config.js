@@ -47,6 +47,7 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
+import AIChat from './pages/AIChat';
 import Alerts from './pages/Alerts';
 import Dashboard from './pages/Dashboard';
 import Drones from './pages/Drones';
@@ -58,11 +59,11 @@ import KnowledgeBase from './pages/KnowledgeBase';
 import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
-import AIChat from './pages/AIChat';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
+    "AIChat": AIChat,
     "Alerts": Alerts,
     "Dashboard": Dashboard,
     "Drones": Drones,
@@ -74,7 +75,6 @@ export const PAGES = {
     "RiskMap": RiskMap,
     "UserHealth": UserHealth,
     "Zones": Zones,
-    "AIChat": AIChat,
 }
 
 export const pagesConfig = {
