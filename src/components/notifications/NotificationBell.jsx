@@ -114,7 +114,7 @@ export default function NotificationBell() {
             {!isLoading && alerts.map((a) => (
               <div
                 key={a.id}
-                className={`px-4 py-3 border-b border-white/5 hover:bg-white/3 transition-colors`}
+                className="px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-colors"
               >
                 <div className="flex items-start gap-2">
                   <div className={`mt-0.5 rounded-md px-1.5 py-0.5 text-[9px] font-bold border flex-shrink-0 ${threatColors[a.threat_level] || threatColors.LOW}`}>
