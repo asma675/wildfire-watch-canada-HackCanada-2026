@@ -111,14 +111,19 @@ export default function AIChatPage() {
                 key={idx}
                 className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
-                <div
-                  className={`max-w-xs px-4 py-3 rounded-lg ${
-                    msg.role === "user"
-                      ? "bg-amber-500/20 text-amber-100 border border-amber-500/30"
-                      : "bg-slate-700/50 text-slate-100 border border-slate-600/30"
-                  }`}
-                >
-                  {msg.content}
+                <div className="flex flex-col gap-1">
+                  <div
+                    className={`max-w-xs px-4 py-3 rounded-lg ${
+                      msg.role === "user"
+                        ? "bg-amber-500/20 text-amber-100 border border-amber-500/30"
+                        : "bg-slate-700/50 text-slate-100 border border-slate-600/30"
+                    }`}
+                  >
+                    {msg.content}
+                  </div>
+                  {msg.language && msg.role === "assistant" && (
+                    <span className="text-xs text-slate-500 px-4">🌐 {msg.language}</span>
+                  )}
                 </div>
               </div>
             ))
