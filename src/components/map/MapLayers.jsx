@@ -114,31 +114,56 @@ export function AirQualityLayer({ stations }) {
   });
 }
 
-export function EnvironmentalDamageLayer({ damages }) {
-  return damages.map((d) => (
-    <Circle
-      key={d.id}
-      center={[d.latitude, d.longitude]}
-      radius={(d.radius_km || 10) * 1000}
-      pathOptions={{
-        color: severityColors[d.severity] || "#f97316",
-        fillColor: severityColors[d.severity] || "#f97316",
-        fillOpacity: 0.1,
-        weight: 1,
-        dashArray: "6 4",
-      }}
-    >
-      <Popup>
-        <div className="text-xs space-y-1 min-w-[160px]">
-          <p className="font-bold text-white text-sm">{d.name}</p>
-          <p className="text-slate-400">Severity: {d.severity}</p>
-          {d.forest_loss_hectares && <p className="text-slate-400">Forest loss: {d.forest_loss_hectares.toLocaleString()} ha</p>}
-          {d.ecosystem_impact && <p className="text-slate-300">{d.ecosystem_impact}</p>}
-          {d.habitat_disruption && <p className="text-slate-300">{d.habitat_disruption}</p>}
-        </div>
-      </Popup>
-    </Circle>
-  ));
+export function EnvironmentalDamageLayer({ damages, selectedYear }) {
+  if (!damages || damages.length === 0) return null;
+
+  // If selectedYear provided, show only damage up to that year with opacity fade by recency
+  const currentYear = new Date().getFullYear();
+  const years = damages.map(d => d.year).filter(Boolean);
+  const minYear = years.length > 0 ? Math.min(...years) : currentYear - 10;
+  const maxYear = years.length > 0 ? Math.max(...years) : currentYear;
+
+  return damages.map((d) => {
+    const baseColor = severityColors[d.severity] || "#f97316";
+
+    // Age-based opacity: newer = more opaque. Damage without a year is always shown at full opacity.
+    let fillOpacity = 0.15;
+    let weight = 1;
+    if (d.year) {
+      if (selectedYear && d.year > selectedYear) return null; // hide future damage
+      const ageRatio = maxYear === minYear ? 1 : (d.year - minYear) / (maxYear - minYear);
+      fillOpacity = 0.07 + ageRatio * 0.2; // older=faint, newer=more visible
+      weight = d.year === maxYear ? 2 : 1;
+    }
+
+    return (
+      <Circle
+        key={d.id}
+        center={[d.latitude, d.longitude]}
+        radius={(d.radius_km || 10) * 1000}
+        pathOptions={{
+          color: baseColor,
+          fillColor: baseColor,
+          fillOpacity,
+          weight,
+          dashArray: "6 4",
+        }}
+      >
+        <Popup>
+          <div className="text-xs space-y-1 min-w-[160px]">
+            <p className="font-bold text-white text-sm">{d.name}</p>
+            {d.year && (
+              <p className="text-slate-400 font-semibold">📅 {d.year}</p>
+            )}
+            <p className="text-slate-400">Severity: {d.severity}</p>
+            {d.forest_loss_hectares && <p className="text-slate-400">Forest loss: {d.forest_loss_hectares.toLocaleString()} ha</p>}
+            {d.ecosystem_impact && <p className="text-slate-300">{d.ecosystem_impact}</p>}
+            {d.habitat_disruption && <p className="text-slate-300">{d.habitat_disruption}</p>}
+          </div>
+        </Popup>
+      </Circle>
+    );
+  });
 }
 
 export function ActiveFireLayer({ zones }) {
