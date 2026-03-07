@@ -139,9 +139,15 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
 
         {/* AI Guidance output */}
         {loading && (
-          <div className="flex items-center gap-3 text-sm text-pink-400 py-4">
+          <div className="flex items-center gap-3 text-sm py-4" style={{color: activeMode === "thermal_scan" ? "#fb923c" : "#f472b6"}}>
             <Loader2 className="w-4 h-4 animate-spin" />
-            <span>AI {activeMode === "rescue_guidance" ? "generating rescue plan" : "analyzing zone"}…</span>
+            <span>
+              {activeMode === "thermal_scan"
+                ? "Running infrared thermal scan through walls…"
+                : activeMode === "rescue_guidance"
+                ? "AI generating rescue plan…"
+                : "AI analyzing zone…"}
+            </span>
           </div>
         )}
         {guidance && (
