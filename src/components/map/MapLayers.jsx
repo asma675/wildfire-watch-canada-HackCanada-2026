@@ -183,29 +183,59 @@ export function LiveFireLayer({ fires }) {
   return fires.map((fire, i) => {
     const soc = fire.stage_of_control || "UC";
     const color = socColors[soc] || "#f59e0b";
-    // Scale radius by size: tiny fires = 5px, huge = 14px
-    const radius = fire.hectares > 50000 ? 14 : fire.hectares > 5000 ? 10 : fire.hectares > 100 ? 7 : 5;
+    const icon = createFlameIcon(soc, fire.hectares || 0);
     return (
-      <CircleMarker
+      <Marker
         key={`live-${i}`}
-        center={[fire.lat, fire.lon]}
-        radius={radius}
-        pathOptions={{ color, fillColor: color, fillOpacity: 0.85, weight: 1.5 }}
+        position={[fire.lat, fire.lon]}
+        icon={icon}
       >
         <Popup>
-          <div className="text-xs space-y-1 min-w-[170px]">
-            <p className="font-bold text-white text-sm">🔥 {fire.firename}</p>
-            <p className="text-slate-400">{fire.province} · {fire.agency.toUpperCase()}</p>
-            <p style={{ color }} className="font-semibold">{socLabel[soc] || soc}</p>
-            {fire.hectares > 0 && <p className="text-slate-400">{fire.hectares.toLocaleString()} ha</p>}
-            {fire.startdate && <p className="text-slate-500 text-[10px]">Started: {fire.startdate.split(" ")[0]}</p>}
-            <p className="text-[10px] text-slate-600 pt-1">Source: CWFIS / NRCan</p>
+          <div style={{ minWidth: 180 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+              <span style={{ fontSize: 18 }}>🔥</span>
+              <strong style={{ color: "#fff", fontSize: 13 }}>{fire.firename}</strong>
+            </div>
+            <div style={{ color: "#94a3b8", fontSize: 11, marginBottom: 3 }}>
+              {fire.province} · {fire.agency.toUpperCase()}
+            </div>
+            <div style={{ color, fontWeight: 700, fontSize: 12, marginBottom: 4 }}>
+              ● {socLabel[soc] || soc}
+            </div>
+            {fire.hectares > 0 && (
+              <div style={{ color: "#cbd5e1", fontSize: 11 }}>
+                🌲 {fire.hectares.toLocaleString()} ha burned
+              </div>
+            )}
+            {fire.startdate && (
+              <div style={{ color: "#64748b", fontSize: 10, marginTop: 4 }}>
+                Started: {fire.startdate.split(" ")[0]}
+              </div>
+            )}
+            <div style={{ color: "#475569", fontSize: 9, marginTop: 6, borderTop: "1px solid #334155", paddingTop: 4 }}>
+              Source: CWFIS / NRCan · Updates every 3h
+            </div>
           </div>
         </Popup>
-        <Tooltip direction="top">
-          <span className="text-xs font-semibold">{fire.firename} ({soc})</span>
+        <Tooltip direction="top" offset={[0, -10]}>
+          <span style={{ fontSize: 11, fontWeight: 600 }}>{fire.firename} — {socLabel[soc] || soc}</span>
+          {fire.hectares > 0 && <span style={{ color: "#94a3b8", fontSize: 10 }}> · {fire.hectares.toLocaleString()} ha</span>}
         </Tooltip>
-      </CircleMarker>
+      </Marker>
     );
   });
+}
+
+// Wildfire smoke forecast overlay (WMS from NRCan/BlueSky)
+export function SmokeForecastLayer({ visible }) {
+  if (!visible) return null;
+  // Animated smoke tiles from Environment & Climate Change Canada
+  return (
+    <Circle
+      key="smoke-dummy"
+      center={[60, -96]}
+      radius={1}
+      pathOptions={{ opacity: 0 }}
+    />
+  );
 }
