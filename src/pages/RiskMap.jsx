@@ -300,6 +300,31 @@ export default function RiskMap() {
           </div>
         </>
       )}
+
+      {/* AI Prediction Panel */}
+      {showPredictionPanel && !selectedZone && (
+        <>
+          <div className="hidden lg:block w-[380px] border-l border-white/5 bg-[#1a1a2e] overflow-hidden flex-shrink-0">
+            <FirePredictionPanel
+              data={predictionData}
+              loading={loadingPredictions}
+              onClose={() => { setShowPredictionPanel(false); setLayers(p => ({ ...p, firePredictions: false })); }}
+              onRefresh={refetchPredictions}
+            />
+          </div>
+          <div className="lg:hidden fixed inset-x-0 bottom-0 z-[1100] max-h-[70vh] bg-[#1a1a2e] border-t border-white/10 rounded-t-2xl overflow-hidden shadow-2xl">
+            <div className="w-12 h-1 rounded-full bg-white/20 mx-auto mt-2 mb-1" />
+            <div className="overflow-y-auto max-h-[calc(70vh-16px)]">
+              <FirePredictionPanel
+                data={predictionData}
+                loading={loadingPredictions}
+                onClose={() => { setShowPredictionPanel(false); setLayers(p => ({ ...p, firePredictions: false })); }}
+                onRefresh={refetchPredictions}
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
