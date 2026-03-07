@@ -32,24 +32,30 @@ export default function ImageCapture({ zoneName, province, onImageCaptured }) {
   }, []);
 
   const captureFromCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      videoRef.current.srcObject = stream;
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
 
-      setTimeout(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    const video = videoRef.current;
+    video.srcObject = stream;
 
-        canvas.toBlob(async (blob) => {
-          stream.getTracks().forEach(track => track.stop());
-          await uploadImage(blob);
-        });
-      }, 500);
-    } catch (err) {
-      setError("Camera access denied");
-    }
-  };
+    await video.play();
+
+    video.onloadeddata = () => {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(async (blob) => {
+        stream.getTracks().forEach(track => track.stop());
+        await uploadImage(blob);
+      }, "image/jpeg", 0.9);
+    };
+
+  } catch (err) {
+    setError("Camera access denied");
+  }
+};
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
