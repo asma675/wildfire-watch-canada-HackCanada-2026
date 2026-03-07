@@ -63,35 +63,44 @@ export default function ImageCapture({ zoneName, province, onImageCaptured }) {
    }
 
    setLoading(true);
+   setError(null);
    try {
      const reader = new FileReader();
      reader.onload = async () => {
-       const base64 = reader.result.split(',')[1];
+       try {
+         const base64 = reader.result.split(',')[1];
 
-       const response = await base44.functions.invoke('uploadGeotaggedImage', {
-         image: base64,
-         imageType: blob.type,
-         latitude: location.latitude,
-         longitude: location.longitude,
-         zone_name: zoneName || 'Unknown',
-         province: province || 'Unknown'
-       });
+         const response = await base44.functions.invoke('uploadGeotaggedImage', {
+           image: base64,
+           imageType: blob.type,
+           latitude: location.latitude,
+           longitude: location.longitude,
+           zone_name: zoneName || 'Unknown',
+           province: province || 'Unknown'
+         });
 
-       setLastCapture({
-         url: response.data.cloudinary_url,
-         analysis: response.data.analysis,
-         success: response.data.success
-       });
+         setLastCapture({
+           url: response.data.cloudinary_url,
+           analysis: response.data.analysis,
+           success: response.data.success
+         });
 
-       if (onImageCaptured) {
-         onImageCaptured(response.data.image);
+         if (onImageCaptured) {
+           onImageCaptured(response.data.image);
+         }
+       } catch (err) {
+         setError(`Upload failed: ${err.message}`);
+       } finally {
+         setLoading(false);
        }
      };
-     reader.onerror = () => setError("Failed to read image");
+     reader.onerror = () => {
+       setError("Failed to read image");
+       setLoading(false);
+     };
      reader.readAsDataURL(blob);
    } catch (err) {
      setError(`Upload failed: ${err.message}`);
-   } finally {
      setLoading(false);
    }
   };
