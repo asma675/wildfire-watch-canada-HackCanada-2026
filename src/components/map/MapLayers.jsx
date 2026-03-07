@@ -1,6 +1,7 @@
 import React from "react";
-import { CircleMarker, Circle, Popup, Tooltip } from "react-leaflet";
+import { CircleMarker, Circle, Popup, Tooltip, Marker } from "react-leaflet";
 import ThreatBadge from "@/components/dashboard/ThreatBadge";
+import { createFlameIcon } from "@/components/map/FireIcon";
 
 const threatColors = {
   EXTREME: "#ef4444",
