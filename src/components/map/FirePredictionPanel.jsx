@@ -1,6 +1,5 @@
 import React from "react";
-import { BrainCircuit, RefreshCw, X, AlertTriangle, Clock, Zap } from "lucide-react";
-import { Loader2 } from "lucide-react";
+import { BrainCircuit, RefreshCw, X, AlertTriangle, Clock, Zap, Loader2 } from "lucide-react";
 
 const riskColors = {
   CRITICAL: { text: "text-red-400", bg: "bg-red-500/15", border: "border-red-500/30", dot: "bg-red-400" },
@@ -48,7 +47,7 @@ export default function FirePredictionPanel({ data, loading, onClose, onRefresh 
         {loading && (
           <div className="flex flex-col items-center justify-center py-12 gap-3">
             <Loader2 className="w-8 h-8 text-pink-400 animate-spin" />
-            <p className="text-sm text-slate-400">Analyzing satellite data, weather patterns & drought indices…</p>
+            <p className="text-sm text-slate-400 text-center">Analyzing satellite data, weather patterns &amp; drought indices…</p>
             <p className="text-xs text-slate-600 text-center">This may take 15–30 seconds</p>
           </div>
         )}
@@ -71,7 +70,6 @@ export default function FirePredictionPanel({ data, loading, onClose, onRefresh 
 
         {!loading && predictions.length > 0 && (
           <>
-            {/* Summary counts */}
             <div className="grid grid-cols-3 gap-2">
               {[
                 { label: "Critical", count: critical.length, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
@@ -85,7 +83,6 @@ export default function FirePredictionPanel({ data, loading, onClose, onRefresh 
               ))}
             </div>
 
-            {/* Prediction cards */}
             <div className="space-y-3">
               {predictions
                 .sort((a, b) => b.risk_score - a.risk_score)
@@ -106,9 +103,7 @@ export default function FirePredictionPanel({ data, loading, onClose, onRefresh 
                           <div className="text-[10px] text-slate-500">Score: {p.risk_score}/100</div>
                         </div>
                       </div>
-
                       <p className="text-xs text-slate-300 leading-relaxed">{p.explanation}</p>
-
                       {p.risk_factors && p.risk_factors.length > 0 && (
                         <div className="flex flex-wrap gap-1.5 pt-1">
                           {p.risk_factors.map((f, j) => (
