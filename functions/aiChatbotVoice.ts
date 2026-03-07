@@ -116,18 +116,25 @@ Answer in 2-3 sentences max, in ${detectedLanguage} only. Be direct and actionab
     }
 
     // Fallback: Use broader keyword matching or default helpful response
-    if (lowerMessage.match(/fire|burn|flame|hot|smoke|escape|evacuate|emergency|danger|danger|help|urgent/i)) {
-      aiResponse = detectedLanguage === 'English' 
-        ? 'If there is an active fire threat: Call emergency services immediately (911 in Canada). Evacuate the area if ordered by authorities. Do not attempt to fight the fire yourself. Move to a safe location away from smoke and flames.'
-        : detectedLanguage === 'French'
-        ? 'S\'il y a une menace d\'incendie actif: Appelez immédiatement les services d\'urgence (911 au Canada). Évacuez si ordonné par les autorités. Ne tentez pas d\'éteindre le feu vous-même. Allez dans un endroit sûr loin de la fumée et des flammes.'
-        : detectedLanguage === 'Spanish'
-        ? 'Si hay una amenaza de incendio activo: Llame a emergencias inmediatamente (911 en Canadá). Evacúe si lo ordenan las autoridades. No intente apagar el fuego usted mismo. Vaya a un lugar seguro lejos del humo y las llamas.'
-        : detectedLanguage === 'Russian'
-        ? 'При активной угрозе пожара: немедленно позвоните в экстренные службы (911 в Канаде). Эвакуируйтесь, если приказано властями. Не пытайтесь тушить пожар самостоятельно. Перейдите в безопасное место вдали от дыма и пламени.'
-        : detectedLanguage === 'Ukrainian'
-        ? 'При активній загрозі пожежі: негайно звоніть в служби невідкладної допомоги (911 у Канаді). Евакуюйтесь, якщо наказано органами влади. Не намагайтесь гасити пожежу самостійно. Йдіть у безпечне місце далеко від диму та полум\'я.'
-        : 'Emergency response: Call 911 immediately. Evacuate to safety. Follow official emergency guidance.';
+    if (!aiResponse) {
+      if (lowerMessage.match(/fire|burn|flame|hot|smoke|escape|evacuate|emergency|danger|help|urgent/i)) {
+        if (detectedLanguage === 'English') {
+          aiResponse = 'If there is an active fire threat: Call emergency services immediately (911 in Canada). Evacuate the area if ordered by authorities. Do not attempt to fight the fire yourself. Move to a safe location away from smoke and flames.';
+        } else if (detectedLanguage === 'French') {
+          aiResponse = 'S\'il y a une menace d\'incendie actif: Appelez immédiatement les services d\'urgence (911 au Canada). Évacuez si ordonné par les autorités. Ne tentez pas d\'éteindre le feu vous-même. Allez dans un endroit sûr loin de la fumée et des flammes.';
+        } else if (detectedLanguage === 'Spanish') {
+          aiResponse = 'Si hay una amenaza de incendio activo: Llame a emergencias inmediatamente (911 en Canadá). Evacúe si lo ordenan las autoridades. No intente apagar el fuego usted mismo. Vaya a un lugar seguro lejos del humo y las llamas.';
+        } else if (detectedLanguage === 'Russian') {
+          aiResponse = 'При активной угрозе пожара: немедленно позвоните в экстренные службы (911 в Канаде). Эвакуируйтесь, если приказано властями. Не пытайтесь тушить пожар самостоятельно. Перейдите в безопасное место вдали от дыма и пламени.';
+        } else if (detectedLanguage === 'Ukrainian') {
+          aiResponse = 'При активній загрозі пожежі: негайно звоніть в служби невідкладної допомоги (911 у Канаді). Евакуюйтесь, якщо наказано органами влади. Не намагайтесь гасити пожежу самостійно. Йдіть у безпечне місце далеко від диму та полум\'я.';
+        } else {
+          aiResponse = 'Emergency response: Call 911 immediately. Evacuate to safety. Follow official emergency guidance.';
+        }
+      } else {
+        aiResponse = 'I can help with wildfire safety questions. Please ask about evacuation, fire prevention, smoke exposure, or emergency preparedness.';
+      }
+    }
 
     return Response.json({ response: aiResponse, language: detectedLanguage });
   } catch (error) {
