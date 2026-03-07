@@ -43,7 +43,11 @@ export default function AIChatPage() {
         message: userInput,
       });
 
-      const aiMessage = { role: "assistant", content: response.data.response };
+      const aiMessage = { 
+        role: "assistant", 
+        content: response.data.response,
+        language: response.data.language 
+      };
       setMessages((prev) => [...prev, aiMessage]);
 
       // Speak the response using ElevenLabs
