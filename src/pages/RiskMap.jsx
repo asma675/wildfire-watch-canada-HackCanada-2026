@@ -11,9 +11,11 @@ import {
   EnvironmentalDamageLayer,
   LiveFireLayer,
 } from "@/components/map/MapLayers";
+import FirePredictionLayer from "@/components/map/FirePredictionLayer";
 import LayerToggles from "@/components/map/LayerToggles";
 import ZoneInfoPanel from "@/components/map/ZoneInfoPanel";
-import { Loader2, Flame, AlertTriangle, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import FirePredictionPanel from "@/components/map/FirePredictionPanel";
+import { Loader2, Flame, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, BrainCircuit } from "lucide-react";
 
 const DATA_SOURCES = [
   {
