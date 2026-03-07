@@ -64,6 +64,11 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
       </div>
 
       <div className="flex-1 overflow-y-auto p-5 space-y-5">
+        {showEvacuation ? (
+          <EvacuationPanel drone={drone} zone={zone} wearable={wearable} onClose={() => setShowEvacuation(false)} />
+        ) : (
+          <>
+        
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-white/5 rounded-xl p-3 text-center">
