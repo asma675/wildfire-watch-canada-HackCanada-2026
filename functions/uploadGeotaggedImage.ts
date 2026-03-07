@@ -20,10 +20,28 @@ Deno.serve(async (req) => {
 
     const base64Image = image;
 
-    // Upload to Cloudinary using unsigned upload
+    // Create signed Cloudinary upload
+    const timestamp = Math.floor(Date.now() / 1000);
+    const params = {
+      timestamp,
+      api_key: CLOUDINARY_API_KEY,
+      tags: `zone:${zone_name},lat:${latitude},lon:${longitude}`,
+      folder: 'wildfire_watch'
+    };
+
+    // Generate signature
+    const paramsString = Object.entries(params)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([k, v]) => `${k}=${v}`)
+      .join('&');
+    
+    const signature = await generateSignature(paramsString + CLOUDINARY_API_SECRET);
+
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append('file', `data:${imageType};base64,${base64Image}`);
     cloudinaryFormData.append('api_key', CLOUDINARY_API_KEY);
+    cloudinaryFormData.append('timestamp', timestamp.toString());
+    cloudinaryFormData.append('signature', signature);
     cloudinaryFormData.append('tags', `zone:${zone_name},lat:${latitude},lon:${longitude}`);
     cloudinaryFormData.append('folder', 'wildfire_watch');
 
