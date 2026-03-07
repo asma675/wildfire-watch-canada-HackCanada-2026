@@ -2,7 +2,6 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.20';
 
 const CLOUDINARY_CLOUD_NAME = Deno.env.get("CLOUDINARY_CLOUD_NAME");
 const CLOUDINARY_API_KEY = Deno.env.get("CLOUDINARY_API_KEY");
-const CLOUDINARY_API_SECRET = Deno.env.get("CLOUDINARY_API_SECRET");
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
 
 Deno.serve(async (req) => {
@@ -19,10 +18,11 @@ Deno.serve(async (req) => {
 
     const base64Image = image;
 
-    // Upload to Cloudinary using authenticated endpoint
+    // Upload to Cloudinary using unsigned upload
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append('file', `data:${imageType};base64,${base64Image}`);
     cloudinaryFormData.append('api_key', CLOUDINARY_API_KEY);
+    cloudinaryFormData.append('upload_preset', 'wildfire_watch');
     cloudinaryFormData.append('tags', `zone:${zone_name},lat:${latitude},lon:${longitude}`);
     cloudinaryFormData.append('folder', 'wildfire_watch');
 
@@ -36,7 +36,8 @@ Deno.serve(async (req) => {
 
     const cloudinaryData = await cloudinaryRes.json();
     if (!cloudinaryData.secure_url) {
-      return Response.json({ error: 'Cloudinary upload failed' }, { status: 500 });
+      console.error('Cloudinary error:', cloudinaryData);
+      return Response.json({ error: 'Cloudinary upload failed', details: cloudinaryData }, { status: 500 });
     }
 
     // Analyze with Gemini for wildfire detection
