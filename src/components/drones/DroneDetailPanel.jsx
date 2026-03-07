@@ -42,6 +42,23 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
     }
   };
 
+  const analyzePersonHealth = async () => {
+    setLoading(true);
+    try {
+      const response = await base44.functions.invoke("droneHealthMonitoring", {
+        cameraImageUrl: "https://via.placeholder.com/500", // In real scenario, this would be drone camera feed
+        droneId: drone.id,
+        personLocation: { latitude: drone.latitude, longitude: drone.longitude },
+      });
+      setHealthAnalysis(response.data.analysis);
+      setShowHealthMonitoring(true);
+    } catch (err) {
+      setHealthAnalysis("Failed to analyze person health. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Header */}
