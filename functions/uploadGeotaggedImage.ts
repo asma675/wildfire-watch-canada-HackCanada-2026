@@ -63,7 +63,7 @@ Deno.serve(async (req) => {
             },
             {
               inline_data: {
-                mime_type: imageFile.type,
+                mime_type: imageType,
                 data: base64Image
               }
             }
