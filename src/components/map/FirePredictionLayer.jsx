@@ -27,6 +27,8 @@ export default function FirePredictionLayer({ predictions, dayOffset = 7 }) {
     const fill = riskGlow[p.risk_level] || "rgba(255,204,0,0.1)";
     const baseOuter = p.risk_level === "CRITICAL" ? 70000 : p.risk_level === "HIGH" ? 50000 : 35000;
     const outerRadius = Math.round(baseOuter * (0.7 + timeScale * 0.3));
+    const baseMarkerR = p.risk_level === "CRITICAL" ? 14 : p.risk_level === "HIGH" ? 11 : 9;
+    const markerRadius = Math.max(5, Math.round(baseMarkerR * timeScale));
 
     return (
       <React.Fragment key={`pred-${i}`}>
@@ -37,20 +39,20 @@ export default function FirePredictionLayer({ predictions, dayOffset = 7 }) {
           pathOptions={{
             color,
             fillColor: color,
-            fillOpacity: 0.06,
+            fillOpacity: Math.min(0.12, 0.06 * timeScale * 2),
             weight: 1.5,
-            opacity: 0.5,
+            opacity: Math.min(0.8, 0.5 * timeScale * 1.5),
             dashArray: "8 6",
           }}
         />
         {/* Inner core marker */}
         <CircleMarker
           center={[p.lat, p.lon]}
-          radius={p.risk_level === "CRITICAL" ? 14 : p.risk_level === "HIGH" ? 11 : 9}
+          radius={markerRadius}
           pathOptions={{
             color,
             fillColor: color,
-            fillOpacity: 0.75,
+            fillOpacity: Math.min(0.9, 0.75 * timeScale * 1.2),
             weight: 2.5,
           }}
         >
