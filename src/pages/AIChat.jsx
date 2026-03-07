@@ -50,8 +50,8 @@ export default function AIChatPage() {
       };
       setMessages((prev) => [...prev, aiMessage]);
 
-      // Speak the response in the detected language using ElevenLabs
-      speakResponse(response.data.response, response.data.language);
+      // Auto-play speech response
+      await speakResponse(response.data.response, response.data.language);
     } catch (error) {
       const errorMessage = {
         role: "assistant",
