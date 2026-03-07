@@ -1,5 +1,6 @@
 import React from "react";
 import { BrainCircuit, RefreshCw, X, AlertTriangle, Clock, Zap, Loader2 } from "lucide-react";
+import WeatherCard from "@/components/map/WeatherCard";
 
 const riskColors = {
   CRITICAL: { text: "text-red-400", bg: "bg-red-500/15", border: "border-red-500/30", dot: "bg-red-400" },
@@ -104,6 +105,7 @@ export default function FirePredictionPanel({ data, loading, onClose, onRefresh 
                         </div>
                       </div>
                       <p className="text-xs text-slate-300 leading-relaxed">{p.explanation}</p>
+                      <WeatherCard prediction={p} />
                       {p.risk_factors && p.risk_factors.length > 0 && (
                         <div className="flex flex-wrap gap-1.5 pt-1">
                           {p.risk_factors.map((f, j) => (

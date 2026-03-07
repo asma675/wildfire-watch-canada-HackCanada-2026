@@ -15,6 +15,7 @@ import {
   Radio,
   AlertTriangle
 } from "lucide-react";
+import NotificationBell from "@/components/notifications/NotificationBell";
 
 const navItems = [
   { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
