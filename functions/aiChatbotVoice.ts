@@ -21,14 +21,9 @@ Deno.serve(async (req) => {
 
 User message: "${message}"
 
-Provide clear, empathetic, and actionable advice about:
-- Wildfire safety and evacuation procedures
-- Health risks from smoke and air quality
-- Mental health support and stress management
-- Resources and emergency contacts
+Provide clear, empathetic, and actionable advice about wildfire safety, health risks, mental health support, and resources.
 
-Keep responses concise and conversational (2-3 sentences max). Be warm and supportive.`,
-      add_context_from_internet: true,
+Keep your response concise (2-3 sentences max). Be warm and supportive.`
     });
 
     return Response.json({ response });
