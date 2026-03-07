@@ -13,13 +13,20 @@ const riskGlow = {
   MODERATE: "rgba(255,204,0,0.12)",
 };
 
-export default function FirePredictionLayer({ predictions }) {
+export default function FirePredictionLayer({ predictions, dayOffset = 7 }) {
   if (!predictions || predictions.length === 0) return null;
+
+  // Scale opacity/size based on how close we are to the peak risk window (day 7-10 for most predictions)
+  // dayOffset 1 = just starting, 14 = furthest projection
+  const timeScale = dayOffset <= 7
+    ? 0.4 + (dayOffset / 7) * 0.6    // ramps up to 1.0 at day 7
+    : 1.0 - ((dayOffset - 7) / 7) * 0.35; // slowly fades after day 7
 
   return predictions.map((p, i) => {
     const color = riskColors[p.risk_level] || "#ffcc00";
     const fill = riskGlow[p.risk_level] || "rgba(255,204,0,0.1)";
-    const outerRadius = p.risk_level === "CRITICAL" ? 70000 : p.risk_level === "HIGH" ? 50000 : 35000;
+    const baseOuter = p.risk_level === "CRITICAL" ? 70000 : p.risk_level === "HIGH" ? 50000 : 35000;
+    const outerRadius = Math.round(baseOuter * (0.7 + timeScale * 0.3));
 
     return (
       <React.Fragment key={`pred-${i}`}>
