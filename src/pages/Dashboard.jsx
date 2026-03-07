@@ -33,6 +33,12 @@ export default function Dashboard() {
     queryFn: () => base44.entities.AirQuality.list("-aqi", 50),
   });
 
+  const { data: drones = [] } = useQuery({
+    queryKey: ["drones"],
+    queryFn: () => base44.entities.Drone.list("-created_date", 50),
+    refetchInterval: 15000,
+  });
+
   const extremeZones = zones.filter((z) => z.threat_level === "EXTREME");
   const highZones = zones.filter((z) => z.threat_level === "HIGH");
   const avgAqi = airQuality.length > 0 ? Math.round(airQuality.reduce((s, a) => s + (a.aqi || 0), 0) / airQuality.length) : 0;
