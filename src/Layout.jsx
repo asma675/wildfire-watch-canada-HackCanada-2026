@@ -67,10 +67,15 @@ export default function Layout({ children, currentPageName }) {
           })}
         </nav>
 
-        <div className="p-4 border-t border-white/5">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/20">
-            <Radio className="w-3 h-3 text-green-400 threat-pulse" />
-            <span className="text-xs text-green-400 font-medium">System Online</span>
+        <div className="p-4 border-t border-white/5 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/20 flex-1">
+              <Radio className="w-3 h-3 text-green-400 threat-pulse" />
+              <span className="text-xs text-green-400 font-medium">System Online</span>
+            </div>
+            <div className="ml-2">
+              <NotificationBell />
+            </div>
           </div>
         </div>
       </aside>
@@ -87,6 +92,8 @@ export default function Layout({ children, currentPageName }) {
               <p className="text-[8px] text-amber-400/80 uppercase tracking-widest">Canada</p>
             </div>
           </div>
+          <div className="flex items-center gap-1">
+            <NotificationBell />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5"
