@@ -175,6 +175,8 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
             </div>
           </div>
         )}
+          </>
+        )}
       </div>
     </div>
   );
