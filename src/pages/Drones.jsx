@@ -202,6 +202,30 @@ export default function Drones() {
             </>
           )}
 
+          {activeTab === "map" && (
+            <div className="-m-5 h-[calc(100%+2.5rem)]" style={{ height: "calc(100vh - 280px)" }}>
+              <DroneMapView drones={drones} wearables={wearables} />
+            </div>
+          )}
+
+          {activeTab === "metrics" && (
+            <div className="space-y-2">
+              <p className="text-xs text-slate-500 mb-3">Click any drone to open the detail panel. Health metrics are pulled from linked wearable alerts.</p>
+              {dronesLoading ? (
+                <div className="flex items-center gap-2 text-slate-500 text-sm py-8 justify-center">
+                  <Loader2 className="w-4 h-4 animate-spin" /> Loading…
+                </div>
+              ) : drones.length === 0 ? (
+                <div className="text-center py-16 text-slate-500 text-sm">No drones registered yet.</div>
+              ) : (
+                drones.map(d => {
+                  const wearable = wearables.find(w => w.id === d.wearable_alert_id);
+                  return <DroneMetricsRow key={d.id} drone={d} wearable={wearable} onSelect={setSelectedDrone} />;
+                })
+              )}
+            </div>
+          )}
+
           {activeTab === "wearables" && (
             <>
               <div className="mb-4 rounded-xl border border-blue-500/20 bg-blue-500/5 p-3 flex items-start gap-2.5">
