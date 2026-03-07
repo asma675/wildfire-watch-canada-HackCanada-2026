@@ -49,26 +49,26 @@
  */
 import Alerts from './pages/Alerts';
 import Dashboard from './pages/Dashboard';
+import Drones from './pages/Drones';
 import FireDepartments from './pages/FireDepartments';
 import FireSafety from './pages/FireSafety';
 import HealthImpact from './pages/HealthImpact';
 import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
-import Drones from './pages/Drones';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "Alerts": Alerts,
     "Dashboard": Dashboard,
+    "Drones": Drones,
     "FireDepartments": FireDepartments,
     "FireSafety": FireSafety,
     "HealthImpact": HealthImpact,
     "RiskMap": RiskMap,
     "UserHealth": UserHealth,
     "Zones": Zones,
-    "Drones": Drones,
 }
 
 export const pagesConfig = {

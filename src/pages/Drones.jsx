@@ -4,9 +4,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import DroneCard from "@/components/drones/DroneCard";
 import WearableAlertCard from "@/components/drones/WearableAlertCard";
 import DroneDetailPanel from "@/components/drones/DroneDetailPanel";
+import DroneMapView from "@/components/drones/DroneMapView";
+import DroneMetricsRow from "@/components/drones/DroneMetricsRow";
 import {
   Plus, Zap, Radio, AlertTriangle, Heart, BrainCircuit,
-  Loader2, X, Activity, Cpu, ShieldAlert, Wifi
+  Loader2, X, Activity, Cpu, ShieldAlert, Wifi, Map, BarChart2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
