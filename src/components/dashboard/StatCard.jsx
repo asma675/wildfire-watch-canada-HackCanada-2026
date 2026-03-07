@@ -8,7 +8,8 @@ const colorMap = {
   purple: { bg: "bg-purple-500/10", border: "border-purple-500/20", text: "text-purple-400", icon: "text-purple-400" },
 };
 
-export default function StatCard({ title, value, subtitle, icon: Icon, color = "amber", pulse }) {
+export default function StatCard({ title, value, subtitle, icon: IconComponent, color = "amber", pulse }) {
+  const Icon = IconComponent;
   const c = colorMap[color] || colorMap.amber;
   return (
     <div className={`relative overflow-hidden rounded-2xl border ${c.border} ${c.bg} p-5 transition-all hover:scale-[1.02] ${pulse ? "pulse-glow" : ""}`}>
