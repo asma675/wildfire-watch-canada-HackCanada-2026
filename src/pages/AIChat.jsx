@@ -60,17 +60,17 @@ export default function AIChatPage() {
     }
   };
 
-  const speakResponse = (text) => {
-    return new Promise((resolve) => {
-      setIsSpeaking(true);
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.9;
-      utterance.onend = () => {
-        setIsSpeaking(false);
-        resolve();
-      };
-      synthRef.current.speak(utterance);
-    });
+  const speakResponse = async (text) => {
+    setIsSpeaking(true);
+    try {
+      const response = await base44.functions.invoke("textToSpeech", { text });
+      const audio = new Audio(`data:audio/mpeg;base64,${response.data.audioBase64}`);
+      audio.onended = () => setIsSpeaking(false);
+      await audio.play();
+    } catch (error) {
+      console.error("TTS error:", error);
+      setIsSpeaking(false);
+    }
   };
 
   const startListening = () => {
