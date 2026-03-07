@@ -84,6 +84,7 @@ Deno.serve(async (req) => {
     };
 
     // Always use Gemini for dynamic, context-aware responses
+    let aiResponse;
     try {
       const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + Deno.env.get('GEMINI_API_KEY'), {
         method: 'POST',
@@ -105,36 +106,28 @@ Answer in 2-3 sentences max, in ${detectedLanguage} only. Be direct and actionab
 
       if (response.ok) {
         const data = await response.json();
-        const geminiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (geminiResponse && geminiResponse.trim()) {
-          return Response.json({ response: geminiResponse, language: detectedLanguage });
+        aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (aiResponse && aiResponse.trim()) {
+          return Response.json({ response: aiResponse, language: detectedLanguage });
         }
       }
     } catch (e) {
-      console.error('Gemini error:', e.message);
+      // Continue to fallback
     }
 
-    // Fallback: Categorize message to pick best template
-    let responseKey = 'default';
-    if (lowerMessage.match(/prevent|stop|reduce|risk|defense|defensible|clearance|dead wood|vegetation|preparation/i)) {
-      responseKey = 'prevent';
-    } else if (lowerMessage.match(/evacuate|escape|flee|leave|go|where|route|get out|emergency/i)) {
-      responseKey = 'evacuation';
-    } else if (lowerMessage.match(/smoke|air|breathe|health|exposure|mask|quality|aqi|breathing/i)) {
-      responseKey = 'smoke';
-    } else if (lowerMessage.match(/mental|stress|anxiety|fear|worried|anxious|psychology|depression|scared/i)) {
-      responseKey = 'mental';
-    } else if (lowerMessage.match(/prepare|ready|plan|kit|document|supply|gather|stock|ready/i)) {
-      responseKey = 'prepare';
-    }
-
-    // Get response from templates
-    let aiResponse = responses[detectedLanguage]?.[responseKey];
-    
-    // If template is empty for this language, use English as fallback
-    if (!aiResponse) {
-      aiResponse = responses['English']?.[responseKey] || responses['English']?.default;
-    }
+    // Fallback: Use broader keyword matching or default helpful response
+    if (lowerMessage.match(/fire|burn|flame|hot|smoke|escape|evacuate|emergency|danger|danger|help|urgent/i)) {
+      aiResponse = detectedLanguage === 'English' 
+        ? 'If there is an active fire threat: Call emergency services immediately (911 in Canada). Evacuate the area if ordered by authorities. Do not attempt to fight the fire yourself. Move to a safe location away from smoke and flames.'
+        : detectedLanguage === 'French'
+        ? 'S\'il y a une menace d\'incendie actif: Appelez immédiatement les services d\'urgence (911 au Canada). Évacuez si ordonné par les autorités. Ne tentez pas d\'éteindre le feu vous-même. Allez dans un endroit sûr loin de la fumée et des flammes.'
+        : detectedLanguage === 'Spanish'
+        ? 'Si hay una amenaza de incendio activo: Llame a emergencias inmediatamente (911 en Canadá). Evacúe si lo ordenan las autoridades. No intente apagar el fuego usted mismo. Vaya a un lugar seguro lejos del humo y las llamas.'
+        : detectedLanguage === 'Russian'
+        ? 'При активной угрозе пожара: немедленно позвоните в экстренные службы (911 в Канаде). Эвакуируйтесь, если приказано властями. Не пытайтесь тушить пожар самостоятельно. Перейдите в безопасное место вдали от дыма и пламени.'
+        : detectedLanguage === 'Ukrainian'
+        ? 'При активній загрозі пожежі: негайно звоніть в служби невідкладної допомоги (911 у Канаді). Евакуюйтесь, якщо наказано органами влади. Не намагайтесь гасити пожежу самостійно. Йдіть у безпечне місце далеко від диму та полум\'я.'
+        : 'Emergency response: Call 911 immediately. Evacuate to safety. Follow official emergency guidance.';
 
     return Response.json({ response: aiResponse, language: detectedLanguage });
   } catch (error) {
