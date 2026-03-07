@@ -112,10 +112,10 @@ export default function ImageCapture({ zoneName, province, onImageCaptured }) {
         <MapPin className="w-4 h-4 text-amber-400" />
         {location ? (
           <span className="text-slate-300">
-            {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+            {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)} (Waterloo, ON)
           </span>
         ) : (
-          <span className="text-slate-500">Getting location...</span>
+          <span className="text-slate-500">Using Demo Location: Waterloo, ON (43.4516, -80.4925)</span>
         )}
       </div>
 
