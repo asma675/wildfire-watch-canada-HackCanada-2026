@@ -94,12 +94,13 @@ export default function Layout({ children, currentPageName }) {
           </div>
           <div className="flex items-center gap-1">
             <NotificationBell />
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5"
-          >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5"
+            >
+              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
       </div>
 
