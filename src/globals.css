@@ -72,3 +72,23 @@ body {
 .threat-pulse {
   animation: threat-pulse 1.5s ease-in-out infinite;
 }
+
+/* Realistic fire icon animations */
+@keyframes fire-flicker {
+  0%, 100% { transform: scaleY(1) scaleX(1) rotate(-1deg); opacity: 1; }
+  25% { transform: scaleY(1.06) scaleX(0.97) rotate(1deg); opacity: 0.95; }
+  50% { transform: scaleY(0.97) scaleX(1.03) rotate(-0.5deg); opacity: 1; }
+  75% { transform: scaleY(1.04) scaleX(0.98) rotate(1.5deg); opacity: 0.97; }
+}
+@keyframes fire-flicker-slow {
+  0%, 100% { transform: scaleY(1) rotate(-0.5deg); opacity: 0.9; }
+  50% { transform: scaleY(1.04) rotate(0.5deg); opacity: 1; }
+}
+.fire-pulse svg, .fire-pulse {
+  animation: fire-flicker 0.8s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+.fire-pulse-slow svg, .fire-pulse-slow {
+  animation: fire-flicker-slow 1.4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
