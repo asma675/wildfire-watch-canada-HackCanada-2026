@@ -13,19 +13,27 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
     setLoading(true);
     setActiveMode(mode);
     setGuidance("");
-    const res = await base44.functions.invoke("droneAIGuidance", { mode, drone, wearable, zone });
-    setGuidance(res.data?.guidance || "No guidance returned.");
+    try {
+      const res = await base44.functions.invoke("droneAIGuidance", { mode, drone, wearable: wearable || null, zone: zone || null });
+      setGuidance(res.data?.guidance || "No guidance returned.");
+    } catch (err) {
+      setGuidance("AI guidance temporarily unavailable. Please try again.");
+    }
     setLoading(false);
   };
 
   const dispatchRescue = async () => {
-    await base44.entities.Drone.update(drone.id, {
-      status: "rescue",
-      mission_type: wearable ? "person_triage" : "fire_scan",
-      last_seen: new Date().toISOString(),
-    });
-    if (onUpdate) onUpdate();
-    getGuidance(wearable ? "rescue_guidance" : "fire_scan");
+    try {
+      await base44.entities.Drone.update(drone.id, {
+        status: "rescue",
+        mission_type: wearable ? "person_triage" : "fire_scan",
+        last_seen: new Date().toISOString(),
+      });
+      if (onUpdate) onUpdate();
+      getGuidance(wearable ? "rescue_guidance" : "fire_scan");
+    } catch (err) {
+      setGuidance("Failed to dispatch drone. Please try again.");
+    }
   };
 
   return (
