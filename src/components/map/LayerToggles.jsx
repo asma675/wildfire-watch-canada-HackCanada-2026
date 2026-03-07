@@ -3,8 +3,8 @@ import { Layers, TreePine, Flame, Wind, Skull, History, Radar } from "lucide-rea
 
 const layerDefs = [
   { key: "zones", label: "Risk Zones", icon: Radar, color: "text-amber-400" },
+  { key: "liveFires", label: "Live Fires (CWFIS)", icon: Flame, color: "text-red-400" },
   { key: "ndvi", label: "Vegetation (NDVI)", icon: TreePine, color: "text-green-400" },
-  { key: "fires", label: "Active Fires", icon: Flame, color: "text-red-400" },
   { key: "airQuality", label: "Air Quality", icon: Wind, color: "text-blue-400" },
   { key: "historical", label: "Historical Fires", icon: History, color: "text-orange-400" },
   { key: "envDamage", label: "Environmental Damage", icon: Skull, color: "text-purple-400" },
