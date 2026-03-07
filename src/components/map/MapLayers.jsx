@@ -159,3 +159,52 @@ export function ActiveFireLayer({ zones }) {
       </CircleMarker>
     ));
 }
+
+// Status colours matching CWFIS convention
+const socColors = {
+  OC: "#ef4444",   // Out of Control — red
+  BH: "#f97316",   // Being Held — orange
+  UC: "#f59e0b",   // Under Control — amber
+  EX: "#64748b",   // Out — grey
+  Prescribed: "#a78bfa", // purple
+};
+
+const socLabel = {
+  OC: "Out of Control",
+  BH: "Being Held",
+  UC: "Under Control",
+  EX: "Extinguished",
+  Prescribed: "Prescribed",
+};
+
+export function LiveFireLayer({ fires }) {
+  if (!fires || fires.length === 0) return null;
+  return fires.map((fire, i) => {
+    const soc = fire.stage_of_control || "UC";
+    const color = socColors[soc] || "#f59e0b";
+    // Scale radius by size: tiny fires = 5px, huge = 14px
+    const radius = fire.hectares > 50000 ? 14 : fire.hectares > 5000 ? 10 : fire.hectares > 100 ? 7 : 5;
+    return (
+      <CircleMarker
+        key={`live-${i}`}
+        center={[fire.lat, fire.lon]}
+        radius={radius}
+        pathOptions={{ color, fillColor: color, fillOpacity: 0.85, weight: 1.5 }}
+      >
+        <Popup>
+          <div className="text-xs space-y-1 min-w-[170px]">
+            <p className="font-bold text-white text-sm">🔥 {fire.firename}</p>
+            <p className="text-slate-400">{fire.province} · {fire.agency.toUpperCase()}</p>
+            <p style={{ color }} className="font-semibold">{socLabel[soc] || soc}</p>
+            {fire.hectares > 0 && <p className="text-slate-400">{fire.hectares.toLocaleString()} ha</p>}
+            {fire.startdate && <p className="text-slate-500 text-[10px]">Started: {fire.startdate.split(" ")[0]}</p>}
+            <p className="text-[10px] text-slate-600 pt-1">Source: CWFIS / NRCan</p>
+          </div>
+        </Popup>
+        <Tooltip direction="top">
+          <span className="text-xs font-semibold">{fire.firename} ({soc})</span>
+        </Tooltip>
+      </CircleMarker>
+    );
+  });
+}
