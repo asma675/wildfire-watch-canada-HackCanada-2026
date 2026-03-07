@@ -47,26 +47,26 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Dashboard from './pages/Dashboard';
-import RiskMap from './pages/RiskMap';
-import Zones from './pages/Zones';
 import Alerts from './pages/Alerts';
-import FireSafety from './pages/FireSafety';
+import Dashboard from './pages/Dashboard';
 import FireDepartments from './pages/FireDepartments';
+import FireSafety from './pages/FireSafety';
 import HealthImpact from './pages/HealthImpact';
+import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
+import Zones from './pages/Zones';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Dashboard": Dashboard,
-    "RiskMap": RiskMap,
-    "Zones": Zones,
     "Alerts": Alerts,
-    "FireSafety": FireSafety,
+    "Dashboard": Dashboard,
     "FireDepartments": FireDepartments,
+    "FireSafety": FireSafety,
     "HealthImpact": HealthImpact,
+    "RiskMap": RiskMap,
     "UserHealth": UserHealth,
+    "Zones": Zones,
 }
 
 export const pagesConfig = {

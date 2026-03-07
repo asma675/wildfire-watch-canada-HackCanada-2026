@@ -15,6 +15,7 @@ import FirePredictionLayer from "@/components/map/FirePredictionLayer";
 import LayerToggles from "@/components/map/LayerToggles";
 import ZoneInfoPanel from "@/components/map/ZoneInfoPanel";
 import FirePredictionPanel from "@/components/map/FirePredictionPanel";
+import TimeSlider from "@/components/map/TimeSlider";
 import { Loader2, Flame, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, BrainCircuit } from "lucide-react";
 
 const DATA_SOURCES = [
@@ -70,6 +71,8 @@ export default function RiskMap() {
   const [selectedZone, setSelectedZone] = useState(null);
   const [showSources, setShowSources] = useState(false);
   const [showPredictionPanel, setShowPredictionPanel] = useState(false);
+  const [predictionDay, setPredictionDay] = useState(7);
+  const [envDamageYear, setEnvDamageYear] = useState(null);
   const [layers, setLayers] = useState({
     zones: true,
     liveFires: true,
