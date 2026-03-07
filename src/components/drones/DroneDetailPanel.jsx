@@ -181,6 +181,18 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
                 <Thermometer className="w-3.5 h-3.5 text-orange-400" />
                 Thermal Imaging Scan — See Through Walls
               </Button>
+              <Button 
+                onClick={() => setShowVoiceComm(true)}
+                className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-semibold gap-2 text-xs"
+                disabled={loading}>
+                <MessageCircle className="w-3.5 h-3.5" /> Voice Communication
+              </Button>
+              <Button 
+                onClick={analyzePersonHealth}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold gap-2 text-xs"
+                disabled={loading}>
+                <Stethoscope className="w-3.5 h-3.5" /> Health Monitoring
+              </Button>
             </div>
 
             {/* Mission notes */}
