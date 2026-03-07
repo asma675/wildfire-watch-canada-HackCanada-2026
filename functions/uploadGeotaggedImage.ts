@@ -11,20 +11,13 @@ Deno.serve(async (req) => {
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const formData = await req.formData();
-    const imageFile = formData.get('image');
-    const latitude = parseFloat(formData.get('latitude'));
-    const longitude = parseFloat(formData.get('longitude'));
-    const zoneName = formData.get('zone_name');
-    const province = formData.get('province');
+    const { image, imageType, latitude, longitude, zone_name, province } = await req.json();
 
-    if (!imageFile || !latitude || !longitude) {
+    if (!image || !latitude || !longitude) {
       return Response.json({ error: 'Missing image or location data' }, { status: 400 });
     }
 
-    // Convert file to buffer
-    const buffer = await imageFile.arrayBuffer();
-    const base64Image = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+    const base64Image = image;
 
     // Upload to Cloudinary using authenticated endpoint
     const cloudinaryFormData = new FormData();
