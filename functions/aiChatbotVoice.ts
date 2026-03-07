@@ -9,19 +9,21 @@ Deno.serve(async (req) => {
     // Language detection - check keywords first, then character patterns
     const detectLanguage = (text) => {
       const hindiChars = /[\u0900-\u097F]/;
-      const ukrainianChars = /[є і ї ґ]/i;
-      const russianChars = /[а-яё]/i;
-      const frenchKeywords = /\bbonjour\b|\bmerci\b|s'il\s+vous\s+plaît|ça|être|vous|je|qu|où|ù|é|è|ê|ë|û|ç/i;
-      const spanishKeywords = /¿|¡|\bhola\b|\bgracias\b|por\s+favor|evacuación|incendio|fuego|humo|\byo\b|\btu\b|qué|vamos/i;
+      const ukrainianChars = /[єіїґ]/i;
+      const russianChars = /[абвгдежзийклмнопрстуфхцчшщъыьэюяё]/i;
+      const frenchKeywords = /\bbonjour\b|\bmerci\b|s'il\s+vous\s+plaît|ça|être|vous|\bje\b|\bqu|où|ù|é|è|ê|ë|û|ç/i;
+      const spanishKeywords = /¿|¡|\bhola\b|\bgracias\b|por\s+favor|evacuación|incendio|fuego|humo|\byo\b|\btu\b|qué|vamos|está/i;
+      const englishKeywords = /\bhow\b|\bare\b|\byou\b|\bwhat\b|\bwhere\b|\bwhen\b|\bwhy\b|\bhelp\b|\beveryone\b|\bplease\b/i;
 
-      // Check keywords first (more specific)
-      if (frenchKeywords.test(text)) return 'French';
-      if (spanishKeywords.test(text)) return 'Spanish';
-      
-      // Then check character patterns
+      // Check character patterns first (most specific)
       if (hindiChars.test(text)) return 'Hindi';
       if (ukrainianChars.test(text)) return 'Ukrainian';
       if (russianChars.test(text)) return 'Russian';
+      
+      // Then check keywords
+      if (frenchKeywords.test(text)) return 'French';
+      if (spanishKeywords.test(text)) return 'Spanish';
+      if (englishKeywords.test(text)) return 'English';
       
       return 'English';
     };
