@@ -21,9 +21,9 @@ Deno.serve(async (req) => {
 
     // Upload to Cloudinary using authenticated endpoint
     const cloudinaryFormData = new FormData();
-    cloudinaryFormData.append('file', `data:${imageFile.type};base64,${base64Image}`);
+    cloudinaryFormData.append('file', `data:${imageType};base64,${base64Image}`);
     cloudinaryFormData.append('api_key', CLOUDINARY_API_KEY);
-    cloudinaryFormData.append('tags', `zone:${zoneName},lat:${latitude},lon:${longitude}`);
+    cloudinaryFormData.append('tags', `zone:${zone_name},lat:${latitude},lon:${longitude}`);
     cloudinaryFormData.append('folder', 'wildfire_watch');
 
     const cloudinaryRes = await fetch(
