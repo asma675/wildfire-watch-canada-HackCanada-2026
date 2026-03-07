@@ -129,6 +129,15 @@ Deno.serve(async (req) => {
       cloudinary_url: cloudinaryData.secure_url
     });
   } catch (error) {
+    console.error('Upload error:', error);
     return Response.json({ error: error.message }, { status: 500 });
   }
 });
+
+async function generateSignature(str) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(str);
+  const hashBuffer = await crypto.subtle.digest('SHA-1', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
