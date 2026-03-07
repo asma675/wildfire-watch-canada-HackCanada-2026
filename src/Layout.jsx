@@ -9,6 +9,7 @@ import {
   Flame,
   Building2,
   Heart,
+  Activity,
   Menu,
   X,
   Radio,
@@ -23,6 +24,7 @@ const navItems = [
   { name: "Fire Safety", icon: Flame, page: "FireSafety" },
   { name: "Fire Departments", icon: Building2, page: "FireDepartments" },
   { name: "Health Impact", icon: Heart, page: "HealthImpact" },
+  { name: "User Health", icon: Activity, page: "UserHealth" },
 ];
 
 export default function Layout({ children, currentPageName }) {
