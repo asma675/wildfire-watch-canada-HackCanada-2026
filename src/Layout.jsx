@@ -14,7 +14,8 @@ import {
   X,
   Radio,
   AlertTriangle,
-  Cpu
+  Cpu,
+  BookOpen
 } from "lucide-react";
 import NotificationBell from "@/components/notifications/NotificationBell";
 
@@ -26,6 +27,7 @@ const navItems = [
   { name: "Fire Safety", icon: Flame, page: "FireSafety" },
   { name: "Fire Departments", icon: Building2, page: "FireDepartments" },
   { name: "Drones", icon: Cpu, page: "Drones" },
+  { name: "Knowledge Base", icon: BookOpen, page: "KnowledgeBase" },
   { name: "Health Impact", icon: Heart, page: "HealthImpact" },
   { name: "User Health", icon: Activity, page: "UserHealth" },
 ];
