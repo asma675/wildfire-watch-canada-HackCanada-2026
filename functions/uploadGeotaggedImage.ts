@@ -1,7 +1,9 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.20';
+import { crypto } from 'https://deno.land/std@0.208.0/crypto/mod.ts';
 
 const CLOUDINARY_CLOUD_NAME = Deno.env.get("CLOUDINARY_CLOUD_NAME");
 const CLOUDINARY_API_KEY = Deno.env.get("CLOUDINARY_API_KEY");
+const CLOUDINARY_API_SECRET = Deno.env.get("CLOUDINARY_API_SECRET");
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
 
 Deno.serve(async (req) => {
