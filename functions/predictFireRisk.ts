@@ -42,7 +42,13 @@ Return ONLY valid JSON, no markdown.`,
                 risk_level: { type: "string" },
                 risk_score: { type: "number" },
                 explanation: { type: "string" },
-                risk_factors: { type: "array", items: { type: "string" } }
+                risk_factors: { type: "array", items: { type: "string" } },
+                temp_c: { type: "number" },
+                precip_mm: { type: "number" },
+                wind_kmh: { type: "number" },
+                humidity_pct: { type: "number" },
+                weather_summary: { type: "string" },
+                temp_anomaly: { type: "number" }
               }
             }
           },
