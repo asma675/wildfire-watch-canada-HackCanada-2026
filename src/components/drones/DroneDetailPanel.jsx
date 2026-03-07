@@ -141,39 +141,39 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
               </Button>
             </div>
 
-        {/* Mission notes */}
-        {drone.mission_notes && !guidance && (
-          <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Last Mission Log</p>
-            <p className="text-xs text-slate-300 whitespace-pre-line">{drone.mission_notes}</p>
-          </div>
-        )}
+            {/* Mission notes */}
+            {drone.mission_notes && !guidance && (
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3">
+                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Last Mission Log</p>
+                <p className="text-xs text-slate-300 whitespace-pre-line">{drone.mission_notes}</p>
+              </div>
+            )}
 
-        {/* AI Guidance output */}
-        {loading && (
-          <div className="flex items-center gap-3 text-sm py-4" style={{color: activeMode === "thermal_scan" ? "#fb923c" : "#f472b6"}}>
-            <Loader2 className="w-4 h-4 animate-spin" />
-            <span>
-              {activeMode === "thermal_scan"
-                ? "Running infrared thermal scan through walls…"
-                : activeMode === "rescue_guidance"
-                ? "AI generating rescue plan…"
-                : "AI analyzing zone…"}
-            </span>
-          </div>
-        )}
-        {guidance && (
-          <div className="rounded-xl border border-pink-500/20 bg-pink-500/5 p-4">
-            <p className={`text-[10px] font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 ${activeMode === "thermal_scan" ? "text-orange-400" : "text-pink-400"}`}>
-              {activeMode === "thermal_scan"
-                ? <><Thermometer className="w-3 h-3" /> Thermal Imaging Report</>
-                : <><BrainCircuit className="w-3 h-3" /> AI Mission Guidance</>}
-            </p>
-            <div className="prose prose-sm prose-invert max-w-none text-xs [&>*]:text-slate-300 [&>h1,&>h2,&>h3]:text-white [&>h1,&>h2,&>h3]:font-semibold [&>ul]:list-disc [&>ul]:ml-4 [&>ol]:list-decimal [&>ol]:ml-4">
-              <ReactMarkdown>{guidance}</ReactMarkdown>
-            </div>
-          </div>
-        )}
+            {/* AI Guidance output */}
+            {loading && (
+              <div className="flex items-center gap-3 text-sm py-4" style={{color: activeMode === "thermal_scan" ? "#fb923c" : "#f472b6"}}>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>
+                  {activeMode === "thermal_scan"
+                    ? "Running infrared thermal scan through walls…"
+                    : activeMode === "rescue_guidance"
+                    ? "AI generating rescue plan…"
+                    : "AI analyzing zone…"}
+                </span>
+              </div>
+            )}
+            {guidance && (
+              <div className="rounded-xl border border-pink-500/20 bg-pink-500/5 p-4">
+                <p className={`text-[10px] font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 ${activeMode === "thermal_scan" ? "text-orange-400" : "text-pink-400"}`}>
+                  {activeMode === "thermal_scan"
+                    ? <><Thermometer className="w-3 h-3" /> Thermal Imaging Report</>
+                    : <><BrainCircuit className="w-3 h-3" /> AI Mission Guidance</>}
+                </p>
+                <div className="prose prose-sm prose-invert max-w-none text-xs [&>*]:text-slate-300 [&>h1,&>h2,&>h3]:text-white [&>h1,&>h2,&>h3]:font-semibold [&>ul]:list-disc [&>ul]:ml-4 [&>ol]:list-decimal [&>ol]:ml-4">
+                  <ReactMarkdown>{guidance}</ReactMarkdown>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
