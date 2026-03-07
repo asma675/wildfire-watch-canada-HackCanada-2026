@@ -121,6 +121,12 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
               <MessageCircle className="w-3.5 h-3.5 text-green-400" /> Rescue Guidance
             </Button>
           </div>
+          <Button variant="outline"
+            className="w-full border-orange-500/30 text-orange-300 hover:bg-orange-500/10 gap-2 text-xs"
+            onClick={() => getGuidance("thermal_scan")} disabled={loading}>
+            <Thermometer className="w-3.5 h-3.5 text-orange-400" />
+            Thermal Imaging Scan — See Through Walls
+          </Button>
         </div>
 
         {/* Mission notes */}
