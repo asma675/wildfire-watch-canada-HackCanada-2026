@@ -109,7 +109,21 @@ export default function RiskMap() {
     enabled: layers.envDamage,
   });
 
-  const toggleLayer = (key) => setLayers((prev) => ({ ...prev, [key]: !prev[key] }));
+  const { data: predictionData, isLoading: loadingPredictions, refetch: refetchPredictions } = useQuery({
+    queryKey: ["firePredictions"],
+    queryFn: () => base44.functions.invoke("predictFireRisk", {}).then(r => r.data),
+    enabled: layers.firePredictions,
+    staleTime: 30 * 60 * 1000, // cache 30 min
+  });
+
+  const toggleLayer = (key) => {
+    setLayers((prev) => {
+      const next = { ...prev, [key]: !prev[key] };
+      if (key === "firePredictions" && next.firePredictions) setShowPredictionPanel(true);
+      if (key === "firePredictions" && !next.firePredictions) setShowPredictionPanel(false);
+      return next;
+    });
+  };
 
   const fires = liveFireData?.fires || [];
   const ocFires = fires.filter(f => f.stage_of_control === "OC");
