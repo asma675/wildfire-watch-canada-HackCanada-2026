@@ -118,6 +118,12 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
             {drone.status === "rescue" ? "Re-run Mission AI" : "Dispatch + Get AI Mission Plan"}
           </Button>
+          <Button
+            onClick={() => setShowEvacuation(true)}
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold gap-2"
+          >
+            <Navigation className="w-4 h-4" /> Generate Escape Routes
+          </Button>
           <div className="grid grid-cols-2 gap-2">
             <Button variant="outline" className="border-white/10 text-slate-300 hover:bg-white/5 gap-1.5 text-xs"
               onClick={() => getGuidance("fire_scan")} disabled={loading}>
