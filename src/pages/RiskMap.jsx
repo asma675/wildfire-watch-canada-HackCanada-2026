@@ -114,6 +114,14 @@ export default function RiskMap() {
     enabled: layers.envDamage,
   });
 
+  const { data: hotspotData, isLoading: loadingHotspots } = useQuery({
+    queryKey: ["satelliteHotspots"],
+    queryFn: () => base44.functions.invoke("fetchSatelliteHotspots", { source: "VIIRS_SNPP_NRT", days: 2 }).then(r => r.data),
+    enabled: layers.satelliteHotspots,
+    refetchInterval: 3 * 60 * 60 * 1000, // every 3h
+    staleTime: 2 * 60 * 60 * 1000,
+  });
+
   const { data: predictionData, isLoading: loadingPredictions, refetch: refetchPredictions } = useQuery({
     queryKey: ["firePredictions"],
     queryFn: () => base44.functions.invoke("predictFireRisk", {}).then(r => r.data),
