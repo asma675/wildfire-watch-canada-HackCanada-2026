@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import ReactMarkdown from "react-markdown";
-import { X, BrainCircuit, Loader2, MapPin, Battery, Zap, Heart, ShieldCheck, Package, MessageCircle, Thermometer } from "lucide-react";
+import { X, BrainCircuit, Loader2, MapPin, Battery, Zap, Heart, ShieldCheck, Package, MessageCircle, Thermometer, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import EvacuationPanel from "./EvacuationPanel";
 
 export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpdate }) {
   const [guidance, setGuidance] = useState("");
