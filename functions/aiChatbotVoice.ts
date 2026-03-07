@@ -105,13 +105,13 @@ Answer in 2-3 sentences max, in ${detectedLanguage} only. Be direct and actionab
 
       if (response.ok) {
         const data = await response.json();
-        const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (aiResponse) {
-          return Response.json({ response: aiResponse, language: detectedLanguage });
+        const geminiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (geminiResponse && geminiResponse.trim()) {
+          return Response.json({ response: geminiResponse, language: detectedLanguage });
         }
       }
     } catch (e) {
-      // Fallback to templates if Gemini fails
+      console.error('Gemini error:', e.message);
     }
 
     // Fallback: Categorize message to pick best template
