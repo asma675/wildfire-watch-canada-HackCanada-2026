@@ -109,6 +109,12 @@ export default function Dashboard() {
         <StatCard title="Avg AQI" value={avgAqi} subtitle={avgAqi > 100 ? "Unhealthy" : avgAqi > 50 ? "Moderate" : "Good"} icon={Wind} color={avgAqi > 100 ? "red" : avgAqi > 50 ? "amber" : "green"} />
       </div>
 
+      {/* Drone Widgets */}
+      <div className="grid lg:grid-cols-2 gap-4">
+        <DronesWidget drones={drones} />
+        <DroneHistoryChart drones={drones} />
+      </div>
+
       {/* Main Grid */}
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Highest Risk Zones */}
