@@ -55,6 +55,7 @@ import HealthImpact from './pages/HealthImpact';
 import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
+import Drones from './pages/Drones';
 import __Layout from './Layout.jsx';
 
 
@@ -67,6 +68,7 @@ export const PAGES = {
     "RiskMap": RiskMap,
     "UserHealth": UserHealth,
     "Zones": Zones,
+    "Drones": Drones,
 }
 
 export const pagesConfig = {
