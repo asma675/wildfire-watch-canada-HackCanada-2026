@@ -50,14 +50,15 @@
 import Alerts from './pages/Alerts';
 import Dashboard from './pages/Dashboard';
 import Drones from './pages/Drones';
+import FieldImaging from './pages/FieldImaging';
 import FireDepartments from './pages/FireDepartments';
 import FireSafety from './pages/FireSafety';
 import HealthImpact from './pages/HealthImpact';
+import KnowledgeBase from './pages/KnowledgeBase';
 import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
-import KnowledgeBase from './pages/KnowledgeBase';
-import FieldImaging from './pages/FieldImaging';
+import AIChat from './pages/AIChat';
 import __Layout from './Layout.jsx';
 
 
@@ -65,14 +66,15 @@ export const PAGES = {
     "Alerts": Alerts,
     "Dashboard": Dashboard,
     "Drones": Drones,
+    "FieldImaging": FieldImaging,
     "FireDepartments": FireDepartments,
     "FireSafety": FireSafety,
     "HealthImpact": HealthImpact,
+    "KnowledgeBase": KnowledgeBase,
     "RiskMap": RiskMap,
     "UserHealth": UserHealth,
     "Zones": Zones,
-    "KnowledgeBase": KnowledgeBase,
-    "FieldImaging": FieldImaging,
+    "AIChat": AIChat,
 }
 
 export const pagesConfig = {
