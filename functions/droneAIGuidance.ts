@@ -53,24 +53,41 @@ Based on this data, provide a drone scan mission briefing:
 
 Be concise and tactical.`;
     } else if (mode === "thermal_scan") {
-      prompt = `You are an AI thermal imaging system onboard wildfire rescue drone "${drone?.name || 'WW-Drone'}" equipped with a high-resolution infrared/thermal camera capable of detecting heat signatures through walls, smoke, and debris.
+       prompt = `You are an AI thermal imaging system onboard wildfire rescue drone "${drone?.name || 'WW-Drone'}" equipped with a high-resolution infrared/thermal camera capable of detecting heat signatures through walls, smoke, and debris.
 
-The drone is currently operating inside or around a structure in a wildfire scenario.
-Drone location: ${drone?.latitude || 'unknown'}, ${drone?.longitude || 'unknown'}
-Altitude: ${drone?.altitude_m || 'low'} meters
-Zone: ${drone?.zone_name || 'unknown'}
-Equipped with: ${drone?.equipped_with || 'thermal camera, infrared sensors, gas detector'}
+    The drone is currently operating inside or around a structure in a wildfire scenario.
+    Drone location: ${drone?.latitude || 'unknown'}, ${drone?.longitude || 'unknown'}
+    Altitude: ${drone?.altitude_m || 'low'} meters
+    Zone: ${drone?.zone_name || 'unknown'}
+    Equipped with: ${drone?.equipped_with || 'thermal camera, infrared sensors, gas detector'}
 
-Generate a realistic thermal imaging scan report as if the drone just completed a 360° infrared sweep of the surrounding structure. Include:
+    Generate a realistic thermal imaging scan report as if the drone just completed a 360° infrared sweep of the surrounding structure. Include:
 
-1. **Thermal Map Summary** — describe heat signature readings through walls (e.g. "North wall: 340°C hotspot detected 4m behind drywall", "East corridor: 2 human heat signatures at floor level")
-2. **Fire Detection** — location, estimated intensity, spread direction, any gas pockets or flashover risk
-3. **Human Survivors Detected** — number, location relative to drone, estimated condition (conscious/unconscious based on movement signatures)
-4. **Structural Integrity** — which walls/floors are compromised based on heat absorption patterns
-5. **Recommended Entry/Rescue Routes** — safest path for human responders based on thermal data
-6. **Immediate Drone Actions** — what the drone should do right now (drop oxygen, signal location, etc.)
+    1. **Thermal Map Summary** — describe heat signature readings through walls (e.g. "North wall: 340°C hotspot detected 4m behind drywall", "East corridor: 2 human heat signatures at floor level")
+    2. **Fire Detection** — location, estimated intensity, spread direction, any gas pockets or flashover risk
+    3. **Human Survivors Detected** — number, location relative to drone, estimated condition (conscious/unconscious based on movement signatures)
+    4. **Structural Integrity** — which walls/floors are compromised based on heat absorption patterns
+    5. **Recommended Entry/Rescue Routes** — safest path for human responders based on thermal data
+    6. **Immediate Drone Actions** — what the drone should do right now (drop oxygen, signal location, etc.)
 
-Use realistic thermal imaging terminology. Be specific with directions (North/South/East/West), distances, and temperatures. Format with clear sections.`;
+    Use realistic thermal imaging terminology. Be specific with directions (North/South/East/West), distances, and temperatures. Format with clear sections.`;
+    } else if (mode === "evacuation_guidance") {
+      prompt = `You are an AI evacuation system on a wildfire rescue drone named "${drone?.name || 'WW-Drone'}" guiding people to safety.
+
+    Fire zone: ${zone?.name || 'Unknown Zone'}, ${zone?.province || 'Canada'}
+    People location: ${wearable?.latitude || drone?.latitude || 'unknown'}, ${wearable?.longitude || drone?.longitude || 'unknown'}
+    Threat level: ${zone?.threat_level || 'UNKNOWN'}
+    Wind direction: ${zone?.weather_wind_kmh || 'N/A'} km/h
+
+    Generate a CLEAR, CONCISE evacuation guide with:
+    1. **Primary Escape Route** — step-by-step directions (North, South, East, West from current location)
+    2. **Alternate Route** — if primary is blocked
+    3. **Hazards to Avoid** — fire spread direction, toxic gas areas, structural dangers
+    4. **Landmarks to Follow** — road signs, terrain features, structures to help navigation
+    5. **Safe Zones** — nearest shelter/safe area with distance
+    6. **Emergency Actions** — if trapped, what to do (find water, shelter, signal location)
+
+    Make it simple, actionable, and reassuring. Use cardinal directions only (North/South/East/West/Up/Down).`;
     } else {
       return Response.json({ error: 'Invalid mode' }, { status: 400 });
     }
