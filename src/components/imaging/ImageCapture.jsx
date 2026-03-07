@@ -57,11 +57,6 @@ export default function ImageCapture({ zoneName, province, onImageCaptured }) {
   };
 
   const uploadImage = async (blob) => {
-   if (!location) {
-     setError("Waiting for GPS location...");
-     return;
-   }
-
    setLoading(true);
    setError(null);
    try {
@@ -70,13 +65,17 @@ export default function ImageCapture({ zoneName, province, onImageCaptured }) {
        try {
          const base64 = reader.result.split(',')[1];
 
+         // Use Waterloo demo coordinates if geolocation not available
+         const lat = location?.latitude || 43.4516;
+         const lon = location?.longitude || -80.4925;
+
          const response = await base44.functions.invoke('uploadGeotaggedImage', {
            image: base64,
            imageType: blob.type,
-           latitude: location.latitude,
-           longitude: location.longitude,
-           zone_name: zoneName || 'Unknown',
-           province: province || 'Unknown'
+           latitude: lat,
+           longitude: lon,
+           zone_name: zoneName || 'Waterloo Demo',
+           province: province || 'ON'
          });
 
          setLastCapture({
@@ -123,7 +122,7 @@ export default function ImageCapture({ zoneName, province, onImageCaptured }) {
       <div className="flex gap-2">
         <Button
           onClick={captureFromCamera}
-          disabled={loading || !location}
+          disabled={loading}
           className="flex-1 bg-amber-500 hover:bg-amber-600 text-black font-semibold gap-2"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
@@ -132,7 +131,7 @@ export default function ImageCapture({ zoneName, province, onImageCaptured }) {
         <Button
           variant="outline"
           onClick={() => fileInputRef.current?.click()}
-          disabled={loading || !location}
+          disabled={loading}
           className="flex-1 border-white/10 text-slate-300"
         >
           Upload File
