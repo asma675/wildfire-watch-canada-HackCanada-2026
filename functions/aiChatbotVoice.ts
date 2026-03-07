@@ -6,19 +6,23 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Message required' }, { status: 400 });
     }
 
-    // Language detection
+    // Language detection - check keywords first, then character patterns
     const detectLanguage = (text) => {
       const hindiChars = /[\u0900-\u097F]/;
       const ukrainianChars = /[є і ї ґ]/i;
       const russianChars = /[а-яё]/i;
-      const spanishKeywords = /¿|¡|hola|gracias|por favor|evacua|fuego|humo/i;
-      const frenchKeywords = /bonjour|merci|s'il vous plaît|evacu|feu|fumée/i;
+      const frenchKeywords = /\bbonjour\b|\bmerci\b|s'il\s+vous\s+plaît|ça|être|vous|je|qu|où|ù|é|è|ê|ë|û|ç/i;
+      const spanishKeywords = /¿|¡|\bhola\b|\bgracias\b|por\s+favor|evacuación|incendio|fuego|humo|\byo\b|\btu\b|qué|vamos/i;
 
+      // Check keywords first (more specific)
+      if (frenchKeywords.test(text)) return 'French';
+      if (spanishKeywords.test(text)) return 'Spanish';
+      
+      // Then check character patterns
       if (hindiChars.test(text)) return 'Hindi';
       if (ukrainianChars.test(text)) return 'Ukrainian';
       if (russianChars.test(text)) return 'Russian';
-      if (spanishKeywords.test(text)) return 'Spanish';
-      if (frenchKeywords.test(text)) return 'French';
+      
       return 'English';
     };
 
