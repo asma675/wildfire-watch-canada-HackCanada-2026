@@ -184,9 +184,23 @@ export function LiveFireLayer({ fires }) {
     const soc = fire.stage_of_control || "UC";
     const color = socColors[soc] || "#f59e0b";
     const icon = createFlameIcon(soc, fire.hectares || 0);
+    // Outer glow halo radius in metres — proportional to fire size
+    const haloMetres = fire.hectares > 50000 ? 80000 : fire.hectares > 10000 ? 45000 : fire.hectares > 1000 ? 20000 : fire.hectares > 100 ? 8000 : 3000;
     return (
+      <React.Fragment key={`live-${i}`}>
+        {/* Glowing perimeter halo */}
+        <Circle
+          center={[fire.lat, fire.lon]}
+          radius={haloMetres}
+          pathOptions={{
+            color,
+            fillColor: color,
+            fillOpacity: 0.07,
+            weight: soc === "OC" ? 2 : 1,
+            opacity: soc === "OC" ? 0.7 : 0.45,
+          }}
+        />
       <Marker
-        key={`live-${i}`}
         position={[fire.lat, fire.lon]}
         icon={icon}
       >
