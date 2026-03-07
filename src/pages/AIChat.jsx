@@ -9,7 +9,6 @@ export default function AIChatPage() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [loading, setLoading] = useState(false);
   const recognitionRef = useRef(null);
-  const synthRef = useRef(window.speechSynthesis);
 
   useEffect(() => {
     // Initialize Web Speech API
