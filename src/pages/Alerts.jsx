@@ -9,13 +9,15 @@ import { Switch } from "@/components/ui/switch";
 import AlertItem from "@/components/dashboard/AlertItem";
 import ThreatBadge from "@/components/dashboard/ThreatBadge";
 import {
-  Bell, Plus, Trash2, Building2, Mail, Phone, X, Save, Loader2
+  Bell, Plus, Trash2, Building2, Mail, Phone, X, Save, Loader2, ShieldAlert
 } from "lucide-react";
 
 export default function Alerts() {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ org_name: "", contact_email: "", contact_phone: "", province: "BC", threshold_level: "HIGH", is_active: true });
   const [saving, setSaving] = useState(false);
+  const [checking, setChecking] = useState(false);
+  const [checkResult, setCheckResult] = useState(null);
   const qc = useQueryClient();
 
   const { data: configs = [] } = useQuery({
@@ -43,6 +45,15 @@ export default function Alerts() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["alertConfigs"] }),
   });
 
+  const handleCheckNow = async () => {
+    setChecking(true);
+    setCheckResult(null);
+    const res = await base44.functions.invoke("checkZoneAlerts", {});
+    setCheckResult(res.data);
+    qc.invalidateQueries({ queryKey: ["alertHistory"] });
+    setChecking(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -57,9 +68,20 @@ export default function Alerts() {
           <h1 className="text-2xl sm:text-3xl font-bold text-white">Alert System</h1>
           <p className="text-sm text-slate-400 mt-1">Configure emergency notifications</p>
         </div>
-        <Button onClick={() => setShowForm(!showForm)} className="bg-amber-500 hover:bg-amber-600 text-black font-semibold gap-2">
-          <Plus className="w-4 h-4" /> Add Recipient
-        </Button>
+        <div className="flex gap-2 flex-wrap">
+          <Button
+            onClick={handleCheckNow}
+            disabled={checking}
+            variant="outline"
+            className="border-red-500/30 text-red-400 hover:bg-red-500/10 gap-2"
+          >
+            {checking ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldAlert className="w-4 h-4" />}
+            {checking ? "Checking…" : "Check Zones Now"}
+          </Button>
+          <Button onClick={() => setShowForm(!showForm)} className="bg-amber-500 hover:bg-amber-600 text-black font-semibold gap-2">
+            <Plus className="w-4 h-4" /> Add Recipient
+          </Button>
+        </div>
       </div>
 
       {showForm && (
