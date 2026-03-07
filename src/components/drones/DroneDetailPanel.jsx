@@ -109,37 +109,37 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
 
             {/* Action Buttons */}
             <div className="space-y-2">
-          <Button
-            onClick={dispatchRescue}
-            className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold gap-2"
-            disabled={loading}
-          >
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
-            {drone.status === "rescue" ? "Re-run Mission AI" : "Dispatch + Get AI Mission Plan"}
-          </Button>
-          <Button
-            onClick={() => setShowEvacuation(true)}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold gap-2"
-          >
-            <Navigation className="w-4 h-4" /> Generate Escape Routes
-          </Button>
-          <div className="grid grid-cols-2 gap-2">
-            <Button variant="outline" className="border-white/10 text-slate-300 hover:bg-white/5 gap-1.5 text-xs"
-              onClick={() => getGuidance("fire_scan")} disabled={loading}>
-              <BrainCircuit className="w-3.5 h-3.5 text-pink-400" /> Fire Scan Brief
-            </Button>
-            <Button variant="outline" className="border-white/10 text-slate-300 hover:bg-white/5 gap-1.5 text-xs"
-              onClick={() => getGuidance("rescue_guidance")} disabled={loading}>
-              <MessageCircle className="w-3.5 h-3.5 text-green-400" /> Rescue Guidance
-            </Button>
-          </div>
-          <Button variant="outline"
-            className="w-full border-orange-500/30 text-orange-300 hover:bg-orange-500/10 gap-2 text-xs"
-            onClick={() => getGuidance("thermal_scan")} disabled={loading}>
-            <Thermometer className="w-3.5 h-3.5 text-orange-400" />
-            Thermal Imaging Scan — See Through Walls
-          </Button>
-        </div>
+              <Button
+                onClick={dispatchRescue}
+                className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold gap-2"
+                disabled={loading}
+              >
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                {drone.status === "rescue" ? "Re-run Mission AI" : "Dispatch + Get AI Mission Plan"}
+              </Button>
+              <Button
+                onClick={() => setShowEvacuation(true)}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold gap-2"
+              >
+                <Navigation className="w-4 h-4" /> Generate Escape Routes
+              </Button>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="outline" className="border-white/10 text-slate-300 hover:bg-white/5 gap-1.5 text-xs"
+                  onClick={() => getGuidance("fire_scan")} disabled={loading}>
+                  <BrainCircuit className="w-3.5 h-3.5 text-pink-400" /> Fire Scan Brief
+                </Button>
+                <Button variant="outline" className="border-white/10 text-slate-300 hover:bg-white/5 gap-1.5 text-xs"
+                  onClick={() => getGuidance("rescue_guidance")} disabled={loading}>
+                  <MessageCircle className="w-3.5 h-3.5 text-green-400" /> Rescue Guidance
+                </Button>
+              </div>
+              <Button variant="outline"
+                className="w-full border-orange-500/30 text-orange-300 hover:bg-orange-500/10 gap-2 text-xs"
+                onClick={() => getGuidance("thermal_scan")} disabled={loading}>
+                <Thermometer className="w-3.5 h-3.5 text-orange-400" />
+                Thermal Imaging Scan — See Through Walls
+              </Button>
+            </div>
 
         {/* Mission notes */}
         {drone.mission_notes && !guidance && (
