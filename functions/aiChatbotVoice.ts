@@ -6,21 +6,49 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Message required' }, { status: 400 });
     }
 
-    // Simple responses for common wildfire questions
-    const lowerMessage = message.toLowerCase();
-    let response = 'I understand your concern. Remember to stay informed through official channels and follow local emergency guidance.';
+    // Quick language detection by checking for common keywords
+    const detectLanguage = (text) => {
+      const hindiChars = /[\u0900-\u097F]/;
+      const ukrainianChars = /[є і ї ґ]/i;
+      const russianChars = /[а-яё]/i;
+      const spanishKeywords = /¿|¡|hola|gracias|por favor/i;
+      const frenchKeywords = /bonjour|merci|s'il vous plaît/i;
 
-    if (lowerMessage.includes('evacuate') || lowerMessage.includes('leave')) {
-      response = 'If ordered to evacuate, leave immediately with essential items. Follow designated routes and stay updated on local alerts.';
-    } else if (lowerMessage.includes('smoke') || lowerMessage.includes('air quality')) {
-      response = 'Stay indoors with windows closed. Use N95 masks outdoors and monitor air quality indexes. Drink water and watch for smoke-related health issues.';
-    } else if (lowerMessage.includes('mental') || lowerMessage.includes('stress') || lowerMessage.includes('anxiety')) {
-      response = 'It\'s normal to feel anxious during crises. Try breathing exercises, stay connected with others, and reach out to crisis hotlines if needed.';
-    } else if (lowerMessage.includes('prepare') || lowerMessage.includes('ready')) {
-      response = 'Prepare now: create an evacuation plan, gather important documents, keep emergency supplies, and know multiple evacuation routes from your area.';
+      if (hindiChars.test(text)) return 'Hindi';
+      if (ukrainianChars.test(text)) return 'Ukrainian';
+      if (russianChars.test(text)) return 'Russian';
+      if (spanishKeywords.test(text)) return 'Spanish';
+      if (frenchKeywords.test(text)) return 'French';
+      return 'English';
+    };
+
+    const detectedLanguage = detectLanguage(message);
+
+    // Use InvokeLLM for multi-language responses
+    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + Deno.env.get('GEMINI_API_KEY'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: `You are a helpful wildfire safety assistant. A user has asked: "${message}"
+
+Respond in ${detectedLanguage} language ONLY. Keep your response to 1-2 sentences max. Focus on wildfire safety, evacuation, smoke exposure, mental health support, or emergency preparedness as relevant.`
+          }]
+        }]
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Gemini API error: ${response.status}`);
     }
 
-    return Response.json({ response });
+    const data = await response.json();
+    const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || 'I understand. Please follow official emergency guidance.';
+
+    return Response.json({ response: aiResponse, language: detectedLanguage });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
