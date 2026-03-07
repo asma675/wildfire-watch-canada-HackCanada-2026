@@ -69,7 +69,7 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
         ) : (
           <>
             {/* Stats */}
-        <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3">
           <div className="bg-white/5 rounded-xl p-3 text-center">
             <Battery className="w-4 h-4 text-green-400 mx-auto mb-1" />
             <p className="text-lg font-bold text-white">{drone.battery_pct ?? 100}%</p>
