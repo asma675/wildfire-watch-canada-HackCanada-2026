@@ -97,7 +97,7 @@ Deno.serve(async (req) => {
       wildfire_detected: wildfireAnalysis.wildfire_detected,
       wildfire_confidence: wildfireAnalysis.confidence,
       gemini_analysis: wildfireAnalysis.analysis,
-      zone_name: zoneName,
+      zone_name: zone_name,
       province,
       timestamp: new Date().toISOString()
     });
