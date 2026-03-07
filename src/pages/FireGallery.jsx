@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MapPin, Flame, Clock, TrendingUp } from "lucide-react";
-import { CldImage } from "next-cloudinary";
 
 export default function FireGalleryPage() {
   const [searchTerm, setSearchTerm] = useState("");
