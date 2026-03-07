@@ -57,36 +57,43 @@ export default function ImageCapture({ zoneName, province, onImageCaptured }) {
   };
 
   const uploadImage = async (blob) => {
-    if (!location) {
-      setError("Waiting for GPS location...");
-      return;
-    }
+   if (!location) {
+     setError("Waiting for GPS location...");
+     return;
+   }
 
-    setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append('image', blob);
-      formData.append('latitude', location.latitude);
-      formData.append('longitude', location.longitude);
-      formData.append('zone_name', zoneName || 'Unknown');
-      formData.append('province', province || 'Unknown');
+   setLoading(true);
+   try {
+     const reader = new FileReader();
+     reader.onload = async () => {
+       const base64 = reader.result.split(',')[1];
 
-      const response = await base44.functions.invoke('uploadGeotaggedImage', formData);
+       const response = await base44.functions.invoke('uploadGeotaggedImage', {
+         image: base64,
+         imageType: blob.type,
+         latitude: location.latitude,
+         longitude: location.longitude,
+         zone_name: zoneName || 'Unknown',
+         province: province || 'Unknown'
+       });
 
-      setLastCapture({
-        url: response.data.cloudinary_url,
-        analysis: response.data.analysis,
-        success: response.data.success
-      });
+       setLastCapture({
+         url: response.data.cloudinary_url,
+         analysis: response.data.analysis,
+         success: response.data.success
+       });
 
-      if (onImageCaptured) {
-        onImageCaptured(response.data.image);
-      }
-    } catch (err) {
-      setError(`Upload failed: ${err.message}`);
-    } finally {
-      setLoading(false);
-    }
+       if (onImageCaptured) {
+         onImageCaptured(response.data.image);
+       }
+     };
+     reader.onerror = () => setError("Failed to read image");
+     reader.readAsDataURL(blob);
+   } catch (err) {
+     setError(`Upload failed: ${err.message}`);
+   } finally {
+     setLoading(false);
+   }
   };
 
   return (
