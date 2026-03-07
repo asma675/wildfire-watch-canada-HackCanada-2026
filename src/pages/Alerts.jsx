@@ -84,6 +84,31 @@ export default function Alerts() {
         </div>
       </div>
 
+      {checkResult && (
+        <div className={`rounded-2xl border p-4 flex items-start gap-3 ${checkResult.triggered > 0 ? "bg-red-500/10 border-red-500/30" : "bg-green-500/10 border-green-500/30"}`}>
+          <ShieldAlert className={`w-5 h-5 flex-shrink-0 mt-0.5 ${checkResult.triggered > 0 ? "text-red-400" : "text-green-400"}`} />
+          <div>
+            <p className={`text-sm font-semibold ${checkResult.triggered > 0 ? "text-red-300" : "text-green-300"}`}>
+              {checkResult.triggered > 0
+                ? `${checkResult.triggered} alert(s) triggered across ${checkResult.checked} configurations`
+                : `All clear — ${checkResult.checked} configuration(s) checked, no thresholds breached`}
+            </p>
+            {checkResult.details?.length > 0 && (
+              <ul className="mt-1 space-y-0.5">
+                {checkResult.details.map((d, i) => (
+                  <li key={i} className="text-xs text-slate-400">
+                    • {d.org} ({d.province}): {d.zonesTriggered} zone(s) — email {d.emailStatus}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <button onClick={() => setCheckResult(null)} className="ml-auto p-1 text-slate-500 hover:text-slate-300">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
       {showForm && (
         <div className="rounded-2xl border border-white/10 bg-[#1a1a2e] p-5">
           <div className="flex items-center justify-between mb-4">
