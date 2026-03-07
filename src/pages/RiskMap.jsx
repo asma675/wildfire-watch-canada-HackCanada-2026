@@ -21,6 +21,13 @@ import { Loader2, Flame, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Br
 
 const DATA_SOURCES = [
   {
+    title: "NASA FIRMS Satellite Hotspots",
+    desc: "Real-time VIIRS (375m) & MODIS (1km) thermal anomalies from NASA satellites — updated every overpass (~3h).",
+    update: "Every ~3 hours",
+    color: "#f97316",
+    url: "https://firms.modaps.eosdis.nasa.gov/",
+  },
+  {
     title: "Active Wildfires in Canada",
     desc: "Fire locations from provincial/territorial agencies & Parks Canada, coordinated by CIFFC & NRCan.",
     update: "Every 3 hours",
