@@ -47,7 +47,7 @@ Deno.serve(async (req) => {
         smoke: 'Exposition à la fumée: restez à l\'intérieur, portes/fenêtres fermées. Utilisez des purificateurs HEPA. Portez masques N95 dehors. Évitez effort intense. Consultez QualitéAir.ca pour l\'indice de qualité de votre région. Groupes vulnérables: refuges à air pur.',
         mental: 'L\'anxiété face aux incendies est valide. Pratiquez des techniques d\'ancrage. Restez connecté avec votre communauté. Limitez la consommation de nouvelles. Préparez un kit d\'urgence. Contactez services santé mentale (1-800-463-2338) si accablé.',
         prepare: 'Préparez-vous: Créez plan d\'évacuation avec itinéraires alternatifs. Gardez documents dans sac étanche. Stock 2 semaines médicaments/fournitures. Vérifiez niveau risque incendie. Inscrivez-vous alertes urgence et connaissez zones d\'évacuation.',
-        default: ''
+        default: 'Je comprends votre question. Pour plus d\'informations, consultez Wildfire.gc.ca ou contactez les autorités locales.'
       },
       Spanish: {
         prevent: 'Para prevenir incendios forestales: retire vegetación muerta alrededor de su propiedad, mantenga espacio defensivo de 10m, use plantas resistentes al fuego, cree cortafuegos y asegure techo ignífugo. Reporte actividades sospechosas a autoridades locales.',
@@ -55,7 +55,7 @@ Deno.serve(async (req) => {
         smoke: 'Exposición a humo: permanezca adentro, puertas/ventanas cerradas. Use purificadores HEPA. Lleve mascarillas N95 afuera. Evite esfuerzo intenso. Consulte CalidadAire.ca para AQI región. Grupos vulnerables: refugios aire limpio.',
         mental: 'Ansiedad por incendios es válida. Practica técnicas enraizamiento. Mantente conectado comunidad. Limita noticias. Ten kit emergencia. Contacta salud mental (1-800-463-2338) si abrumado.',
         prepare: 'Prepárate: Crea plan evacuación rutas alternas. Guarda documentos bolsa impermeable. Acopio 2 semanas medicinas/suministros. Verifica nivel riesgo incendio. Inscríbete alertas emergencia y conoce zonas evacuación.',
-        default: ''
+        default: 'Entiendo tu pregunta. Para más información, visita Wildfire.gc.ca o contacta autoridades locales.'
       },
       Russian: {
         prevent: 'Предотвращение лесных пожаров: удалите мертвую растительность вокруг имущества, поддерживайте защитную зону 10м, используйте огнеустойчивые растения, создавайте противопожарные полосы. Сообщайте о подозрительной деятельности местным властям.',
