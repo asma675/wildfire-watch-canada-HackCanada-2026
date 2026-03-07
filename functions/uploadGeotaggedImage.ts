@@ -22,15 +22,15 @@ Deno.serve(async (req) => {
 
     // Create signed Cloudinary upload
     const timestamp = Math.floor(Date.now() / 1000);
-    const params = {
-      timestamp,
-      api_key: CLOUDINARY_API_KEY,
+    
+    // Build signature string
+    const signatureParams = {
+      folder: 'wildfire_watch',
       tags: `zone:${zone_name},lat:${latitude},lon:${longitude}`,
-      folder: 'wildfire_watch'
+      timestamp: timestamp.toString()
     };
 
-    // Generate signature
-    const paramsString = Object.entries(params)
+    const paramsString = Object.entries(signatureParams)
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([k, v]) => `${k}=${v}`)
       .join('&');
