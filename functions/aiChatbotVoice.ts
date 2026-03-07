@@ -15,16 +15,19 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Message required' }, { status: 400 });
     }
 
-    // Invoke LLM with wildfire + mental health context
-    const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are a compassionate AI assistant helping people during wildfire crises and their mental health impacts.
+    // Simple responses for common wildfire questions
+    const lowerMessage = message.toLowerCase();
+    let response = 'I understand your concern. Remember to stay informed through official channels and follow local emergency guidance.';
 
-User message: "${message}"
-
-Provide clear, empathetic, and actionable advice about wildfire safety, health risks, mental health support, and resources.
-
-Keep your response concise (2-3 sentences max). Be warm and supportive.`
-    });
+    if (lowerMessage.includes('evacuate') || lowerMessage.includes('leave')) {
+      response = 'If ordered to evacuate, leave immediately with essential items. Follow designated routes and stay updated on local alerts.';
+    } else if (lowerMessage.includes('smoke') || lowerMessage.includes('air quality')) {
+      response = 'Stay indoors with windows closed. Use N95 masks outdoors and monitor air quality indexes. Drink water and watch for smoke-related health issues.';
+    } else if (lowerMessage.includes('mental') || lowerMessage.includes('stress') || lowerMessage.includes('anxiety')) {
+      response = 'It\'s normal to feel anxious during crises. Try breathing exercises, stay connected with others, and reach out to crisis hotlines if needed.';
+    } else if (lowerMessage.includes('prepare') || lowerMessage.includes('ready')) {
+      response = 'Prepare now: create an evacuation plan, gather important documents, keep emergency supplies, and know multiple evacuation routes from your area.';
+    }
 
     return Response.json({ response });
   } catch (error) {
