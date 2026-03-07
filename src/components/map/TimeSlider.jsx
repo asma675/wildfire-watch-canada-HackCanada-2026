@@ -3,8 +3,8 @@ import { CalendarDays, Play, Pause } from "lucide-react";
 import { addDays, format } from "date-fns";
 
 export default function TimeSlider({ dayOffset, onChange, minDay = 1, maxDay = 14 }) {
-  const [playing, setPlaying] = React.useState(false);
-  const intervalRef = React.useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const intervalRef = useRef(null);
 
   const dateLabel = format(addDays(new Date(), dayOffset), "MMM d, yyyy");
 
@@ -27,7 +27,7 @@ export default function TimeSlider({ dayOffset, onChange, minDay = 1, maxDay = 1
     setPlaying(false);
   };
 
-  React.useEffect(() => () => clearInterval(intervalRef.current), []);
+  useEffect(() => () => clearInterval(intervalRef.current), []);
 
   // Progress pct for gradient
   const pct = ((dayOffset - minDay) / (maxDay - minDay)) * 100;
