@@ -57,6 +57,7 @@ import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
 import KnowledgeBase from './pages/KnowledgeBase';
+import FieldImaging from './pages/FieldImaging';
 import __Layout from './Layout.jsx';
 
 
@@ -71,6 +72,7 @@ export const PAGES = {
     "UserHealth": UserHealth,
     "Zones": Zones,
     "KnowledgeBase": KnowledgeBase,
+    "FieldImaging": FieldImaging,
 }
 
 export const pagesConfig = {
