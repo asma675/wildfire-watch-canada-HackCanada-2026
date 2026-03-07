@@ -1,7 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.20';
 
-const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
-
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -58,27 +56,9 @@ Be concise and tactical.`;
       return Response.json({ error: 'Invalid mode' }, { status: 400 });
     }
 
-    const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
-        })
-      }
-    );
+    const result = await base44.integrations.Core.InvokeLLM({ prompt });
 
-    if (!geminiRes.ok) {
-      const err = await geminiRes.text();
-      return Response.json({ error: err }, { status: 500 });
-    }
-
-    const data = await geminiRes.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-
-    return Response.json({ guidance: text, mode });
+    return Response.json({ guidance: result, mode });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
