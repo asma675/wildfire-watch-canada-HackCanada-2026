@@ -87,28 +87,28 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
           </div>
         </div>
 
-        {/* Equipment */}
-        {drone.equipped_with && (
-          <div className="bg-white/5 rounded-xl p-3">
-            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <Package className="w-3 h-3" /> Onboard Equipment
-            </p>
-            <p className="text-xs text-slate-300">{drone.equipped_with}</p>
-          </div>
-        )}
+            {/* Equipment */}
+            {drone.equipped_with && (
+              <div className="bg-white/5 rounded-xl p-3">
+                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <Package className="w-3 h-3" /> Onboard Equipment
+                </p>
+                <p className="text-xs text-slate-300">{drone.equipped_with}</p>
+              </div>
+            )}
 
-        {/* Person status */}
-        {drone.person_found && (
-          <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-3">
-            <p className="text-xs font-semibold text-red-400 flex items-center gap-1.5">
-              <Heart className="w-3.5 h-3.5 animate-pulse" /> Person Located
-            </p>
-            <p className="text-xs text-slate-300 mt-1">Status: <span className="font-semibold text-white capitalize">{drone.person_status}</span></p>
-          </div>
-        )}
+            {/* Person status */}
+            {drone.person_found && (
+              <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-3">
+                <p className="text-xs font-semibold text-red-400 flex items-center gap-1.5">
+                  <Heart className="w-3.5 h-3.5 animate-pulse" /> Person Located
+                </p>
+                <p className="text-xs text-slate-300 mt-1">Status: <span className="font-semibold text-white capitalize">{drone.person_status}</span></p>
+              </div>
+            )}
 
-        {/* Action Buttons */}
-        <div className="space-y-2">
+            {/* Action Buttons */}
+            <div className="space-y-2">
           <Button
             onClick={dispatchRescue}
             className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold gap-2"
