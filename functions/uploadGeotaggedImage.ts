@@ -22,7 +22,6 @@ Deno.serve(async (req) => {
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append('file', `data:${imageType};base64,${base64Image}`);
     cloudinaryFormData.append('api_key', CLOUDINARY_API_KEY);
-    cloudinaryFormData.append('upload_preset', 'wildfire_watch');
     cloudinaryFormData.append('tags', `zone:${zone_name},lat:${latitude},lon:${longitude}`);
     cloudinaryFormData.append('folder', 'wildfire_watch');
 
