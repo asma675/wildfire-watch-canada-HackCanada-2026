@@ -80,9 +80,29 @@ export default function AIChatPage() {
     try {
       const voiceId = getVoiceIdForLanguage(language);
       const response = await base44.functions.invoke("textToSpeech", { text, voiceId });
+      
+      if (!response.data.audioBase64) {
+        throw new Error("No audio data received");
+      }
+      
       const audio = new Audio(`data:audio/mpeg;base64,${response.data.audioBase64}`);
-      audio.onended = () => setIsSpeaking(false);
-      await audio.play();
+      
+      return new Promise((resolve) => {
+        audio.onended = () => {
+          setIsSpeaking(false);
+          resolve();
+        };
+        audio.onerror = () => {
+          console.error("Audio playback error");
+          setIsSpeaking(false);
+          resolve();
+        };
+        audio.play().catch((err) => {
+          console.error("Play error:", err);
+          setIsSpeaking(false);
+          resolve();
+        });
+      });
     } catch (error) {
       console.error("TTS error:", error);
       setIsSpeaking(false);
