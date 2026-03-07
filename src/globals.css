@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -73,22 +74,18 @@ body {
   animation: threat-pulse 1.5s ease-in-out infinite;
 }
 
-/* Realistic fire icon animations */
-@keyframes fire-flicker {
-  0%, 100% { transform: scaleY(1) scaleX(1) rotate(-1deg); opacity: 1; }
-  25% { transform: scaleY(1.06) scaleX(0.97) rotate(1deg); opacity: 0.95; }
-  50% { transform: scaleY(0.97) scaleX(1.03) rotate(-0.5deg); opacity: 1; }
-  75% { transform: scaleY(1.04) scaleX(0.98) rotate(1.5deg); opacity: 0.97; }
+/* Fire hotspot glow pulse animations */
+@keyframes fire-glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 8px #ff6600) drop-shadow(0 0 16px #ff4500); opacity: 1; }
+  50%       { filter: drop-shadow(0 0 14px #ffb300) drop-shadow(0 0 28px #ff6600); opacity: 0.92; }
 }
-@keyframes fire-flicker-slow {
-  0%, 100% { transform: scaleY(1) rotate(-0.5deg); opacity: 0.9; }
-  50% { transform: scaleY(1.04) rotate(0.5deg); opacity: 1; }
+@keyframes fire-glow-pulse-slow {
+  0%, 100% { filter: drop-shadow(0 0 5px #ff9900) drop-shadow(0 0 10px #ff7700); opacity: 0.95; }
+  50%       { filter: drop-shadow(0 0 9px #ffcc00) drop-shadow(0 0 18px #ff9900); opacity: 1; }
 }
-.fire-pulse svg, .fire-pulse {
-  animation: fire-flicker 0.8s ease-in-out infinite;
-  transform-origin: bottom center;
+.fire-pulse > div {
+  animation: fire-glow-pulse 1.2s ease-in-out infinite;
 }
-.fire-pulse-slow svg, .fire-pulse-slow {
-  animation: fire-flicker-slow 1.4s ease-in-out infinite;
-  transform-origin: bottom center;
+.fire-pulse-slow > div {
+  animation: fire-glow-pulse-slow 2s ease-in-out infinite;
 }
