@@ -42,7 +42,14 @@ Deno.serve(async (req) => {
     }
 
     const audioBuffer = await response.arrayBuffer();
-    const base64Audio = btoa(String.fromCharCode(...new Uint8Array(audioBuffer)));
+    
+    // Convert to base64 using proper encoding
+    const audioBytes = new Uint8Array(audioBuffer);
+    let binaryString = '';
+    for (let i = 0; i < audioBytes.length; i++) {
+      binaryString += String.fromCharCode(audioBytes[i]);
+    }
+    const base64Audio = btoa(binaryString);
 
     return Response.json({ audioBase64: base64Audio });
   } catch (error) {
