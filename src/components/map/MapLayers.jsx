@@ -240,17 +240,3 @@ export function LiveFireLayer({ fires }) {
     );
   });
 }
-
-// Wildfire smoke forecast overlay (WMS from NRCan/BlueSky)
-export function SmokeForecastLayer({ visible }) {
-  if (!visible) return null;
-  // Animated smoke tiles from Environment & Climate Change Canada
-  return (
-    <Circle
-      key="smoke-dummy"
-      center={[60, -96]}
-      radius={1}
-      pathOptions={{ opacity: 0 }}
-    />
-  );
-}
