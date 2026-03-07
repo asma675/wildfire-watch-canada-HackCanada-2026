@@ -236,6 +236,7 @@ export function LiveFireLayer({ fires }) {
           {fire.hectares > 0 && <span style={{ color: "#94a3b8", fontSize: 10 }}> · {fire.hectares.toLocaleString()} ha</span>}
         </Tooltip>
       </Marker>
+      </React.Fragment>
     );
   });
 }
