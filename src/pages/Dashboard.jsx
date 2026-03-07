@@ -7,6 +7,8 @@ import StatCard from "@/components/dashboard/StatCard";
 import ZoneCard from "@/components/dashboard/ZoneCard";
 import AlertItem from "@/components/dashboard/AlertItem";
 import ThreatBadge from "@/components/dashboard/ThreatBadge";
+import DronesWidget from "@/components/dashboard/DronesWidget";
+import DroneHistoryChart from "@/components/dashboard/DroneHistoryChart";
 import {
   AlertTriangle, Shield, Bell, Wind, Map, ArrowRight,
   Activity, Zap, RefreshCw, Loader2, Flame, Radio
