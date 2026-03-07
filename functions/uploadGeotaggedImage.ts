@@ -48,10 +48,15 @@ Deno.serve(async (req) => {
     const cloudinaryRes = await fetch(
       `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
       {
-        method: 'POST',
-        body: cloudinaryFormData
+        method: "POST",
+        body: cloudinaryFormData,
       }
     );
+
+    if (!cloudinaryRes.ok) {
+      const text = await cloudinaryRes.text();
+      console.error("Cloudinary raw response:", text);
+    }
 
     const cloudinaryData = await cloudinaryRes.json();
     if (!cloudinaryData.secure_url) {
