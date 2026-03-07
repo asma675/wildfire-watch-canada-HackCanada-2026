@@ -25,6 +25,7 @@ const navItems = [
   { name: "Alerts", icon: Bell, page: "Alerts" },
   { name: "Fire Safety", icon: Flame, page: "FireSafety" },
   { name: "Fire Departments", icon: Building2, page: "FireDepartments" },
+  { name: "Drones", icon: Cpu, page: "Drones" },
   { name: "Health Impact", icon: Heart, page: "HealthImpact" },
   { name: "User Health", icon: Activity, page: "UserHealth" },
 ];
