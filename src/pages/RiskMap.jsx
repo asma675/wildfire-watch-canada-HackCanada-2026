@@ -77,6 +77,7 @@ export default function RiskMap() {
   const [layers, setLayers] = useState({
     zones: true,
     liveFires: true,
+    satelliteHotspots: true,
     firePredictions: false,
     ndvi: false,
     airQuality: false,
