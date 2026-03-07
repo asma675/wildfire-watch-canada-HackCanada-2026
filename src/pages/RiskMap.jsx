@@ -227,6 +227,11 @@ export default function RiskMap() {
               <Loader2 className="w-3 h-3 animate-spin flex-shrink-0" /> Loading live fires…
             </div>
           )}
+          {loadingHotspots && (
+            <div className="bg-[#1a1a2e]/95 backdrop-blur-xl rounded-xl border border-orange-500/30 px-3 py-2 flex items-center gap-2 text-xs text-orange-400">
+              <Loader2 className="w-3 h-3 animate-spin flex-shrink-0" /> Loading satellite hotspots…
+            </div>
+          )}
           {loadingPredictions && (
             <div className="bg-[#1a1a2e]/95 backdrop-blur-xl rounded-xl border border-pink-500/30 px-3 py-2 flex items-center gap-2 text-xs text-pink-400">
               <BrainCircuit className="w-3 h-3 animate-pulse flex-shrink-0" /> AI analyzing fire risk…
