@@ -4,54 +4,42 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
-    if (!user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const zones = await base44.entities.MonitoredZone.filter({ status: 'active' });
+    const zones = await base44.asServiceRole.entities.MonitoredZone.list();
+    const activeZones = zones.filter(z => z.status !== 'inactive');
     const results = [];
 
-    for (const zone of zones) {
+    for (const zone of activeZones) {
       try {
         const analysis = await base44.asServiceRole.integrations.Core.InvokeLLM({
-          prompt: `You are a wildfire risk analyst for Canada. Analyze this zone for current wildfire risk:
-Zone: ${zone.name}, Province: ${zone.province}
-Coordinates: ${zone.latitude}°N, ${zone.longitude}°W
-Current data if available: Temp ${zone.weather_temp_c || 'unknown'}°C, Humidity ${zone.weather_humidity || 'unknown'}%, Wind ${zone.weather_wind_kmh || 'unknown'} km/h
-
-Use real current weather and fire conditions for this Canadian location. Consider:
-- Current temperature, humidity, wind
-- Vegetation dryness (NDVI)
-- Historical fire activity in this region
-- Current fire danger ratings
-- Terrain and fuel load
-
-Be accurate and provide real data.`,
+          prompt: `Analyze wildfire risk for ${zone.name}, ${zone.province}, Canada at coordinates ${zone.latitude}°N, ${zone.longitude}°W. 
+Consider current weather patterns, vegetation dryness (NDVI), historical fire data, and topography for this Canadian region. 
+Return a risk assessment based on real current conditions.`,
           add_context_from_internet: true,
           response_json_schema: {
             type: "object",
             properties: {
-              risk_score: { type: "number", description: "0-100 risk score" },
+              risk_score: { type: "number" },
               threat_level: { type: "string", enum: ["LOW", "MODERATE", "HIGH", "EXTREME"] },
               weather_temp_c: { type: "number" },
               weather_humidity: { type: "number" },
               weather_wind_kmh: { type: "number" },
-              ndvi_score: { type: "number", description: "0-1" },
-              analysis_summary: { type: "string", description: "2-3 sentence summary" },
-              recommendations: { type: "string", description: "Key recommendations" },
-              historical_fire_context: { type: "string", description: "Brief historical context" },
-            },
-          },
+              ndvi_score: { type: "number" },
+              analysis_summary: { type: "string" },
+              recommendations: { type: "string" },
+              historical_fire_context: { type: "string" },
+            }
+          }
         });
 
         await base44.asServiceRole.entities.MonitoredZone.update(zone.id, {
           ...analysis,
           last_analysis: new Date().toISOString(),
         });
-
-        results.push({ zone: zone.name, status: 'analyzed', risk_score: analysis.risk_score });
-      } catch (err) {
-        results.push({ zone: zone.name, status: 'error', error: err.message });
+        results.push({ zone: zone.name, success: true, threat_level: analysis.threat_level });
+      } catch (e) {
+        results.push({ zone: zone.name, success: false, error: e.message });
       }
     }
 
