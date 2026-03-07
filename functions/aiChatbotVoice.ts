@@ -83,7 +83,7 @@ Deno.serve(async (req) => {
       }
     };
 
-    // Always use Gemini for dynamic, context-aware responses
+    // Always try Gemini first for dynamic, context-aware responses
     let aiResponse;
     try {
       const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + Deno.env.get('GEMINI_API_KEY'), {
@@ -94,11 +94,11 @@ Deno.serve(async (req) => {
         body: JSON.stringify({
           contents: [{
             parts: [{
-              text: `You are a helpful wildfire safety assistant for Canada. Provide practical, specific advice relevant to the user's situation.
+              text: `You are a helpful wildfire safety assistant for Canada. Provide practical, specific advice.
 
-User message: "${message}"
+User: "${message}"
 
-Answer in 2-3 sentences max, in ${detectedLanguage} only. Be direct and actionable.`
+In 1-2 sentences, respond in ${detectedLanguage}.`
             }]
           }]
         })
@@ -106,34 +106,60 @@ Answer in 2-3 sentences max, in ${detectedLanguage} only. Be direct and actionab
 
       if (response.ok) {
         const data = await response.json();
-        aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (aiResponse && aiResponse.trim()) {
-          return Response.json({ response: aiResponse, language: detectedLanguage });
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text && text.trim()) {
+          return Response.json({ response: text, language: detectedLanguage });
         }
       }
     } catch (e) {
-      // Continue to fallback
+      // Fall through to fallback
     }
 
-    // Fallback: Use broader keyword matching or default helpful response
-    if (!aiResponse) {
-      if (lowerMessage.match(/fire|burn|flame|hot|smoke|escape|evacuate|emergency|danger|help|urgent/i)) {
-        if (detectedLanguage === 'English') {
-          aiResponse = 'If there is an active fire threat: Call emergency services immediately (911 in Canada). Evacuate the area if ordered by authorities. Do not attempt to fight the fire yourself. Move to a safe location away from smoke and flames.';
-        } else if (detectedLanguage === 'French') {
-          aiResponse = 'S\'il y a une menace d\'incendie actif: Appelez immédiatement les services d\'urgence (911 au Canada). Évacuez si ordonné par les autorités. Ne tentez pas d\'éteindre le feu vous-même. Allez dans un endroit sûr loin de la fumée et des flammes.';
-        } else if (detectedLanguage === 'Spanish') {
-          aiResponse = 'Si hay una amenaza de incendio activo: Llame a emergencias inmediatamente (911 en Canadá). Evacúe si lo ordenan las autoridades. No intente apagar el fuego usted mismo. Vaya a un lugar seguro lejos del humo y las llamas.';
-        } else if (detectedLanguage === 'Russian') {
-          aiResponse = 'При активной угрозе пожара: немедленно позвоните в экстренные службы (911 в Канаде). Эвакуируйтесь, если приказано властями. Не пытайтесь тушить пожар самостоятельно. Перейдите в безопасное место вдали от дыма и пламени.';
-        } else if (detectedLanguage === 'Ukrainian') {
-          aiResponse = 'При активній загрозі пожежі: негайно звоніть в служби невідкладної допомоги (911 у Канаді). Евакуюйтесь, якщо наказано органами влади. Не намагайтесь гасити пожежу самостійно. Йдіть у безпечне місце далеко від диму та полум\'я.';
-        } else {
-          aiResponse = 'Emergency response: Call 911 immediately. Evacuate to safety. Follow official emergency guidance.';
-        }
-      } else {
-        aiResponse = 'I can help with wildfire safety questions. Please ask about evacuation, fire prevention, smoke exposure, or emergency preparedness.';
-      }
+    // Fallback: Match specific keywords for accurate responses
+    if (lowerMessage.match(/\bfire\b|\bsee\s+fire\b|\bfire\s+in\b/i)) {
+      aiResponse = detectedLanguage === 'English'
+        ? 'Call 911 immediately. Evacuate if authorities order evacuation. Do not attempt to extinguish. Move to a safe location away from the fire.'
+        : detectedLanguage === 'French'
+        ? 'Appelez 911 immédiatement. Évacuez si les autorités l\'ordonnent. Ne tentez pas d\'éteindre. Allez dans un endroit sûr loin du feu.'
+        : detectedLanguage === 'Spanish'
+        ? 'Llame a 911 inmediatamente. Evacúe si las autoridades lo ordenan. No intente extinguir. Vaya a un lugar seguro lejos del fuego.'
+        : detectedLanguage === 'Russian'
+        ? 'Звоните 911 немедленно. Эвакуируйтесь, если приказано. Не пытайтесь тушить. Идите в безопасное место.'
+        : detectedLanguage === 'Ukrainian'
+        ? 'Звоніть 911 негайно. Евакуюйтесь, якщо наказано. Не намагайтесь гасити. Йдіть у безпечне місце.'
+        : 'Call 911 immediately. Evacuate to safety.';
+    } else if (lowerMessage.match(/smoke|air quality|breathing|aqi/i)) {
+      aiResponse = detectedLanguage === 'English'
+        ? 'Stay indoors with windows/doors closed. Use HEPA air purifiers. Wear N95 masks outdoors. Limit strenuous activity. Check Air Quality Health Index for your region.'
+        : detectedLanguage === 'French'
+        ? 'Restez à l\'intérieur, portes et fenêtres fermées. Utilisez filtres HEPA. Portez masques N95 dehors. Limitez l\'activité intense. Vérifiez l\'indice de qualité de l\'air.'
+        : detectedLanguage === 'Spanish'
+        ? 'Permanezca adentro con puertas y ventanas cerradas. Use filtros HEPA. Lleve mascarillas N95 afuera. Limite la actividad intensa. Verifique la calidad del aire.'
+        : 'Stay indoors, close windows. Use air purifiers. Wear N95 masks outside. Check air quality index.';
+    } else if (lowerMessage.match(/prepare|ready|kit|evacuation plan|supplies|documents/i)) {
+      aiResponse = detectedLanguage === 'English'
+        ? 'Create an evacuation plan with alternate routes. Prepare a kit with documents, medications, water, and essentials. Know your local evacuation zones. Register for emergency alerts.'
+        : detectedLanguage === 'French'
+        ? 'Créez un plan d\'évacuation avec itinéraires alternatifs. Préparez un kit avec documents et médicaments. Connaissez vos zones d\'évacuation. Inscrivez-vous aux alertes d\'urgence.'
+        : detectedLanguage === 'Spanish'
+        ? 'Cree un plan de evacuación con rutas alternas. Prepare un kit con documentos y medicinas. Conozca sus zonas de evacuación. Regístrese para alertas de emergencia.'
+        : 'Create evacuation plan. Prepare emergency kit. Know local evacuation zones. Register for alerts.';
+    } else if (lowerMessage.match(/prevent|reduce risk|defensible space|clear vegetation/i)) {
+      aiResponse = detectedLanguage === 'English'
+        ? 'Clear dead vegetation within 10m of your property. Use fire-resistant plants. Ensure your roof and gutters are fire-rated. Create firebreaks. Remove overhanging branches.'
+        : detectedLanguage === 'French'
+        ? 'Dégagez la végétation morte à 10m de votre propriété. Utilisez plantes résistantes au feu. Assurez-vous que le toit est ignifuge. Créez des coupe-feu. Élaguez les branches.'
+        : detectedLanguage === 'Spanish'
+        ? 'Retire la vegetación muerta a 10m de su propiedad. Use plantas resistentes al fuego. Asegure que el techo sea ignífugo. Cree cortafuegos. Pode ramas colgantes.'
+        : 'Clear vegetation within 10m. Use fire-resistant plants. Maintain fire-rated roof. Create firebreaks.';
+    } else {
+      aiResponse = detectedLanguage === 'English'
+        ? 'I can help with wildfire safety. Ask about evacuation, preparation, smoke exposure, or fire prevention.'
+        : detectedLanguage === 'French'
+        ? 'Je peux aider avec la sécurité incendie. Posez des questions sur l\'évacuation, la préparation, l\'exposition à la fumée ou la prévention.'
+        : detectedLanguage === 'Spanish'
+        ? 'Puedo ayudar con seguridad de incendios. Pregunte sobre evacuación, preparación, exposición al humo o prevención.'
+        : 'I can help with wildfire safety questions. Ask about evacuation, preparation, smoke, or prevention.';
     }
 
     return Response.json({ response: aiResponse, language: detectedLanguage });
