@@ -12,6 +12,7 @@ import {
   LiveFireLayer,
 } from "@/components/map/MapLayers";
 import FirePredictionLayer from "@/components/map/FirePredictionLayer";
+import SatelliteHotspotLayer from "@/components/map/SatelliteHotspotLayer";
 import LayerToggles from "@/components/map/LayerToggles";
 import ZoneInfoPanel from "@/components/map/ZoneInfoPanel";
 import FirePredictionPanel from "@/components/map/FirePredictionPanel";
