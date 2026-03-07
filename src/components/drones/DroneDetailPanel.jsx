@@ -11,6 +11,9 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
   const [loading, setLoading] = useState(false);
   const [activeMode, setActiveMode] = useState(null);
   const [showEvacuation, setShowEvacuation] = useState(false);
+  const [showVoiceComm, setShowVoiceComm] = useState(false);
+  const [showHealthMonitoring, setShowHealthMonitoring] = useState(false);
+  const [healthAnalysis, setHealthAnalysis] = useState("");
 
   const getGuidance = async (mode) => {
     setLoading(true);
