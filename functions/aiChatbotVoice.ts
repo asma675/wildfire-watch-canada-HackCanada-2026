@@ -83,17 +83,48 @@ Deno.serve(async (req) => {
       }
     };
 
-    // Categorize message to pick best template
+    // Always use Gemini for dynamic, context-aware responses
+    try {
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + Deno.env.get('GEMINI_API_KEY'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: `You are a helpful wildfire safety assistant for Canada. Provide practical, specific advice relevant to the user's situation.
+
+User message: "${message}"
+
+Answer in 2-3 sentences max, in ${detectedLanguage} only. Be direct and actionable.`
+            }]
+          }]
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (aiResponse) {
+          return Response.json({ response: aiResponse, language: detectedLanguage });
+        }
+      }
+    } catch (e) {
+      // Fallback to templates if Gemini fails
+    }
+
+    // Fallback: Categorize message to pick best template
     let responseKey = 'default';
-    if (lowerMessage.match(/prevent|stop|reduce|risk|defense|defensible|clearance|dead wood|vegetation/i)) {
+    if (lowerMessage.match(/prevent|stop|reduce|risk|defense|defensible|clearance|dead wood|vegetation|preparation/i)) {
       responseKey = 'prevent';
-    } else if (lowerMessage.match(/evacuate|escape|flee|leave|go|where|route|get out/i)) {
+    } else if (lowerMessage.match(/evacuate|escape|flee|leave|go|where|route|get out|emergency/i)) {
       responseKey = 'evacuation';
-    } else if (lowerMessage.match(/smoke|air|breathe|health|exposure|mask|quality|aqi/i)) {
+    } else if (lowerMessage.match(/smoke|air|breathe|health|exposure|mask|quality|aqi|breathing/i)) {
       responseKey = 'smoke';
-    } else if (lowerMessage.match(/mental|stress|anxiety|fear|worried|anxious|psychology|depression/i)) {
+    } else if (lowerMessage.match(/mental|stress|anxiety|fear|worried|anxious|psychology|depression|scared/i)) {
       responseKey = 'mental';
-    } else if (lowerMessage.match(/prepare|ready|plan|kit|document|supply|gather|stock/i)) {
+    } else if (lowerMessage.match(/prepare|ready|plan|kit|document|supply|gather|stock|ready/i)) {
       responseKey = 'prepare';
     }
 
@@ -103,37 +134,6 @@ Deno.serve(async (req) => {
     // If template is empty for this language, use English as fallback
     if (!aiResponse) {
       aiResponse = responses['English']?.[responseKey] || responses['English']?.default;
-    }
-
-    // If still no response, call Gemini with delay to handle rate limiting
-    if (!aiResponse) {
-      try {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + Deno.env.get('GEMINI_API_KEY'), {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: `You are a helpful wildfire safety assistant for Canada. Answer briefly in 2 sentences max.
-
-Question: "${message}"
-
-Respond in ${detectedLanguage} only.`
-              }]
-            }]
-          })
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || responses[detectedLanguage]?.default;
-        }
-      } catch (e) {
-        aiResponse = responses[detectedLanguage]?.default || 'I understand your concern. Please follow local emergency guidance.';
-      }
     }
 
     return Response.json({ response: aiResponse, language: detectedLanguage });
