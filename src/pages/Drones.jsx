@@ -29,7 +29,7 @@ export default function Drones() {
   const [selectedDrone, setSelectedDrone] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [form, setForm] = useState(DRONE_DEFAULTS);
-  const [activeTab, setActiveTab] = useState("drones"); // drones | wearables
+  const [activeTab, setActiveTab] = useState("drones"); // drones | wearables | map | metrics
 
   const { data: drones = [], isLoading: dronesLoading } = useQuery({
     queryKey: ["drones"],
