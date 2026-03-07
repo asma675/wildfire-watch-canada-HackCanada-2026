@@ -26,11 +26,12 @@ Deno.serve(async (req) => {
     const buffer = await imageFile.arrayBuffer();
     const base64Image = btoa(String.fromCharCode(...new Uint8Array(buffer)));
 
-    // Upload to Cloudinary
+    // Upload to Cloudinary using authenticated endpoint
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append('file', `data:${imageFile.type};base64,${base64Image}`);
-    cloudinaryFormData.append('upload_preset', 'wildfire_watch');
+    cloudinaryFormData.append('api_key', CLOUDINARY_API_KEY);
     cloudinaryFormData.append('tags', `zone:${zoneName},lat:${latitude},lon:${longitude}`);
+    cloudinaryFormData.append('folder', 'wildfire_watch');
 
     const cloudinaryRes = await fetch(
       `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
