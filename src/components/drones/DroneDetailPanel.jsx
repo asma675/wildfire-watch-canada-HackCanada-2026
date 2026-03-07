@@ -87,6 +87,27 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
       <div className="flex-1 overflow-y-auto p-5 space-y-5">
         {showEvacuation ? (
           <EvacuationPanel drone={drone} zone={zone} wearable={wearable} onClose={() => setShowEvacuation(false)} />
+        ) : showVoiceComm ? (
+          <div>
+            <button onClick={() => setShowVoiceComm(false)} className="text-xs text-slate-400 hover:text-slate-200 mb-3 flex items-center gap-1">
+              ← Back
+            </button>
+            <DroneVoiceComm drone={drone} />
+          </div>
+        ) : showHealthMonitoring ? (
+          <div>
+            <button onClick={() => setShowHealthMonitoring(false)} className="text-xs text-slate-400 hover:text-slate-200 mb-3 flex items-center gap-1">
+              ← Back
+            </button>
+            <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4 space-y-2">
+              <p className="text-xs font-semibold text-blue-400 flex items-center gap-1.5">
+                <Stethoscope className="w-3.5 h-3.5" /> Health Assessment
+              </p>
+              <div className="prose prose-sm prose-invert max-w-none text-xs [&>*]:text-slate-300">
+                <ReactMarkdown>{healthAnalysis}</ReactMarkdown>
+              </div>
+            </div>
+          </div>
         ) : (
           <>
             {/* Stats */}
