@@ -161,22 +161,36 @@ export default function ImageCapture({ zoneName, province, onImageCaptured }) {
 
       {/* Last Capture Result */}
       {lastCapture && (
-        <div className="rounded-lg border border-white/10 bg-white/5 p-3 space-y-2">
-          <div className="flex items-center gap-2">
+        <div className={`rounded-xl border p-4 space-y-3 ${
+          lastCapture.analysis.wildfire_detected
+            ? 'border-red-500/40 bg-red-500/10'
+            : 'border-green-500/40 bg-green-500/10'
+        }`}>
+          {/* Status banner */}
+          <div className={`flex items-center gap-3 rounded-lg px-3 py-2 ${
+            lastCapture.analysis.wildfire_detected ? 'bg-red-500/20' : 'bg-green-500/20'
+          }`}>
             {lastCapture.analysis.wildfire_detected ? (
-              <AlertTriangle className="w-4 h-4 text-red-400" />
+              <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0" />
             ) : (
-              <CheckCircle2 className="w-4 h-4 text-green-400" />
+              <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
             )}
-            <span className="text-sm font-semibold text-white">
-              {lastCapture.analysis.wildfire_detected ? "Wildfire Detected" : "No Fire Detected"}
-            </span>
-            <span className="text-xs text-slate-400 ml-auto">
-              {lastCapture.analysis.confidence}% confidence
-            </span>
+            <div className="flex-1">
+              <p className={`text-sm font-bold ${lastCapture.analysis.wildfire_detected ? 'text-red-300' : 'text-green-300'}`}>
+                {lastCapture.analysis.wildfire_detected ? "⚠ Wildfire Detected" : "✓ No Fire Detected"}
+              </p>
+              <p className="text-xs text-slate-400">
+                {lastCapture.analysis.rag_verified ? 'AI + RAG verified · ' : ''}
+                Confidence: {lastCapture.analysis.confidence}%
+              </p>
+            </div>
           </div>
-          <p className="text-xs text-slate-300">{lastCapture.analysis.analysis}</p>
-          <img src={lastCapture.url} alt="Captured" className="w-full rounded-lg max-h-48 object-cover" />
+
+          {/* Analysis text */}
+          <p className="text-xs text-slate-300 leading-relaxed">{lastCapture.analysis.analysis}</p>
+
+          {/* Image */}
+          <img src={lastCapture.url} alt="Captured" className="w-full rounded-lg max-h-52 object-cover" />
         </div>
       )}
 
