@@ -225,42 +225,42 @@ export function LiveFireLayer({ fires }) {
             opacity: soc === "OC" ? 0.7 : 0.45,
           }}
         />
-      <Marker
-        position={[fire.lat, fire.lon]}
-        icon={icon}
-      >
-        <Popup>
-          <div style={{ minWidth: 180 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-              <span style={{ fontSize: 18 }}>🔥</span>
-              <strong style={{ color: "#fff", fontSize: 13 }}>{fire.firename}</strong>
-            </div>
-            <div style={{ color: "#94a3b8", fontSize: 11, marginBottom: 3 }}>
-              {fire.province} · {fire.agency.toUpperCase()}
-            </div>
-            <div style={{ color, fontWeight: 700, fontSize: 12, marginBottom: 4 }}>
-              ● {socLabel[soc] || soc}
-            </div>
-            {fire.hectares > 0 && (
-              <div style={{ color: "#cbd5e1", fontSize: 11 }}>
-                🌲 {fire.hectares.toLocaleString()} ha burned
+        <Marker
+          position={[fire.lat, fire.lon]}
+          icon={icon}
+        >
+          <Popup>
+            <div style={{ minWidth: 180 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+                <span style={{ fontSize: 18 }}>🔥</span>
+                <strong style={{ color: "#fff", fontSize: 13 }}>{fire.firename}</strong>
               </div>
-            )}
-            {fire.startdate && (
-              <div style={{ color: "#64748b", fontSize: 10, marginTop: 4 }}>
-                Started: {fire.startdate.split(" ")[0]}
+              <div style={{ color: "#94a3b8", fontSize: 11, marginBottom: 3 }}>
+                {fire.province} · {fire.agency.toUpperCase()}
               </div>
-            )}
-            <div style={{ color: "#475569", fontSize: 9, marginTop: 6, borderTop: "1px solid #334155", paddingTop: 4 }}>
-              Source: CWFIS / NRCan · Updates every 3h
+              <div style={{ color, fontWeight: 700, fontSize: 12, marginBottom: 4 }}>
+                ● {socLabel[soc] || soc}
+              </div>
+              {fire.hectares > 0 && (
+                <div style={{ color: "#cbd5e1", fontSize: 11 }}>
+                  🌲 {fire.hectares.toLocaleString()} ha burned
+                </div>
+              )}
+              {fire.startdate && (
+                <div style={{ color: "#64748b", fontSize: 10, marginTop: 4 }}>
+                  Started: {fire.startdate.split(" ")[0]}
+                </div>
+              )}
+              <div style={{ color: "#475569", fontSize: 9, marginTop: 6, borderTop: "1px solid #334155", paddingTop: 4 }}>
+                Source: CWFIS / NRCan · Updates every 3h
+              </div>
             </div>
-          </div>
-        </Popup>
-        <Tooltip direction="top" offset={[0, -10]}>
-          <span style={{ fontSize: 11, fontWeight: 600 }}>{fire.firename} — {socLabel[soc] || soc}</span>
-          {fire.hectares > 0 && <span style={{ color: "#94a3b8", fontSize: 10 }}> · {fire.hectares.toLocaleString()} ha</span>}
-        </Tooltip>
-      </Marker>
+          </Popup>
+          <Tooltip direction="top" offset={[0, -10]}>
+            <span style={{ fontSize: 11, fontWeight: 600 }}>{fire.firename} — {socLabel[soc] || soc}</span>
+            {fire.hectares > 0 && <span style={{ color: "#94a3b8", fontSize: 10 }}> · {fire.hectares.toLocaleString()} ha</span>}
+          </Tooltip>
+        </Marker>
       </React.Fragment>
     );
   });
