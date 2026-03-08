@@ -176,9 +176,9 @@ export default function Alerts() {
               </Button>
             </div>
           </form>
-            )}
+        )}
 
-            <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid lg:grid-cols-2 gap-6">
         {/* Recipients */}
         <div className="space-y-3">
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
