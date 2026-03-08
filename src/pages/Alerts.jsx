@@ -236,8 +236,17 @@ export default function Alerts() {
               {history.map((a) => <AlertItem key={a.id} alert={a} />)}
             </div>
           )}
-        </div>
-      </div>
-    </div>
-  );
-}
+            </div>
+          )}
+          </div>
+           )}
+          </div>
+          </TabsContent>
+
+          <TabsContent value="personal" className="flex-1 overflow-auto p-0 m-0">
+          <PersonalAlerts />
+          </TabsContent>
+          </Tabs>
+          </div>
+          );
+          }
