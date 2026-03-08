@@ -31,7 +31,7 @@ const navItems = [
   { name: "Field Imaging", icon: Camera, page: "FieldImaging" },
   { name: "AI Chat", icon: Radio, page: "AIChat" },
   { name: "Fire Gallery", icon: Flame, page: "FireGallery" },
-  { name: "Knowledge Base", icon: BookOpen, page: "KnowledgeBase" },
+  { name: "AI Assistant", icon: BookOpen, page: "KnowledgeBase" },
   { name: "Health Impact", icon: Heart, page: "HealthImpact" },
   { name: "User Health", icon: Activity, page: "UserHealth" },
 ];
