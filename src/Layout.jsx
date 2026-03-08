@@ -9,17 +9,11 @@ import {
   Bell,
   Flame,
   Building2,
-  Heart,
-  Activity,
   Menu,
   X,
   Radio,
   AlertTriangle,
-  Cpu,
-  BookOpen,
-  Camera,
-  Sun,
-  Moon
+  Cpu
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import NotificationBell from "@/components/notifications/NotificationBell";
