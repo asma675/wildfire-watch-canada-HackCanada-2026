@@ -8,14 +8,14 @@ export default function Operations() {
   const [activeTab, setActiveTab] = useState("drones");
 
   return (
-    <div className="h-[calc(100vh-56px)] lg:h-screen flex flex-col dark:bg-[#0f0f1a] light:bg-gray-50">
-      <div className="px-6 py-5 dark:border-white/5 light:border-gray-200 border-b">
-        <h1 className="text-3xl font-bold dark:text-white light:text-gray-900">Emergency Response & Operations</h1>
-        <p className="text-base dark:text-slate-400 light:text-slate-600 mt-2">Drone command, rescue operations, and field imaging</p>
+    <div className="h-[calc(100vh-56px)] lg:h-screen flex flex-col bg-[#0f0f1a]">
+      <div className="px-6 py-5 border-white/5 border-b">
+        <h1 className="text-3xl font-bold text-white">Emergency Response & Operations</h1>
+        <p className="text-base text-slate-400 mt-2">Drone command, rescue operations, and field imaging</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-        <TabsList className="w-full dark:bg-white/5 light:bg-gray-100 dark:border-white/10 light:border-gray-200 border-b rounded-none justify-start px-6 py-4 gap-3 h-auto">
+        <TabsList className="w-full bg-white/5 border-white/10 border-b rounded-none justify-start px-6 py-4 gap-3 h-auto">
           <TabsTrigger value="drones" className="flex items-center gap-2 text-base">
             <Cpu className="w-5 h-5" /> Drones & Rescue
           </TabsTrigger>

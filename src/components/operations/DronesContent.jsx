@@ -199,7 +199,7 @@ export default function DronesContent() {
               <div className="mb-4 rounded-xl border border-blue-500/20 bg-blue-500/5 p-3 flex items-start gap-2.5">
                 <Wifi className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
                 <div className="text-xs text-slate-400">
-                  <span className="text-blue-300 font-semibold">Fitbit + Persage integration</span> — Connected wearables continuously stream vitals. Persage software monitors for anomalies and triggers alerts when abnormalities are detected.
+                  <span className="text-blue-300 font-semibold">Persage Camera-Based Health Monitoring</span> — Persage uses drone-mounted camera feeds with AI-powered face and body recognition to assess mental state (facial expression analysis) and physical state (posture, gait, stability) without sensors.
                 </div>
               </div>
               {wearablesLoading ? (

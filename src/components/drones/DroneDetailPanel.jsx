@@ -21,8 +21,9 @@ export default function DroneDetailPanel({ drone, zone, wearable, onClose, onUpd
     setGuidance("");
     try {
       const res = await base44.functions.invoke("droneAIGuidance", { mode, drone, wearable: wearable || null, zone: zone || null });
-      setGuidance(res.data?.guidance || "No guidance returned.");
+      setGuidance(res.data?.guidance || "AI guidance temporarily unavailable. Please try again.");
     } catch (err) {
+      console.error("Guidance error:", err);
       setGuidance("AI guidance temporarily unavailable. Please try again.");
     }
     setLoading(false);
