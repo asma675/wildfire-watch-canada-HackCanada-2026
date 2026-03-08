@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Map, Shield } from "lucide-react";
-import RiskMapContent from "@/components/monitoring/RiskMapContent";
-import ZonesContent from "@/components/monitoring/ZonesContent";
+import RiskMapContent from "@/components/monitoring/RiskMapContent.jsx";
+import ZonesContent from "@/components/monitoring/ZonesContent.jsx";
 
 export default function Monitoring() {
   const [activeTab, setActiveTab] = useState("map");

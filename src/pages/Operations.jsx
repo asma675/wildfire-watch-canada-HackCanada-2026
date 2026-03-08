@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Cpu, Camera } from "lucide-react";
-import DronesContent from "@/components/operations/DronesContent";
-import FieldImagingContent from "@/components/operations/FieldImagingContent";
+import DronesContent from "@/components/operations/DronesContent.jsx";
+import FieldImagingContent from "@/components/operations/FieldImagingContent.jsx";
 
 export default function Operations() {
   const [activeTab, setActiveTab] = useState("drones");

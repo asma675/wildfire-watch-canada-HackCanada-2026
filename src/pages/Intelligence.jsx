@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Radio, Heart } from "lucide-react";
-import AIIntelligenceContent from "@/components/intelligence/AIIntelligenceContent";
-import HealthImpactContent from "@/components/intelligence/HealthImpactContent";
+import AIIntelligenceContent from "@/components/intelligence/AIIntelligenceContent.jsx";
+import HealthImpactContent from "@/components/intelligence/HealthImpactContent.jsx";
 
 export default function Intelligence() {
   const [activeTab, setActiveTab] = useState("ai");
