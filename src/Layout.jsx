@@ -13,8 +13,7 @@ import {
   X,
   AlertTriangle,
   Cpu,
-  Heart,
-  Radio
+  Heart
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import NotificationBell from "@/components/notifications/NotificationBell";

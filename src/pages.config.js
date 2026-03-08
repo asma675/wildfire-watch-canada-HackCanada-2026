@@ -62,7 +62,6 @@ import FireDepartments from './pages/FireDepartments';
 import FireGallery from './pages/FireGallery';
 import FireSafety from './pages/FireSafety';
 import HealthImpact from './pages/HealthImpact';
-import Intelligence from './pages/Intelligence';
 import KnowledgeBase from './pages/KnowledgeBase';
 import Monitoring from './pages/Monitoring';
 import Operations from './pages/Operations';
@@ -92,7 +91,6 @@ export const PAGES = {
     "FireGallery": FireGallery,
     "FireSafety": FireSafety,
     "HealthImpact": HealthImpact,
-    "Intelligence": Intelligence,
     "KnowledgeBase": KnowledgeBase,
     "Monitoring": Monitoring,
     "Operations": Operations,
