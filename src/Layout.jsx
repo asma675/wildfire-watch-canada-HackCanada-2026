@@ -34,7 +34,6 @@ const navItems = [
   { name: "Fire Safety", icon: Flame, page: "FireSafety" },
   { name: "Fire Departments", icon: Building2, page: "FireDepartments" },
   { name: "Fire Gallery", icon: Flame, page: "FireGallery" },
-  { name: "User Health", icon: Activity, page: "UserHealth" },
 ];
 
 export default function Layout({ children, currentPageName }) {
@@ -148,22 +147,6 @@ export default function Layout({ children, currentPageName }) {
         </nav>
 
         <div className="p-4 border-white/5 border-t space-y-3">
-          <button
-            onClick={toggleTheme}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
-          >
-            {theme === 'dark' ? (
-              <>
-                <Sun className="w-4 h-4" />
-                <span className="text-sm font-medium">Light Mode</span>
-              </>
-            ) : (
-              <>
-                <Moon className="w-4 h-4" />
-                <span className="text-sm font-medium">Dark Mode</span>
-              </>
-            )}
-          </button>
           <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-green-500/10 border border-green-500/20">
             <Radio className="w-3 h-3 text-green-400 threat-pulse" />
             <span className="text-sm text-green-400 font-medium">System Online</span>
@@ -189,12 +172,6 @@ export default function Layout({ children, currentPageName }) {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-white/5"
-            >
-              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
             <NotificationBell />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
