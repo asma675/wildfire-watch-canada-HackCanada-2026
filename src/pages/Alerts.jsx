@@ -237,8 +237,9 @@ export default function Alerts() {
             </div>
           )}
         </div>
-      </div>
-      </TabsContent>
+        </div>
+        </div>
+        </TabsContent>
 
       <TabsContent value="personal" className="flex-1 overflow-auto p-0 m-0">
         <PersonalAlerts />
