@@ -24,18 +24,15 @@ import NotificationBell from "@/components/notifications/NotificationBell";
 
 const navItems = [
   { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
-  { name: "Risk Map", icon: Map, page: "RiskMap" },
-  { name: "Zones", icon: Shield, page: "Zones" },
+  { name: "Monitoring", icon: Map, page: "Monitoring" },
   { name: "Alerts", icon: Bell, page: "Alerts" },
+  { name: "Operations", icon: Cpu, page: "Operations" },
+  { name: "Intelligence", icon: Radio, page: "Intelligence" },
   { name: "Fire Safety", icon: Flame, page: "FireSafety" },
   { name: "Fire Departments", icon: Building2, page: "FireDepartments" },
-  { name: "Drones", icon: Cpu, page: "Drones" },
-  { name: "Field Imaging", icon: Camera, page: "FieldImaging" },
-  { name: "AI Chat", icon: Radio, page: "AIChat" },
   { name: "Fire Gallery", icon: Flame, page: "FireGallery" },
   { name: "Alert Settings", icon: Bell, page: "AlertSettings" },
   { name: "Fire Alerts", icon: AlertTriangle, page: "ActiveFireAlerts" },
-  { name: "Health Impact", icon: Heart, page: "HealthImpact" },
   { name: "User Health", icon: Activity, page: "UserHealth" },
 ];
 
