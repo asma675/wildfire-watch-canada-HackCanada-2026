@@ -205,7 +205,9 @@ const socLabel = {
 
 export function LiveFireLayer({ fires }) {
   if (!fires || fires.length === 0) return null;
-  return fires.map((fire, i) => {
+  return (
+    <React.Fragment>
+      {fires.map((fire, i) => {
     const soc = fire.stage_of_control || "UC";
     const color = socColors[soc] || "#f59e0b";
     const icon = createFlameIcon(soc, fire.hectares || 0);
@@ -263,5 +265,7 @@ export function LiveFireLayer({ fires }) {
         </Marker>
       </React.Fragment>
     );
-  });
+      })}
+    </React.Fragment>
+  );
 }
