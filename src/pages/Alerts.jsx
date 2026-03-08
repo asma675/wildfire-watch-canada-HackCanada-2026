@@ -234,26 +234,9 @@ export default function Alerts() {
               {history.map((a) => <AlertItem key={a.id} alert={a} />)}
             </div>
           )}
-          </div>
-
-          {/* Alert History */}
-          <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-            <Bell className="w-4 h-4 text-amber-400" /> Alert History
-          </h2>
-          {history.length === 0 ? (
-            <div className="text-center py-16 text-slate-500 rounded-2xl border border-dashed border-white/10">
-              <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No alerts sent yet</p>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {history.map((a) => <AlertItem key={a.id} alert={a} />)}
-            </div>
-          )}
-          </div>
-          </div>
-          </TabsContent>
+        </div>
+      </div>
+    </TabsContent>
 
           <TabsContent value="personal" className="flex-1 overflow-auto p-0 m-0">
           <PersonalAlerts />
