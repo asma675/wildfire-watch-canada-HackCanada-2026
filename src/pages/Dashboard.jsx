@@ -8,7 +8,7 @@ import ZoneCard from "@/components/dashboard/ZoneCard";
 import AlertItem from "@/components/dashboard/AlertItem";
 import ThreatBadge from "@/components/dashboard/ThreatBadge";
 import {
-  AlertTriangle, Shield, Bell, Wind, Map, ArrowRight,
+  AlertTriangle, Shield, Bell, Wind, Map as MapIcon, ArrowRight,
   Activity, Zap, Loader2, Flame, Radio
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
