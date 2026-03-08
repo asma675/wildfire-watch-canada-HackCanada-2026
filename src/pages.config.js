@@ -62,16 +62,16 @@ import FireDepartments from './pages/FireDepartments';
 import FireGallery from './pages/FireGallery';
 import FireSafety from './pages/FireSafety';
 import HealthImpact from './pages/HealthImpact';
+import HealthPrecautions from './pages/HealthPrecautions';
 import KnowledgeBase from './pages/KnowledgeBase';
+import MonitoredZones from './pages/MonitoredZones';
 import Monitoring from './pages/Monitoring';
 import Operations from './pages/Operations';
+import PersonalAlerts from './pages/PersonalAlerts';
+import RiskAssessment from './pages/RiskAssessment';
 import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
-import PersonalAlerts from './pages/PersonalAlerts';
-import RiskAssessment from './pages/RiskAssessment';
-import MonitoredZones from './pages/MonitoredZones';
-import HealthPrecautions from './pages/HealthPrecautions';
 import __Layout from './Layout.jsx';
 
 
@@ -91,16 +91,16 @@ export const PAGES = {
     "FireGallery": FireGallery,
     "FireSafety": FireSafety,
     "HealthImpact": HealthImpact,
+    "HealthPrecautions": HealthPrecautions,
     "KnowledgeBase": KnowledgeBase,
+    "MonitoredZones": MonitoredZones,
     "Monitoring": Monitoring,
     "Operations": Operations,
+    "PersonalAlerts": PersonalAlerts,
+    "RiskAssessment": RiskAssessment,
     "RiskMap": RiskMap,
     "UserHealth": UserHealth,
     "Zones": Zones,
-    "PersonalAlerts": PersonalAlerts,
-    "RiskAssessment": RiskAssessment,
-    "MonitoredZones": MonitoredZones,
-    "HealthPrecautions": HealthPrecautions,
 }
 
 export const pagesConfig = {

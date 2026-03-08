@@ -19,8 +19,11 @@ export default function ZonesContent() {
   const qc = useQueryClient();
 
   const { data: zones = [], isLoading } = useQuery({
-    queryKey: ["zones"],
-    queryFn: () => base44.entities.MonitoredZone.list("-risk_score", 50),
+    queryKey: ["monitoredZones"],
+    queryFn: async () => {
+      const result = await base44.entities.MonitoredZone.list("-risk_score", 50);
+      return Array.isArray(result) ? result : [];
+    },
   });
 
   const createMut = useMutation({

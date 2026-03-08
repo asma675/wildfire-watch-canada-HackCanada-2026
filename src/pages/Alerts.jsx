@@ -25,7 +25,10 @@ export default function Alerts() {
 
   const { data: configs = [] } = useQuery({
     queryKey: ["alertConfigs"],
-    queryFn: () => base44.entities.AlertConfig.list("-created_date", 50),
+    queryFn: async () => {
+      const result = await base44.entities.AlertConfig.list("-created_date", 50);
+      return Array.isArray(result) ? result : [];
+    },
   });
 
   const { data: history = [] } = useQuery({

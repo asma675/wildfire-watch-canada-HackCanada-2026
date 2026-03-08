@@ -10,8 +10,11 @@ export default function FieldImagingContent() {
   const [selectedZone, setSelectedZone] = useState(null);
 
   const { data: zones = [] } = useQuery({
-    queryKey: ['monitoredZones'],
-    queryFn: () => base44.entities.MonitoredZone.list()
+    queryKey: ['fieldImagingZones'],
+    queryFn: async () => {
+      const result = await base44.entities.MonitoredZone.list();
+      return Array.isArray(result) ? result : [];
+    }
   });
 
   return (
