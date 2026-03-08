@@ -48,53 +48,53 @@
  * The mainPage value must match a key in the PAGES object exactly.
  */
 import AIChat from './pages/AIChat';
+import ActiveFireAlerts from './pages/ActiveFireAlerts';
+import AdminAlerts from './pages/AdminAlerts';
+import AdminWildfireEvents from './pages/AdminWildfireEvents';
+import AlertDetails from './pages/AlertDetails';
+import AlertSettings from './pages/AlertSettings';
 import Alerts from './pages/Alerts';
 import Dashboard from './pages/Dashboard';
 import Drones from './pages/Drones';
+import EmergencyAlertDetails from './pages/EmergencyAlertDetails';
 import FieldImaging from './pages/FieldImaging';
 import FireDepartments from './pages/FireDepartments';
 import FireGallery from './pages/FireGallery';
 import FireSafety from './pages/FireSafety';
 import HealthImpact from './pages/HealthImpact';
+import Intelligence from './pages/Intelligence';
 import KnowledgeBase from './pages/KnowledgeBase';
+import Monitoring from './pages/Monitoring';
+import Operations from './pages/Operations';
 import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
-import AlertSettings from './pages/AlertSettings';
-import ActiveFireAlerts from './pages/ActiveFireAlerts';
-import AlertDetails from './pages/AlertDetails';
-import EmergencyAlertDetails from './pages/EmergencyAlertDetails';
-import AdminAlerts from './pages/AdminAlerts';
-import AdminWildfireEvents from './pages/AdminWildfireEvents';
-import Monitoring from './pages/Monitoring';
-import Operations from './pages/Operations';
-import Intelligence from './pages/Intelligence';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "AIChat": AIChat,
+    "ActiveFireAlerts": ActiveFireAlerts,
+    "AdminAlerts": AdminAlerts,
+    "AdminWildfireEvents": AdminWildfireEvents,
+    "AlertDetails": AlertDetails,
+    "AlertSettings": AlertSettings,
     "Alerts": Alerts,
     "Dashboard": Dashboard,
     "Drones": Drones,
+    "EmergencyAlertDetails": EmergencyAlertDetails,
     "FieldImaging": FieldImaging,
     "FireDepartments": FireDepartments,
     "FireGallery": FireGallery,
     "FireSafety": FireSafety,
     "HealthImpact": HealthImpact,
+    "Intelligence": Intelligence,
     "KnowledgeBase": KnowledgeBase,
+    "Monitoring": Monitoring,
+    "Operations": Operations,
     "RiskMap": RiskMap,
     "UserHealth": UserHealth,
     "Zones": Zones,
-    "AlertSettings": AlertSettings,
-    "ActiveFireAlerts": ActiveFireAlerts,
-    "AlertDetails": AlertDetails,
-    "EmergencyAlertDetails": EmergencyAlertDetails,
-    "AdminAlerts": AdminAlerts,
-    "AdminWildfireEvents": AdminWildfireEvents,
-    "Monitoring": Monitoring,
-    "Operations": Operations,
-    "Intelligence": Intelligence,
 }
 
 export const pagesConfig = {

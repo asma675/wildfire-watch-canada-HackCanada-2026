@@ -31,8 +31,6 @@ const navItems = [
   { name: "Fire Safety", icon: Flame, page: "FireSafety" },
   { name: "Fire Departments", icon: Building2, page: "FireDepartments" },
   { name: "Fire Gallery", icon: Flame, page: "FireGallery" },
-  { name: "Alert Settings", icon: Bell, page: "AlertSettings" },
-  { name: "Fire Alerts", icon: AlertTriangle, page: "ActiveFireAlerts" },
   { name: "User Health", icon: Activity, page: "UserHealth" },
 ];
 
