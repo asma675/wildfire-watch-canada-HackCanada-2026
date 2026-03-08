@@ -7,39 +7,39 @@ import { ChevronDown, ChevronUp, Image as ImageIcon, Loader2 } from "lucide-reac
 const DEMO_FIRE_IMAGES = [
   {
     id: "demo-1",
-    zone_name: "BC Interior Zone A",
+    zone_name: "BC Interior - Active Fire",
     timestamp: "2026-03-08T14:32:00Z",
-    cloudinary_url: "https://images.unsplash.com/photo-1619737282805-bbb006d33df9?w=500&h=400&fit=crop",
+    cloudinary_url: "https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=600&h=500&fit=crop",
     wildfire_detected: true,
-    wildfire_confidence: 92,
-    gemini_analysis: "High confidence wildfire detected. Active flame region visible in bottom-left quadrant. Smoke plume extending northeast."
+    wildfire_confidence: 94,
+    gemini_analysis: "High confidence wildfire detected. Active flame region with intense orange glow. Smoke plume extending northeast at estimated 8km altitude."
   },
   {
     id: "demo-2",
-    zone_name: "Alberta Foothills",
+    zone_name: "Alberta Foothills - Spreading Fire",
     timestamp: "2026-03-08T13:45:00Z",
-    cloudinary_url: "https://images.unsplash.com/photo-1624526607995-a7d4e3f90f01?w=500&h=400&fit=crop",
+    cloudinary_url: "https://images.unsplash.com/photo-1628840042765-356cda07f04a?w=600&h=500&fit=crop",
     wildfire_detected: true,
-    wildfire_confidence: 85,
-    gemini_analysis: "Moderate wildfire activity detected. Dense smoke with visible fire edges. Approximately 50 hectares affected area."
+    wildfire_confidence: 89,
+    gemini_analysis: "Active wildfire with rapid spread rate. Multiple fire fronts detected. Dense smoke column visible. Estimated 150+ hectares affected. Risk of wind-driven spread."
   },
   {
     id: "demo-3",
-    zone_name: "BC Interior Zone B",
+    zone_name: "Saskatchewan - Drone Capture",
     timestamp: "2026-03-08T12:15:00Z",
-    cloudinary_url: "https://images.unsplash.com/photo-1584474961014-56550610ce60?w=500&h=400&fit=crop",
+    cloudinary_url: "https://images.unsplash.com/photo-1604537529428-15bcbd7dcfa3?w=600&h=500&fit=crop",
     wildfire_detected: true,
-    wildfire_confidence: 78,
-    gemini_analysis: "Active fire detected with significant smoke generation. Wind direction trending east. Area showing signs of fire spread."
+    wildfire_confidence: 91,
+    gemini_analysis: "Drone thermal imaging confirms high-temperature fire zone. Fire intensity estimated at 65-75 MW. Ground-level vegetation combustion evident. Wind carrying embers eastward."
   },
   {
     id: "demo-4",
-    zone_name: "Saskatchewan Plains",
+    zone_name: "Manitoba - Containment Zone",
     timestamp: "2026-03-08T11:20:00Z",
-    cloudinary_url: "https://images.unsplash.com/photo-1585314317223-f11bb0e6326a?w=500&h=400&fit=crop",
-    wildfire_detected: false,
-    wildfire_confidence: 12,
-    gemini_analysis: "No active wildfire detected. Smoke haze from distant fire visible on horizon. Area clear for operations."
+    cloudinary_url: "https://images.unsplash.com/photo-1513390516056-cf42e2c86fda?w=600&h=500&fit=crop",
+    wildfire_detected: true,
+    wildfire_confidence: 88,
+    gemini_analysis: "Established firebreak visible. Fire contained to designated zone. Controlled burn showing expected behavior. Ground crews monitoring perimeter. No spread detected in last 3 hours."
   },
 ];
 
