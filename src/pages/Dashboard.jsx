@@ -49,12 +49,12 @@ export default function Dashboard() {
   const isLoading = zonesLoading || alertsLoading;
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-6">
+    <div className="p-6 sm:p-8 lg:p-10 space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">Dashboard</h1>
-          <p className="text-sm text-slate-400 mt-1">Real-time wildfire intelligence overview</p>
+          <h1 className="text-4xl sm:text-5xl font-bold dark:text-white light:text-gray-900">Dashboard</h1>
+          <p className="text-lg dark:text-slate-400 light:text-slate-600 mt-3">Real-time wildfire intelligence overview</p>
         </div>
         <div className="flex gap-2">
           <Button
@@ -75,13 +75,13 @@ export default function Dashboard() {
 
       {/* Threat Banner */}
       {extremeZones.length > 0 && (
-        <div className="rounded-2xl border border-red-500/30 bg-gradient-to-r from-red-500/10 via-red-500/5 to-transparent p-4 flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-red-500/20 flex-shrink-0">
-            <AlertTriangle className="w-6 h-6 text-red-400 threat-pulse" />
+        <div className="rounded-2xl border border-red-500/30 bg-gradient-to-r from-red-500/10 via-red-500/5 to-transparent p-6 flex items-center gap-6">
+          <div className="p-4 rounded-xl bg-red-500/20 flex-shrink-0">
+            <AlertTriangle className="w-7 h-7 text-red-400 threat-pulse" />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-semibold text-red-400">EXTREME Threat Detected</p>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-base font-semibold text-red-400">EXTREME Threat Detected</p>
+            <p className="text-sm dark:text-slate-400 light:text-slate-600 mt-2">
               {extremeZones.map((z) => z.name).join(", ")} — immediate attention required
             </p>
           </div>
@@ -94,7 +94,7 @@ export default function Dashboard() {
       )}
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <StatCard title="Peak Risk" value={maxRisk} subtitle="Highest score" icon={Flame} color="red" pulse={maxRisk >= 80} />
         <StatCard title="Monitored Zones" value={zones.length} subtitle={`${extremeZones.length + highZones.length} elevated`} icon={Shield} color="amber" />
         <StatCard title="Alerts Sent" value={alerts.length} subtitle="Last 24h" icon={Bell} color="blue" />
@@ -102,27 +102,27 @@ export default function Dashboard() {
       </div>
 
       {/* Main Grid */}
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-8">
         {/* Highest Risk Zones */}
-        <div className="lg:col-span-2 space-y-3">
+        <div className="lg:col-span-2 space-y-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-              <Activity className="w-4 h-4 text-amber-400" />
+            <h2 className="text-2xl font-semibold dark:text-white light:text-gray-900 flex items-center gap-3">
+              <Activity className="w-6 h-6 text-amber-400" />
               Highest Risk Zones
             </h2>
-            <Link to={createPageUrl("Zones")} className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1">
-              View all <ArrowRight className="w-3 h-3" />
+            <Link to={createPageUrl("Zones")} className="text-sm text-amber-400 hover:text-amber-300 flex items-center gap-1 font-medium">
+              View all <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
           {isLoading ? (
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-24 rounded-2xl bg-white/5 animate-pulse" />
+                <div key={i} className="h-28 rounded-2xl bg-white/5 animate-pulse" />
               ))}
             </div>
           ) : (
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               {[...new Map(zones.map(z => [z.id, z])).values()].slice(0, 5).map((zone) => (
                 <ZoneCard key={zone.id} zone={zone} />
               ))}
@@ -137,18 +137,18 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Alerts */}
-        <div className="space-y-3">
+        <div className="space-y-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-              <Bell className="w-4 h-4 text-amber-400" />
+            <h2 className="text-2xl font-semibold dark:text-white light:text-gray-900 flex items-center gap-3">
+              <Bell className="w-6 h-6 text-amber-400" />
               Recent Alerts
             </h2>
-            <Link to={createPageUrl("Alerts")} className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1">
-              View all <ArrowRight className="w-3 h-3" />
+            <Link to={createPageUrl("Alerts")} className="text-sm text-amber-400 hover:text-amber-300 flex items-center gap-1 font-medium">
+              View all <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             {[...new Map(alerts.map(a => [a.id, a])).values()].slice(0, 6).map((alert) => (
               <AlertItem key={alert.id} alert={alert} />
             ))}
@@ -161,27 +161,27 @@ export default function Dashboard() {
           </div>
 
           {/* System Status */}
-          <div className="rounded-2xl border border-white/5 bg-[#1a1a2e]/50 p-4 space-y-3 mt-4">
-            <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-              <Radio className="w-3 h-3 text-green-400 threat-pulse" />
-              System Status
-            </h3>
-            <div className="space-y-2">
-              {[
-                { label: "Satellite Feed", status: "Online" },
-                { label: "Weather Data", status: "Online" },
-                { label: "NDVI Analysis", status: "Online" },
-                { label: "Alert System", status: "Online" },
-              ].map((s) => (
-                <div key={s.label} className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">{s.label}</span>
-                  <span className="text-green-400 font-medium flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                    {s.status}
-                  </span>
-                </div>
-              ))}
-            </div>
+          <div className="rounded-2xl dark:border-white/5 light:border-gray-200 border dark:bg-[#1a1a2e]/50 light:bg-gray-100 p-5 space-y-4 mt-6">
+           <h3 className="text-base font-semibold dark:text-white light:text-gray-900 flex items-center gap-2">
+             <Radio className="w-4 h-4 text-green-400 threat-pulse" />
+             System Status
+           </h3>
+           <div className="space-y-3">
+             {[
+               { label: "Satellite Feed", status: "Online" },
+               { label: "Weather Data", status: "Online" },
+               { label: "NDVI Analysis", status: "Online" },
+               { label: "Alert System", status: "Online" },
+             ].map((s) => (
+               <div key={s.label} className="flex items-center justify-between text-sm">
+                 <span className="dark:text-slate-400 light:text-slate-600">{s.label}</span>
+                 <span className="text-green-400 font-medium flex items-center gap-2">
+                   <span className="w-2 h-2 rounded-full bg-green-400" />
+                   {s.status}
+                 </span>
+               </div>
+             ))}
+           </div>
           </div>
         </div>
       </div>
