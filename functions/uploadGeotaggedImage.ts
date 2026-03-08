@@ -64,7 +64,50 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Cloudinary upload failed', details: cloudinaryData }, { status: 500 });
     }
 
-    // Analyze with Gemini for wildfire detection
+    // --- Cloudinary AI Vision Tagging for fire detection ---
+    let cloudinaryFireDetected = false;
+    let cloudinaryFireConfidence = 0;
+    let cloudinaryTagsInfo = '';
+    try {
+      const assetId = cloudinaryData.asset_id || cloudinaryData.public_id;
+      const authString = btoa(`${CLOUDINARY_API_KEY}:${CLOUDINARY_API_SECRET}`);
+      const visionRes = await fetch(
+        `https://api.cloudinary.com/v2/${CLOUDINARY_CLOUD_NAME}/analysis/ai_vision_tagging`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${authString}`
+          },
+          body: JSON.stringify({
+            source: { public_id: cloudinaryData.public_id },
+            tag_definitions: [
+              { name: 'fire', description: 'Does the image contain fire, flames, or active burning?' },
+              { name: 'smoke', description: 'Does the image contain smoke or haze from a fire?' },
+              { name: 'wildfire', description: 'Does the image show a wildfire or forest fire?' },
+              { name: 'burned_vegetation', description: 'Does the image show burned or charred vegetation or trees?' }
+            ]
+          })
+        }
+      );
+
+      if (visionRes.ok) {
+        const visionData = await visionRes.json();
+        const tags = visionData.data?.tags || [];
+        cloudinaryTagsInfo = tags.map(t => `${t.tag}(${Math.round((t.confidence || 0) * 100)}%)`).join(', ');
+        const fireTag = tags.find(t => ['fire', 'wildfire', 'smoke', 'burned_vegetation'].includes(t.tag));
+        if (fireTag) {
+          cloudinaryFireDetected = true;
+          cloudinaryFireConfidence = Math.round((fireTag.confidence || 0) * 100);
+        }
+      } else {
+        console.warn('Cloudinary vision tagging failed:', await visionRes.text());
+      }
+    } catch (e) {
+      console.warn('Cloudinary AI vision error:', e.message);
+    }
+
+    // --- Gemini analysis for wildfire detection ---
     const geminiRes = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
       method: 'POST',
       headers: {
@@ -88,7 +131,7 @@ Deno.serve(async (req) => {
             },
             {
               inline_data: {
-                mime_type: imageType,
+                mime_type: imageType || 'image/jpeg',
                 data: base64Image
               }
             }
@@ -107,11 +150,22 @@ Deno.serve(async (req) => {
     if (geminiData.candidates?.[0]?.content?.parts?.[0]?.text) {
       const text = geminiData.candidates[0].content.parts[0].text;
       try {
-        wildfireAnalysis = JSON.parse(text);
+        const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        wildfireAnalysis = JSON.parse(cleaned);
       } catch {
         wildfireAnalysis.analysis = text;
       }
     }
+
+    // Combine: fire detected if EITHER Cloudinary OR Gemini flags it
+    const finalFireDetected = wildfireAnalysis.wildfire_detected || cloudinaryFireDetected;
+    const finalConfidence = Math.max(wildfireAnalysis.confidence || 0, cloudinaryFireConfidence);
+    const analysisNote = cloudinaryTagsInfo ? ` [Cloudinary tags: ${cloudinaryTagsInfo}]` : '';
+    wildfireAnalysis = {
+      wildfire_detected: finalFireDetected,
+      confidence: finalConfidence,
+      analysis: (wildfireAnalysis.analysis || '') + analysisNote
+    };
 
     // Store image record in database
     const imageRecord = await base44.entities.CapturedImage.create({
