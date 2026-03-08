@@ -3,7 +3,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Map, Shield } from "lucide-react";
 import RiskMapContent from "@/components/monitoring/RiskMapContent.jsx";
 import ZonesContent from "@/components/monitoring/ZonesContent.jsx";
-import FireImageGallery from "@/components/monitoring/FireImageGallery.jsx";
 
 export default function Monitoring() {
   const [activeTab, setActiveTab] = useState("map");
@@ -25,11 +24,8 @@ export default function Monitoring() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="map" className="flex-1 overflow-hidden p-0 m-0 flex flex-col lg:flex-row">
+        <TabsContent value="map" className="flex-1 overflow-hidden p-0 m-0">
           <RiskMapContent />
-          <div className="w-full lg:w-[340px] border-t lg:border-t-0 lg:border-l border-white/5 bg-[#1a1a2e] overflow-hidden flex-shrink-0">
-            <FireImageGallery />
-          </div>
         </TabsContent>
 
         <TabsContent value="zones" className="flex-1 overflow-auto">
