@@ -103,6 +103,19 @@ Deno.serve(async (req) => {
     // Send via Gmail connector
     const { accessToken } = await base44.asServiceRole.connectors.getConnection("gmail");
 
+    const emailMessage = `From: Wildfire Watch <noreply@wildfirewatch.ca>
+To: ${recipientEmail}
+Subject: Active Wildfire Alert - British Columbia (${bcFires.length} fires)
+Content-Type: text/html; charset=utf-8
+
+${emailBody}`;
+
+    // Encode to base64url for Gmail API
+    const encodedMessage = btoa(unescape(encodeURIComponent(emailMessage)))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+
     const gmailResponse = await fetch('https://www.googleapis.com/gmail/v1/users/me/messages/send', {
       method: 'POST',
       headers: {
@@ -110,12 +123,7 @@ Deno.serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        raw: btoa(`From: Wildfire Watch <noreply@wildfirewatch.ca>
-To: ${recipientEmail}
-Subject: 🔥 Active Wildfire Alert - British Columbia (${bcFires.length} fire${bcFires.length !== 1 ? 's' : ''})
-Content-Type: text/html; charset=utf-8
-
-${emailBody}`)
+        raw: encodedMessage
       })
     });
 
