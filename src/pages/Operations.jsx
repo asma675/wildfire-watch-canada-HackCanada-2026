@@ -1,37 +1,36 @@
-import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Cpu, Camera } from "lucide-react";
-import DronesContent from "@/components/operations/DronesContent.jsx";
-import FieldImagingContent from "@/components/operations/FieldImagingContent.jsx";
+// Fetch MonitoredZone entities and remove duplicates
+async function fetchMonitoredZoneEntities() {
+  try {
+    const response = await fetch(`/api/apps/69abd0aca9b6f6b19517dd6d/entities/MonitoredZone`, {
+      headers: {
+        api_key: '83c5cdff8ef34c99bed982b534594ee9',
+        'Content-Type': 'application/json',
+      },
+    });
 
-export default function Operations() {
-  const [activeTab, setActiveTab] = useState("drones");
+    if (!response.ok) {
+      throw new Error(`Failed to fetch zones: ${response.status}`);
+    }
 
-  return (
-    <div className="h-[calc(100vh-56px)] lg:h-screen flex flex-col bg-[#0f0f1a]">
-      <div className="px-5 py-4 border-b border-white/5">
-        <h1 className="text-2xl font-bold text-white">Emergency Response & Operations</h1>
-        <p className="text-sm text-slate-400 mt-1">Drone command, rescue operations, and field imaging</p>
-      </div>
+    const data = await response.json();
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-        <TabsList className="w-full bg-white/5 border-b border-white/10 rounded-none justify-start px-5 py-3 gap-2 h-auto">
-          <TabsTrigger value="drones" className="flex items-center gap-2">
-            <Cpu className="w-4 h-4" /> Drones & Rescue
-          </TabsTrigger>
-          <TabsTrigger value="imaging" className="flex items-center gap-2">
-            <Camera className="w-4 h-4" /> Field Imaging
-          </TabsTrigger>
-        </TabsList>
+    // Adjust this depending on your API response shape
+    const zones = Array.isArray(data) ? data : data.results || [];
 
-        <TabsContent value="drones" className="flex-1 overflow-hidden p-0 m-0">
-          <DronesContent />
-        </TabsContent>
+    // Remove duplicates using name + province
+    const uniqueZones = Array.from(
+      new Map(
+        zones.map((zone) => [
+          `${zone.name?.trim().toLowerCase()}-${zone.province?.trim().toLowerCase()}`,
+          zone,
+        ])
+      ).values()
+    );
 
-        <TabsContent value="imaging" className="flex-1 overflow-auto">
-          <FieldImagingContent />
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
+    console.log('Unique zones:', uniqueZones);
+    return uniqueZones;
+  } catch (error) {
+    console.error('Error fetching monitored zones:', error);
+    return [];
+  }
 }
