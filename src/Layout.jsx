@@ -93,10 +93,10 @@ export default function Layout({ children, currentPageName }) {
   }, [locations, events]);
 
   return (
-    <div className={`min-h-screen flex ${hasEvacuation ? "dark:bg-red-500/10 light:bg-red-50" : "dark:bg-[#0f0f1a] light:bg-gray-50"}`}>
+    <div className="min-h-screen flex bg-[#0f0f1a]">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 dark:bg-[#1a1a2e] light:bg-white dark:border-white/5 light:border-gray-200 border-r fixed h-full z-30">
-        <div className="p-5 dark:border-white/5 light:border-gray-200 border-b">
+      <aside className="hidden lg:flex flex-col w-64 bg-[#1a1a2e] border-white/5 border-r fixed h-full z-30">
+        <div className="p-5 border-white/5 border-b">
           <div className="flex items-center gap-3">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69abd0aca9b6f6b19517dd6d/84466b33c_image.png" 
@@ -104,7 +104,7 @@ export default function Layout({ children, currentPageName }) {
               className="w-12 h-12 object-contain"
             />
             <div>
-              <h1 className="text-lg font-bold dark:text-white light:text-gray-900 tracking-tight">Wildfire Watch</h1>
+              <h1 className="text-lg font-bold text-white tracking-tight">Wildfire Watch</h1>
               <p className="text-[11px] font-medium text-amber-400/80 uppercase tracking-widest">Canada</p>
             </div>
           </div>
@@ -120,7 +120,7 @@ export default function Layout({ children, currentPageName }) {
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
                   active
                     ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                    : "dark:text-slate-400 light:text-slate-600 dark:hover:text-slate-200 light:hover:text-slate-900 dark:hover:bg-white/5 light:hover:bg-gray-100"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
                 }`}
               >
                 <item.icon className={`w-5 h-5 ${active ? "text-amber-400" : ""}`} />
@@ -147,10 +147,10 @@ export default function Layout({ children, currentPageName }) {
           )}
         </nav>
 
-        <div className="p-4 dark:border-white/5 light:border-gray-200 border-t space-y-3">
+        <div className="p-4 border-white/5 border-t space-y-3">
           <button
             onClick={toggleTheme}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg dark:bg-white/5 light:bg-gray-100 dark:hover:bg-white/10 light:hover:bg-gray-200 transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
           >
             {theme === 'dark' ? (
               <>
@@ -175,7 +175,7 @@ export default function Layout({ children, currentPageName }) {
       </aside>
 
       {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 dark:bg-[#1a1a2e]/95 light:bg-white/95 backdrop-blur-xl dark:border-white/5 light:border-gray-200 border-b">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-[#1a1a2e]/95 backdrop-blur-xl border-white/5 border-b">
         <div className="flex items-center justify-between px-4 h-16">
           <div className="flex items-center gap-2.5">
             <img 
@@ -184,21 +184,21 @@ export default function Layout({ children, currentPageName }) {
               className="w-9 h-9 object-contain"
             />
             <div>
-              <h1 className="text-base font-bold dark:text-white light:text-gray-900">Wildfire Watch</h1>
+              <h1 className="text-base font-bold text-white">Wildfire Watch</h1>
               <p className="text-[9px] text-amber-400/80 uppercase tracking-widest">Canada</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg dark:hover:bg-white/5 light:hover:bg-gray-100"
+              className="p-2 rounded-lg hover:bg-white/5"
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
             <NotificationBell />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="p-2 rounded-lg dark:text-slate-400 light:text-slate-600 dark:hover:text-white light:hover:text-gray-900 dark:hover:bg-white/5 light:hover:bg-gray-100"
+              className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -210,7 +210,7 @@ export default function Layout({ children, currentPageName }) {
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-30 bg-black/60 backdrop-blur-sm" onClick={() => setMobileOpen(false)}>
           <div
-            className="absolute top-16 left-0 right-0 dark:bg-[#1a1a2e] light:bg-white dark:border-white/5 light:border-gray-200 border-b p-4 space-y-2"
+            className="absolute top-16 left-0 right-0 bg-[#1a1a2e] border-white/5 border-b p-4 space-y-2"
             onClick={(e) => e.stopPropagation()}
           >
             {navItems.map((item) => {
@@ -223,7 +223,7 @@ export default function Layout({ children, currentPageName }) {
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all ${
                     active
                       ? "bg-amber-500/10 text-amber-400"
-                      : "dark:text-slate-400 light:text-slate-600 dark:hover:text-slate-200 light:hover:text-slate-900 dark:hover:bg-white/5 light:hover:bg-gray-100"
+                      : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
                   }`}
                 >
                   <item.icon className="w-5 h-5" />
@@ -236,7 +236,7 @@ export default function Layout({ children, currentPageName }) {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 lg:ml-64 pt-16 lg:pt-0 min-h-screen flex flex-col dark:bg-[#0f0f1a] light:bg-gray-50">
+      <main className="flex-1 lg:ml-64 pt-16 lg:pt-0 min-h-screen flex flex-col bg-[#0f0f1a]">
         {/* Emergency Banner */}
         {hasEvacuation && (
           <div className="bg-red-500 text-white px-6 py-5 flex items-center justify-between gap-4 animate-pulse">
@@ -258,8 +258,8 @@ export default function Layout({ children, currentPageName }) {
         {children}
 
         {/* Footer */}
-        <footer className="dark:border-white/5 light:border-gray-200 border-t dark:py-5 light:py-5 px-6 mt-auto">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm dark:text-slate-500 light:text-slate-600">
+        <footer className="border-white/5 border-t py-5 px-6 mt-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
             <div className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-amber-500/50" />
               <span>For informational purposes only. Always follow official emergency guidance.</span>
