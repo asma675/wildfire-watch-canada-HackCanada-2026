@@ -62,8 +62,8 @@ import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
 import AlertSettings from './pages/AlertSettings';
 import ActiveFireAlerts from './pages/ActiveFireAlerts';
-import AlertDetails from './pages/AlertDetails';
-import AdminAlerts from './pages/AdminAlerts';
+import EmergencyAlertDetails from './pages/EmergencyAlertDetails';
+import AdminWildfireEvents from './pages/AdminWildfireEvents';
 import __Layout from './Layout.jsx';
 
 
@@ -83,8 +83,8 @@ export const PAGES = {
     "Zones": Zones,
     "AlertSettings": AlertSettings,
     "ActiveFireAlerts": ActiveFireAlerts,
-    "AlertDetails": AlertDetails,
-    "AdminAlerts": AdminAlerts,
+    "EmergencyAlertDetails": EmergencyAlertDetails,
+    "AdminWildfireEvents": AdminWildfireEvents,
 }
 
 export const pagesConfig = {
