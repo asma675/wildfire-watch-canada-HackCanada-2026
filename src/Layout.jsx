@@ -17,10 +17,13 @@ import {
   AlertTriangle,
   Cpu,
   BookOpen,
-  Camera
+  Camera,
+  Sun,
+  Moon
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import NotificationBell from "@/components/notifications/NotificationBell";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 const navItems = [
   { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
@@ -38,6 +41,7 @@ export default function Layout({ children, currentPageName }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = React.useState(null);
   const [hasEvacuation, setHasEvacuation] = React.useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   React.useEffect(() => {
     const loadUser = async () => {
@@ -88,10 +92,10 @@ export default function Layout({ children, currentPageName }) {
   }, [locations, events]);
 
   return (
-    <div className={`min-h-screen flex ${hasEvacuation ? "bg-red-500/10" : "bg-[#0f0f1a]"}`}>
+    <div className={`min-h-screen flex ${hasEvacuation ? "dark:bg-red-500/10 light:bg-red-50" : "dark:bg-[#0f0f1a] light:bg-gray-50"}`}>
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 bg-[#1a1a2e] border-r border-white/5 fixed h-full z-30">
-        <div className="p-5 border-b border-white/5">
+      <aside className="hidden lg:flex flex-col w-64 dark:bg-[#1a1a2e] light:bg-white dark:border-white/5 light:border-gray-200 border-r fixed h-full z-30">
+        <div className="p-5 dark:border-white/5 light:border-gray-200 border-b">
           <div className="flex items-center gap-3">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69abd0aca9b6f6b19517dd6d/84466b33c_image.png" 
@@ -99,26 +103,26 @@ export default function Layout({ children, currentPageName }) {
               className="w-12 h-12 object-contain"
             />
             <div>
-              <h1 className="text-base font-bold text-white tracking-tight">Wildfire Watch</h1>
-              <p className="text-[10px] font-medium text-amber-400/80 uppercase tracking-widest">Canada</p>
+              <h1 className="text-lg font-bold dark:text-white light:text-gray-900 tracking-tight">Wildfire Watch</h1>
+              <p className="text-[11px] font-medium text-amber-400/80 uppercase tracking-widest">Canada</p>
             </div>
           </div>
         </div>
 
-        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           {navItems.map((item) => {
             const active = currentPageName === item.page;
             return (
               <Link
                 key={item.page}
                 to={createPageUrl(item.page)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
                   active
                     ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                    : "dark:text-slate-400 light:text-slate-600 dark:hover:text-slate-200 light:hover:text-slate-900 dark:hover:bg-white/5 light:hover:bg-gray-100"
                 }`}
               >
-                <item.icon className={`w-4 h-4 ${active ? "text-amber-400" : ""}`} />
+                <item.icon className={`w-5 h-5 ${active ? "text-amber-400" : ""}`} />
                 {item.name}
               </Link>
             );
@@ -142,38 +146,58 @@ export default function Layout({ children, currentPageName }) {
           )}
         </nav>
 
-        <div className="p-4 border-t border-white/5 space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/20 flex-1">
-              <Radio className="w-3 h-3 text-green-400 threat-pulse" />
-              <span className="text-xs text-green-400 font-medium">System Online</span>
-            </div>
-            <div className="ml-2">
-              <NotificationBell />
-            </div>
+        <div className="p-4 dark:border-white/5 light:border-gray-200 border-t space-y-3">
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg dark:bg-white/5 light:bg-gray-100 dark:hover:bg-white/10 light:hover:bg-gray-200 transition-colors"
+          >
+            {theme === 'dark' ? (
+              <>
+                <Sun className="w-4 h-4" />
+                <span className="text-sm font-medium">Light Mode</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-4 h-4" />
+                <span className="text-sm font-medium">Dark Mode</span>
+              </>
+            )}
+          </button>
+          <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-green-500/10 border border-green-500/20">
+            <Radio className="w-3 h-3 text-green-400 threat-pulse" />
+            <span className="text-sm text-green-400 font-medium">System Online</span>
+          </div>
+          <div>
+            <NotificationBell />
           </div>
         </div>
       </aside>
 
       {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-[#1a1a2e]/95 backdrop-blur-xl border-b border-white/5">
-        <div className="flex items-center justify-between px-4 h-14">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 dark:bg-[#1a1a2e]/95 light:bg-white/95 backdrop-blur-xl dark:border-white/5 light:border-gray-200 border-b">
+        <div className="flex items-center justify-between px-4 h-16">
           <div className="flex items-center gap-2.5">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69abd0aca9b6f6b19517dd6d/84466b33c_image.png" 
               alt="Wildfire Watch Logo"
-              className="w-8 h-8 object-contain"
+              className="w-9 h-9 object-contain"
             />
             <div>
-              <h1 className="text-sm font-bold text-white">Wildfire Watch</h1>
-              <p className="text-[8px] text-amber-400/80 uppercase tracking-widest">Canada</p>
+              <h1 className="text-base font-bold dark:text-white light:text-gray-900">Wildfire Watch</h1>
+              <p className="text-[9px] text-amber-400/80 uppercase tracking-widest">Canada</p>
             </div>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg dark:hover:bg-white/5 light:hover:bg-gray-100"
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
             <NotificationBell />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5"
+              className="p-2 rounded-lg dark:text-slate-400 light:text-slate-600 dark:hover:text-white light:hover:text-gray-900 dark:hover:bg-white/5 light:hover:bg-gray-100"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -185,7 +209,7 @@ export default function Layout({ children, currentPageName }) {
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-30 bg-black/60 backdrop-blur-sm" onClick={() => setMobileOpen(false)}>
           <div
-            className="absolute top-14 left-0 right-0 bg-[#1a1a2e] border-b border-white/5 p-3 space-y-1"
+            className="absolute top-16 left-0 right-0 dark:bg-[#1a1a2e] light:bg-white dark:border-white/5 light:border-gray-200 border-b p-4 space-y-2"
             onClick={(e) => e.stopPropagation()}
           >
             {navItems.map((item) => {
@@ -195,13 +219,13 @@ export default function Layout({ children, currentPageName }) {
                   key={item.page}
                   to={createPageUrl(item.page)}
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all ${
                     active
                       ? "bg-amber-500/10 text-amber-400"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                      : "dark:text-slate-400 light:text-slate-600 dark:hover:text-slate-200 light:hover:text-slate-900 dark:hover:bg-white/5 light:hover:bg-gray-100"
                   }`}
                 >
-                  <item.icon className="w-4 h-4" />
+                  <item.icon className="w-5 h-5" />
                   {item.name}
                 </Link>
               );
@@ -211,15 +235,15 @@ export default function Layout({ children, currentPageName }) {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 lg:ml-64 pt-14 lg:pt-0 min-h-screen flex flex-col">
+      <main className="flex-1 lg:ml-64 pt-16 lg:pt-0 min-h-screen flex flex-col dark:bg-[#0f0f1a] light:bg-gray-50">
         {/* Emergency Banner */}
         {hasEvacuation && (
-          <div className="bg-red-500 text-white px-6 py-4 flex items-center justify-between gap-4 animate-pulse">
-            <div className="flex items-center gap-3 flex-1">
-              <AlertTriangle className="w-5 h-5 flex-shrink-0" />
+          <div className="bg-red-500 text-white px-6 py-5 flex items-center justify-between gap-4 animate-pulse">
+            <div className="flex items-center gap-4 flex-1">
+              <AlertTriangle className="w-6 h-6 flex-shrink-0" />
               <div>
-                <p className="font-bold">EVACUATION ALERT</p>
-                <p className="text-sm">There is an active evacuation-level wildfire near your location</p>
+                <p className="font-bold text-lg">EVACUATION ALERT</p>
+                <p className="text-base">There is an active evacuation-level wildfire near your location</p>
               </div>
             </div>
             <Link to={createPageUrl("ActiveFireAlerts")}>
@@ -233,10 +257,10 @@ export default function Layout({ children, currentPageName }) {
         {children}
 
         {/* Footer */}
-        <footer className="border-t border-white/5 py-4 px-6 mt-auto">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+        <footer className="dark:border-white/5 light:border-gray-200 border-t dark:py-5 light:py-5 px-6 mt-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm dark:text-slate-500 light:text-slate-600">
             <div className="flex items-center gap-2">
-              <AlertTriangle className="w-3 h-3 text-amber-500/50" />
+              <AlertTriangle className="w-4 h-4 text-amber-500/50" />
               <span>For informational purposes only. Always follow official emergency guidance.</span>
             </div>
             <span>Built by Asma Ahmed · © 2025 Wildfire Watch Canada</span>
