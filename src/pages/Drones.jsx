@@ -6,6 +6,8 @@ import WearableAlertCard from "@/components/drones/WearableAlertCard";
 import DroneDetailPanel from "@/components/drones/DroneDetailPanel";
 import DroneMapView from "@/components/drones/DroneMapView";
 import DroneMetricsRow from "@/components/drones/DroneMetricsRow";
+import DronesWidget from "@/components/dashboard/DronesWidget";
+import DroneHistoryChart from "@/components/dashboard/DroneHistoryChart";
 import {
   Plus, Zap, Radio, AlertTriangle, Heart, BrainCircuit,
   Loader2, X, Activity, Cpu, ShieldAlert, Wifi, Map, BarChart2
