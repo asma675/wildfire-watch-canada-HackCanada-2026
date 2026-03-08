@@ -75,7 +75,6 @@ Deno.serve(async (req) => {
     let cloudinaryFireConfidence = 0;
     let cloudinaryTagsInfo = '';
     try {
-      const assetId = cloudinaryData.asset_id || cloudinaryData.public_id;
       const authString = btoa(`${CLOUDINARY_API_KEY}:${CLOUDINARY_API_SECRET}`);
       const visionRes = await fetch(
         `https://api.cloudinary.com/v2/${CLOUDINARY_CLOUD_NAME}/analysis/ai_vision_tagging`,
@@ -86,7 +85,7 @@ Deno.serve(async (req) => {
             'Authorization': `Basic ${authString}`
           },
           body: JSON.stringify({
-            source: { public_id: cloudinaryData.public_id },
+            source: { asset_id: cloudinaryData.asset_id },
             tag_definitions: [
               { name: 'fire', description: 'Does the image contain fire, flames, or active burning?' },
               { name: 'smoke', description: 'Does the image contain smoke or haze from a fire?' },
