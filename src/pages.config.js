@@ -68,6 +68,7 @@ import AdminAlerts from './pages/AdminAlerts';
 import AdminWildfireEvents from './pages/AdminWildfireEvents';
 import Monitoring from './pages/Monitoring';
 import Operations from './pages/Operations';
+import Intelligence from './pages/Intelligence';
 import __Layout from './Layout.jsx';
 
 
@@ -93,6 +94,7 @@ export const PAGES = {
     "AdminWildfireEvents": AdminWildfireEvents,
     "Monitoring": Monitoring,
     "Operations": Operations,
+    "Intelligence": Intelligence,
 }
 
 export const pagesConfig = {
