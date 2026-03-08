@@ -88,7 +88,7 @@ export default function Alerts() {
                 <h2 className="text-2xl sm:text-3xl font-bold text-white">System Alert Configuration</h2>
                 <p className="text-sm text-slate-400 mt-1">Configure emergency notifications for organizations</p>
               </div>
-        <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-2 flex-wrap">
           <Button
             onClick={handleCheckNow}
             disabled={checking}
@@ -100,11 +100,11 @@ export default function Alerts() {
           </Button>
           <Button onClick={() => setShowForm(!showForm)} className="bg-amber-500 hover:bg-amber-600 text-black font-semibold gap-2">
             <Plus className="w-4 h-4" /> Add Recipient
-          </Button>
-        </div>
-      </div>
+              </Button>
+              </div>
+            </div>
 
-      {checkResult && (
+            {checkResult && (
         <div className={`rounded-2xl border p-4 flex items-start gap-3 ${checkResult.triggered > 0 ? "bg-red-500/10 border-red-500/30" : "bg-green-500/10 border-green-500/30"}`}>
           <ShieldAlert className={`w-5 h-5 flex-shrink-0 mt-0.5 ${checkResult.triggered > 0 ? "text-red-400" : "text-green-400"}`} />
           <div>
@@ -126,10 +126,9 @@ export default function Alerts() {
           <button onClick={() => setCheckResult(null)} className="ml-auto p-1 text-slate-500 hover:text-slate-300">
             <X className="w-3.5 h-3.5" />
           </button>
-        </div>
-      )}
+            )}
 
-      {showForm && (
+            {showForm && (
         <div className="rounded-2xl border border-white/10 bg-[#1a1a2e] p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-base font-semibold text-white">New Alert Recipient</h3>
@@ -177,10 +176,9 @@ export default function Alerts() {
               </Button>
             </div>
           </form>
-        </div>
-      )}
+            )}
 
-      <div className="grid lg:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-2 gap-6">
         {/* Recipients */}
         <div className="space-y-3">
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -236,10 +234,24 @@ export default function Alerts() {
               {history.map((a) => <AlertItem key={a.id} alert={a} />)}
             </div>
           )}
+          </div>
+
+          {/* Alert History */}
+          <div className="space-y-3">
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+            <Bell className="w-4 h-4 text-amber-400" /> Alert History
+          </h2>
+          {history.length === 0 ? (
+            <div className="text-center py-16 text-slate-500 rounded-2xl border border-dashed border-white/10">
+              <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
+              <p className="text-sm">No alerts sent yet</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {history.map((a) => <AlertItem key={a.id} alert={a} />)}
             </div>
           )}
           </div>
-           )}
           </div>
           </TabsContent>
 
