@@ -222,11 +222,10 @@ export default function RiskMapContent() {
         </div>
       )}
 
-      {!selectedZone && !showPredictionPanel && (
-        <div className="hidden lg:block w-[340px] border-l border-white/5 bg-[#1a1a2e] overflow-y-auto flex-shrink-0">
-          <FireImageGallery />
-        </div>
-      )}
+      {/* Fire Images at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 lg:right-0 border-t border-white/5 bg-[#1a1a2e]/95 backdrop-blur-xl max-h-[280px] overflow-hidden">
+        <FireImageGallery />
+      </div>
     </div>
   );
 }
