@@ -11,7 +11,13 @@ Deno.serve(async (req) => {
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { source = "VIIRS_SNPP_NRT", days = 1 } = await req.json().catch(() => ({}));
+    let body = {};
+    try {
+      body = await req.json();
+    } catch (e) {
+      // body remains empty object
+    }
+    const { source = "VIIRS_SNPP_NRT", days = 1 } = body;
 
     // NASA FIRMS CSV API
     const url = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${NASA_KEY}/${source}/${CANADA_BBOX}/${days}`;

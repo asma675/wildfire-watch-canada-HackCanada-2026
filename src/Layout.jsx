@@ -47,6 +47,7 @@ export default function Layout({ children, currentPageName }) {
   React.useEffect(() => {
     const loadUser = async () => {
       try {
+        const { base44 } = await import("@/api/base44Client");
         const u = await base44.auth.me();
         setUser(u);
       } catch (e) {

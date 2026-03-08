@@ -64,6 +64,7 @@ import FireSafety from './pages/FireSafety';
 import HealthImpact from './pages/HealthImpact';
 import HealthPrecautions from './pages/HealthPrecautions';
 import KnowledgeBase from './pages/KnowledgeBase';
+import Landing from './pages/Landing';
 import MonitoredZones from './pages/MonitoredZones';
 import Monitoring from './pages/Monitoring';
 import Operations from './pages/Operations';
@@ -72,7 +73,6 @@ import RiskAssessment from './pages/RiskAssessment';
 import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
-import Landing from './pages/Landing';
 import __Layout from './Layout.jsx';
 
 
@@ -94,6 +94,7 @@ export const PAGES = {
     "HealthImpact": HealthImpact,
     "HealthPrecautions": HealthPrecautions,
     "KnowledgeBase": KnowledgeBase,
+    "Landing": Landing,
     "MonitoredZones": MonitoredZones,
     "Monitoring": Monitoring,
     "Operations": Operations,
@@ -102,7 +103,6 @@ export const PAGES = {
     "RiskMap": RiskMap,
     "UserHealth": UserHealth,
     "Zones": Zones,
-    "Landing": Landing,
 }
 
 export const pagesConfig = {
