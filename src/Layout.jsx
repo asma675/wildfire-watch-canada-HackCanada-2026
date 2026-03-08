@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
+import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard,
   Map,
@@ -18,8 +19,8 @@ import {
   BookOpen,
   Camera
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import NotificationBell from "@/components/notifications/NotificationBell";
-import EvacuationBanner from "@/components/EvacuationBanner";
 
 const navItems = [
   { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
@@ -33,19 +34,66 @@ const navItems = [
   { name: "AI Chat", icon: Radio, page: "AIChat" },
   { name: "Fire Gallery", icon: Flame, page: "FireGallery" },
   { name: "Alert Settings", icon: Bell, page: "AlertSettings" },
-  { name: "Active Alerts", icon: AlertTriangle, page: "ActiveFireAlerts" },
-  { name: "Admin Events", icon: Flame, page: "AdminWildfireEvents" },
+  { name: "Fire Alerts", icon: AlertTriangle, page: "ActiveFireAlerts" },
   { name: "Health Impact", icon: Heart, page: "HealthImpact" },
   { name: "User Health", icon: Activity, page: "UserHealth" },
 ];
 
 export default function Layout({ children, currentPageName }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [user, setUser] = React.useState(null);
+  const [hasEvacuation, setHasEvacuation] = React.useState(false);
+
+  React.useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const u = await base44.auth.me();
+        setUser(u);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    loadUser();
+  }, []);
+
+  // Check for evacuation alerts near user
+  const { data: locations = [] } = useQuery({
+    queryKey: ["savedLocations", user?.email],
+    queryFn: () => user?.email ? base44.entities.SavedLocation.filter({ user_email: user.email }) : null,
+    enabled: !!user?.email
+  });
+
+  const { data: events = [] } = useQuery({
+    queryKey: ["wildfireEvents"],
+    queryFn: () => base44.entities.WildfireEvent.filter({ status: "active" }),
+    refetchInterval: 30 * 1000
+  });
+
+  React.useEffect(() => {
+    if (!locations.length || !events.length) {
+      setHasEvacuation(false);
+      return;
+    }
+
+    const haversine = (lat1, lng1, lat2, lng2) => {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLng = (lng2 - lng1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLng/2) * Math.sin(dLng/2);
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    };
+
+    const evacAlerts = events.filter(e => e.severity === "evacuation");
+    const hasNearbyEvac = evacAlerts.some(evt =>
+      locations.some(loc => haversine(loc.latitude, loc.longitude, evt.latitude, evt.longitude) <= loc.alert_radius_km)
+    );
+    setHasEvacuation(hasNearbyEvac);
+  }, [locations, events]);
 
   return (
-    <div className="min-h-screen bg-[#0f0f1a] flex flex-col">
-      <EvacuationBanner />
-      <div className="flex flex-1">
+    <div className={`min-h-screen flex ${hasEvacuation ? "bg-red-500/10" : "bg-[#0f0f1a]"}`}>
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex flex-col w-64 bg-[#1a1a2e] border-r border-white/5 fixed h-full z-30">
         <div className="p-5 border-b border-white/5">
@@ -80,6 +128,23 @@ export default function Layout({ children, currentPageName }) {
               </Link>
             );
           })}
+          
+          {user?.role === 'admin' && (
+            <>
+              <div className="my-2 border-t border-white/5" />
+              <Link
+                to={createPageUrl("AdminAlerts")}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  currentPageName === "AdminAlerts"
+                    ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                }`}
+              >
+                <AlertTriangle className={`w-4 h-4 ${currentPageName === "AdminAlerts" ? "text-red-400" : ""}`} />
+                Admin: Fire Alerts
+              </Link>
+            </>
+          )}
         </nav>
 
         <div className="p-4 border-t border-white/5 space-y-2">
@@ -151,7 +216,25 @@ export default function Layout({ children, currentPageName }) {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 lg:ml-64 pt-14 lg:pt-0 min-h-screen">
+      <main className="flex-1 lg:ml-64 pt-14 lg:pt-0 min-h-screen flex flex-col">
+        {/* Emergency Banner */}
+        {hasEvacuation && (
+          <div className="bg-red-500 text-white px-6 py-4 flex items-center justify-between gap-4 animate-pulse">
+            <div className="flex items-center gap-3 flex-1">
+              <AlertTriangle className="w-5 h-5 flex-shrink-0" />
+              <div>
+                <p className="font-bold">EVACUATION ALERT</p>
+                <p className="text-sm">There is an active evacuation-level wildfire near your location</p>
+              </div>
+            </div>
+            <Link to={createPageUrl("ActiveFireAlerts")}>
+              <Button className="bg-white text-red-600 hover:bg-white/90 font-bold">
+                View Details
+              </Button>
+            </Link>
+          </div>
+        )}
+
         {children}
 
         {/* Footer */}
@@ -165,7 +248,6 @@ export default function Layout({ children, currentPageName }) {
           </div>
         </footer>
       </main>
-      </div>
     </div>
   );
 }
