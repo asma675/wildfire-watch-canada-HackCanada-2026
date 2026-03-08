@@ -123,7 +123,7 @@ export default function Dashboard() {
             </div>
           ) : (
             <div className="grid gap-3">
-              {zones.slice(0, 5).map((zone) => (
+              {[...new Map(zones.map(z => [z.id, z])).values()].slice(0, 5).map((zone) => (
                 <ZoneCard key={zone.id} zone={zone} />
               ))}
               {zones.length === 0 && (
