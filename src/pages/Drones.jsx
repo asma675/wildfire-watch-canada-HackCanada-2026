@@ -211,8 +211,12 @@ export default function Drones() {
           )}
 
           {activeTab === "metrics" && (
-            <div className="space-y-2">
-              <p className="text-xs text-slate-500 mb-3">Click any drone to open the detail panel. Health metrics are pulled from linked wearable alerts.</p>
+            <div className="space-y-4">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <DronesWidget drones={drones} />
+                <DroneHistoryChart drones={drones} />
+              </div>
+              <p className="text-xs text-slate-500">Click any drone to open the detail panel. Health metrics are pulled from linked wearable alerts.</p>
               {dronesLoading ? (
                 <div className="flex items-center gap-2 text-slate-500 text-sm py-8 justify-center">
                   <Loader2 className="w-4 h-4 animate-spin" /> Loading…
