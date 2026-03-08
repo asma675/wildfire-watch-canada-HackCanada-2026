@@ -205,67 +205,65 @@ const socLabel = {
 
 export function LiveFireLayer({ fires }) {
   if (!fires || fires.length === 0) return null;
-  return (
-    <React.Fragment>
-      {fires.map((fire, i) => {
+  
+  const fireElements = fires.map((fire, i) => {
     const soc = fire.stage_of_control || "UC";
     const color = socColors[soc] || "#f59e0b";
     const icon = createFlameIcon(soc, fire.hectares || 0);
-    // Outer glow halo radius in metres — proportional to fire size
     const haloMetres = fire.hectares > 50000 ? 80000 : fire.hectares > 10000 ? 45000 : fire.hectares > 1000 ? 20000 : fire.hectares > 100 ? 8000 : 3000;
-    return (
-      <React.Fragment key={`live-${i}`}>
-        {/* Glowing perimeter halo */}
-        <Circle
-          center={[fire.lat, fire.lon]}
-          radius={haloMetres}
-          pathOptions={{
-            color,
-            fillColor: color,
-            fillOpacity: 0.07,
-            weight: soc === "OC" ? 2 : 1,
-            opacity: soc === "OC" ? 0.7 : 0.45,
-          }}
-        />
-        <Marker
-          position={[fire.lat, fire.lon]}
-          icon={icon}
-        >
-          <Popup>
-            <div style={{ minWidth: 180 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-                <span style={{ fontSize: 18 }}>🔥</span>
-                <strong style={{ color: "#fff", fontSize: 13 }}>{fire.firename}</strong>
-              </div>
-              <div style={{ color: "#94a3b8", fontSize: 11, marginBottom: 3 }}>
-                {fire.province} · {fire.agency.toUpperCase()}
-              </div>
-              <div style={{ color, fontWeight: 700, fontSize: 12, marginBottom: 4 }}>
-                ● {socLabel[soc] || soc}
-              </div>
-              {fire.hectares > 0 && (
-                <div style={{ color: "#cbd5e1", fontSize: 11 }}>
-                  🌲 {fire.hectares.toLocaleString()} ha burned
-                </div>
-              )}
-              {fire.startdate && (
-                <div style={{ color: "#64748b", fontSize: 10, marginTop: 4 }}>
-                  Started: {fire.startdate.split(" ")[0]}
-                </div>
-              )}
-              <div style={{ color: "#475569", fontSize: 9, marginTop: 6, borderTop: "1px solid #334155", paddingTop: 4 }}>
-                Source: CWFIS / NRCan · Updates every 3h
-              </div>
+    
+    return [
+      <Circle
+        key={`halo-${i}`}
+        center={[fire.lat, fire.lon]}
+        radius={haloMetres}
+        pathOptions={{
+          color,
+          fillColor: color,
+          fillOpacity: 0.07,
+          weight: soc === "OC" ? 2 : 1,
+          opacity: soc === "OC" ? 0.7 : 0.45,
+        }}
+      />,
+      <Marker
+        key={`fire-${i}`}
+        position={[fire.lat, fire.lon]}
+        icon={icon}
+      >
+        <Popup>
+          <div style={{ minWidth: 180 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+              <span style={{ fontSize: 18 }}>🔥</span>
+              <strong style={{ color: "#fff", fontSize: 13 }}>{fire.firename}</strong>
             </div>
-          </Popup>
-          <Tooltip direction="top" offset={[0, -10]}>
-            <span style={{ fontSize: 11, fontWeight: 600 }}>{fire.firename} — {socLabel[soc] || soc}</span>
-            {fire.hectares > 0 && <span style={{ color: "#94a3b8", fontSize: 10 }}> · {fire.hectares.toLocaleString()} ha</span>}
-          </Tooltip>
-        </Marker>
-      </React.Fragment>
-    );
-      })}
-    </React.Fragment>
-  );
+            <div style={{ color: "#94a3b8", fontSize: 11, marginBottom: 3 }}>
+              {fire.province} · {fire.agency.toUpperCase()}
+            </div>
+            <div style={{ color, fontWeight: 700, fontSize: 12, marginBottom: 4 }}>
+              ● {socLabel[soc] || soc}
+            </div>
+            {fire.hectares > 0 && (
+              <div style={{ color: "#cbd5e1", fontSize: 11 }}>
+                🌲 {fire.hectares.toLocaleString()} ha burned
+              </div>
+            )}
+            {fire.startdate && (
+              <div style={{ color: "#64748b", fontSize: 10, marginTop: 4 }}>
+                Started: {fire.startdate.split(" ")[0]}
+              </div>
+            )}
+            <div style={{ color: "#475569", fontSize: 9, marginTop: 6, borderTop: "1px solid #334155", paddingTop: 4 }}>
+              Source: CWFIS / NRCan · Updates every 3h
+            </div>
+          </div>
+        </Popup>
+        <Tooltip direction="top" offset={[0, -10]}>
+          <span style={{ fontSize: 11, fontWeight: 600 }}>{fire.firename} — {socLabel[soc] || soc}</span>
+          {fire.hectares > 0 && <span style={{ color: "#94a3b8", fontSize: 10 }}> · {fire.hectares.toLocaleString()} ha</span>}
+        </Tooltip>
+      </Marker>
+    ];
+  });
+  
+  return fireElements.flat();
 }
