@@ -17,6 +17,7 @@ import LayerToggles from "@/components/map/LayerToggles";
 import ZoneInfoPanel from "@/components/map/ZoneInfoPanel";
 import FirePredictionPanel from "@/components/map/FirePredictionPanel";
 import TimeSlider from "@/components/map/TimeSlider";
+import FireImageGallery from "@/components/monitoring/FireImageGallery.jsx";
 import { Loader2, Flame, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, BrainCircuit } from "lucide-react";
 
 const DATA_SOURCES = [
