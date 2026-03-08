@@ -173,8 +173,8 @@ Deno.serve(async (req) => {
       analysis: (wildfireAnalysis.analysis || '') + analysisNote
     };
 
-    // Store image record in database
-    const imageRecord = await base44.entities.CapturedImage.create({
+    // Store image record in database (use service role to work for all users)
+    const imageRecord = await base44.asServiceRole.entities.CapturedImage.create({
       latitude,
       longitude,
       cloudinary_url: cloudinaryData.secure_url,
