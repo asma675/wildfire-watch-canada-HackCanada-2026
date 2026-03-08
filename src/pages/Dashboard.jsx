@@ -149,7 +149,7 @@ export default function Dashboard() {
           </div>
 
           <div className="space-y-2">
-            {alerts.slice(0, 6).map((alert) => (
+            {[...new Map(alerts.map(a => [a.id, a])).values()].slice(0, 6).map((alert) => (
               <AlertItem key={alert.id} alert={alert} />
             ))}
             {alerts.length === 0 && !alertsLoading && (
