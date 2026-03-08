@@ -67,7 +67,7 @@ export default function Dashboard() {
           </Button>
           <Link to={createPageUrl("RiskMap")}>
             <Button variant="outline" className="border-white/10 text-slate-300 hover:bg-white/5 gap-2">
-              <Map className="w-4 h-4" /> View Map
+              <MapIcon className="w-4 h-4" /> View Map
             </Button>
           </Link>
         </div>
