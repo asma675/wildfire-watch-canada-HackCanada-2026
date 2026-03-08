@@ -41,7 +41,8 @@ export default function Layout({ children, currentPageName }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = React.useState(null);
   const [hasEvacuation, setHasEvacuation] = React.useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const themeContext = useTheme();
+  const { theme = 'dark', toggleTheme = () => {} } = themeContext || {};
 
   React.useEffect(() => {
     const loadUser = async () => {
