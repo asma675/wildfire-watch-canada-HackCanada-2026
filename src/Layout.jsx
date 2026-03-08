@@ -11,9 +11,9 @@ import {
   Building2,
   Menu,
   X,
-  Radio,
   AlertTriangle,
-  Cpu
+  Cpu,
+  Heart
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import NotificationBell from "@/components/notifications/NotificationBell";
@@ -21,11 +21,12 @@ import { useTheme } from "@/components/theme/ThemeProvider";
 
 const navItems = [
   { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
-  { name: "Monitoring", icon: Map, page: "Monitoring" },
+  { name: "Risk Assessment", icon: Map, page: "RiskAssessment" },
+  { name: "Monitored Zones", icon: Shield, page: "MonitoredZones" },
   { name: "Alerts", icon: Bell, page: "Alerts" },
   { name: "Operations", icon: Cpu, page: "Operations" },
-  { name: "Intelligence", icon: Radio, page: "Intelligence" },
   { name: "Fire Safety", icon: Flame, page: "FireSafety" },
+  { name: "Health Precautions", icon: Heart, page: "HealthPrecautions" },
   { name: "Fire Departments", icon: Building2, page: "FireDepartments" },
   { name: "Fire Gallery", icon: Flame, page: "FireGallery" },
 ];

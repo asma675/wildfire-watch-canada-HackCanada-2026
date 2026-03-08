@@ -70,6 +70,9 @@ import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
 import PersonalAlerts from './pages/PersonalAlerts';
+import RiskAssessment from './pages/RiskAssessment';
+import MonitoredZones from './pages/MonitoredZones';
+import HealthPrecautions from './pages/HealthPrecautions';
 import __Layout from './Layout.jsx';
 
 
@@ -97,6 +100,9 @@ export const PAGES = {
     "UserHealth": UserHealth,
     "Zones": Zones,
     "PersonalAlerts": PersonalAlerts,
+    "RiskAssessment": RiskAssessment,
+    "MonitoredZones": MonitoredZones,
+    "HealthPrecautions": HealthPrecautions,
 }
 
 export const pagesConfig = {
