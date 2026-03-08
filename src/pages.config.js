@@ -69,6 +69,7 @@ import Operations from './pages/Operations';
 import RiskMap from './pages/RiskMap';
 import UserHealth from './pages/UserHealth';
 import Zones from './pages/Zones';
+import PersonalAlerts from './pages/PersonalAlerts';
 import __Layout from './Layout.jsx';
 
 
@@ -95,6 +96,7 @@ export const PAGES = {
     "RiskMap": RiskMap,
     "UserHealth": UserHealth,
     "Zones": Zones,
+    "PersonalAlerts": PersonalAlerts,
 }
 
 export const pagesConfig = {

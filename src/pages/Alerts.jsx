@@ -6,13 +6,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AlertItem from "@/components/dashboard/AlertItem";
 import ThreatBadge from "@/components/dashboard/ThreatBadge";
+import PersonalAlerts from "./PersonalAlerts";
 import {
-  Bell, Plus, Trash2, Building2, Mail, Phone, X, Save, Loader2, ShieldAlert
+  Bell, Plus, Trash2, Building2, Mail, Phone, X, Save, Loader2, ShieldAlert, AlertTriangle
 } from "lucide-react";
 
 export default function Alerts() {
+  const [activeTab, setActiveTab] = useState("system");
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ org_name: "", contact_email: "", contact_phone: "", province: "BC", threshold_level: "HIGH", is_active: true });
   const [saving, setSaving] = useState(false);
@@ -62,12 +65,29 @@ export default function Alerts() {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">Alert System</h1>
-          <p className="text-sm text-slate-400 mt-1">Configure emergency notifications</p>
-        </div>
+    <div className="h-full flex flex-col">
+      <div className="px-4 sm:px-6 lg:px-8 py-5 border-white/5 border-b">
+        <h1 className="text-3xl font-bold text-white">Alerts</h1>
+        <p className="text-base text-slate-400 mt-2">Manage fire alerts and emergency notifications</p>
+      </div>
+
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
+        <TabsList className="w-full bg-white/5 border-white/10 border-b rounded-none justify-start px-6 py-4 gap-3 h-auto">
+          <TabsTrigger value="system" className="flex items-center gap-2">
+            <Bell className="w-4 h-4" /> System Alerts
+          </TabsTrigger>
+          <TabsTrigger value="personal" className="flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4" /> Personal Alerts
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="system" className="flex-1 overflow-auto p-0 m-0">
+          <div className="p-4 sm:p-6 lg:p-8 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">System Alert Configuration</h2>
+                <p className="text-sm text-slate-400 mt-1">Configure emergency notifications for organizations</p>
+              </div>
         <div className="flex gap-2 flex-wrap">
           <Button
             onClick={handleCheckNow}
