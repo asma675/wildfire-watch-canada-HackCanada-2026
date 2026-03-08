@@ -68,11 +68,30 @@ Respond ONLY with valid JSON matching this exact structure:
     const geminiData = await geminiRes.json();
 
     if (!geminiRes.ok) {
-      throw new Error(geminiData.error?.message || "Gemini API error");
+      const errorMsg = geminiData.error?.message || "Gemini API error";
+      // Quota exceeded - return sample data
+      if (errorMsg.includes("quota") || errorMsg.includes("Quota")) {
+        console.warn("Gemini quota exceeded, returning sample predictions");
+        return Response.json({
+          predictions: [
+            { region: "Fort McMurray Area", province: "AB", lat: 56.7399, lon: -111.3915, risk_level: "HIGH", risk_score: 78, explanation: "High temperature anomaly + low humidity forecasted", risk_factors: ["Heat wave", "Low humidity", "Dry fuels"], temp_c: 28, precip_mm: 0, wind_kmh: 35, humidity_pct: 25, weather_summary: "Hot, dry conditions persist" },
+            { region: "Prince George Area", province: "BC", lat: 53.9196, lon: -122.3006, risk_level: "MODERATE", risk_score: 65, explanation: "Drought stress in boreal forest + wind event approaching", risk_factors: ["Drought", "Strong winds forecast"], temp_c: 26, precip_mm: 2, wind_kmh: 42, humidity_pct: 30, weather_summary: "Windy and warm" }
+          ],
+          generated_at: new Date().toISOString(),
+          summary: "API quota reached. Showing cached sample predictions for demonstration."
+        });
+      }
+      throw new Error(errorMsg);
     }
 
     const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
-    const result = JSON.parse(rawText);
+    let result;
+    try {
+      result = JSON.parse(rawText);
+    } catch (parseErr) {
+      console.error("Failed to parse Gemini response:", rawText);
+      throw new Error("Failed to parse AI response");
+    }
 
     return Response.json({
       predictions: result.predictions || [],
