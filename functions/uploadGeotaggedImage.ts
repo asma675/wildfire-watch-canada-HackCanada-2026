@@ -199,13 +199,21 @@ Deno.serve(async (req) => {
     }
 
     // Combine: fire detected if EITHER Cloudinary OR Gemini flags it
-    const finalFireDetected = wildfireAnalysis.wildfire_detected || cloudinaryFireDetected;
-    const finalConfidence = Math.max(wildfireAnalysis.confidence || 0, cloudinaryFireConfidence);
+    const combinedFireDetected = wildfireAnalysis.wildfire_detected || cloudinaryFireDetected;
+    const combinedConfidence = Math.max(wildfireAnalysis.confidence || 0, cloudinaryFireConfidence);
     const analysisNote = cloudinaryTagsInfo ? ` [Cloudinary tags: ${cloudinaryTagsInfo}]` : '';
+    const combinedAnalysis = (wildfireAnalysis.analysis || '') + analysisNote;
+
+    // Use Backboard RAG to cross-verify the fire detection result
+    const ragResult = await ragFireVerification(combinedAnalysis, combinedFireDetected);
+    const ragNote = ragResult.confidence_note ? ` [RAG verification: ${ragResult.confidence_note}]` : '';
+
     wildfireAnalysis = {
-      wildfire_detected: finalFireDetected,
-      confidence: finalConfidence,
-      analysis: (wildfireAnalysis.analysis || '') + analysisNote
+      wildfire_detected: ragResult.verified,
+      confidence: combinedConfidence,
+      analysis: combinedAnalysis + ragNote,
+      rag_verified: true,
+      no_fire_confirmed: !ragResult.verified
     };
 
     // Store image record in database (use service role to work for all users)
