@@ -31,7 +31,9 @@ const navItems = [
   { name: "Field Imaging", icon: Camera, page: "FieldImaging" },
   { name: "AI Chat", icon: Radio, page: "AIChat" },
   { name: "Fire Gallery", icon: Flame, page: "FireGallery" },
-
+  { name: "Alert Settings", icon: Bell, page: "AlertSettings" },
+  { name: "Active Alerts", icon: AlertTriangle, page: "ActiveFireAlerts" },
+  { name: "Admin Events", icon: Flame, page: "AdminWildfireEvents" },
   { name: "Health Impact", icon: Heart, page: "HealthImpact" },
   { name: "User Health", icon: Activity, page: "UserHealth" },
 ];
