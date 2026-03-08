@@ -126,6 +126,7 @@ export default function Alerts() {
           <button onClick={() => setCheckResult(null)} className="ml-auto p-1 text-slate-500 hover:text-slate-300">
             <X className="w-3.5 h-3.5" />
           </button>
+        </div>
             )}
 
             {showForm && (
@@ -176,6 +177,7 @@ export default function Alerts() {
               </Button>
             </div>
           </form>
+        </div>
         )}
 
         <div className="grid lg:grid-cols-2 gap-6">
