@@ -9,7 +9,7 @@ import AlertItem from "@/components/dashboard/AlertItem";
 import ThreatBadge from "@/components/dashboard/ThreatBadge";
 import {
   AlertTriangle, Shield, Bell, Wind, Map, ArrowRight,
-  Activity, Zap, RefreshCw, Loader2, Flame, Radio
+  Activity, Zap, Loader2, Flame, Radio
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
