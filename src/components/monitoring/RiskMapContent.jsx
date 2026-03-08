@@ -151,12 +151,12 @@ export default function RiskMapContent() {
   const ucFires = fires.filter(f => f.stage_of_control === "UC");
 
   return (
-    <div className="h-full flex flex-col lg:flex-row relative">
-      <div className="flex-1 relative">
+    <div className="h-full w-full flex flex-col lg:flex-row relative">
+      <div className="flex-1 min-h-0 relative bg-[#0f0f1a]">
         <MapContainer
           center={[56.1304, -106.3468]}
           zoom={4}
-          className="h-full w-full"
+          className="!h-full !w-full"
           zoomControl={false}
         >
           <TileLayer
@@ -205,19 +205,25 @@ export default function RiskMapContent() {
       </div>
 
       {selectedZone && (
-        <div className="hidden lg:block w-[380px] border-l border-white/5 bg-[#1a1a2e] overflow-hidden flex-shrink-0">
+        <div className="hidden lg:block w-[380px] border-l border-white/5 bg-[#1a1a2e] overflow-y-auto flex-shrink-0">
           <ZoneInfoPanel zone={selectedZone} onClose={() => setSelectedZone(null)} />
         </div>
       )}
 
       {showPredictionPanel && !selectedZone && (
-        <div className="hidden lg:block w-[380px] border-l border-white/5 bg-[#1a1a2e] overflow-hidden flex-shrink-0">
+        <div className="hidden lg:block w-[380px] border-l border-white/5 bg-[#1a1a2e] overflow-y-auto flex-shrink-0">
           <FirePredictionPanel
             data={predictionData}
             loading={loadingPredictions}
             onClose={() => { setShowPredictionPanel(false); setLayers(p => ({ ...p, firePredictions: false })); }}
             onRefresh={refetchPredictions}
           />
+        </div>
+      )}
+
+      {!selectedZone && !showPredictionPanel && (
+        <div className="hidden lg:block w-[340px] border-l border-white/5 bg-[#1a1a2e] overflow-y-auto flex-shrink-0">
+          <FireImageGallery />
         </div>
       )}
     </div>
