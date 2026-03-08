@@ -6,22 +6,40 @@ const BACKBOARD_BASE_URL = "https://app.backboard.io/api";
 
 async function ragFireVerification(imageUrl, analysisText, wildfireDetected) {
   try {
-    // Create a thread
+    // 1. Create a new thread
     const threadRes = await fetch(`${BACKBOARD_BASE_URL}/threads`, {
       method: 'POST',
       headers: { 'X-API-Key': BACKBOARD_API_KEY, 'Content-Type': 'application/json' },
       body: JSON.stringify({ assistant_id: 'wildfire-verifier' })
     });
     if (!threadRes.ok) return { verified: wildfireDetected, confidence_note: '' };
-
     const thread = await threadRes.json();
+    const threadId = thread.thread_id;
 
-    // Send the actual Cloudinary image URL along with the question
-    const msgRes = await fetch(`${BACKBOARD_BASE_URL}/threads/${thread.thread_id}/messages`, {
+    // 2. Fetch the image from Cloudinary as a binary blob
+    const imageRes = await fetch(imageUrl);
+    if (!imageRes.ok) return { verified: wildfireDetected, confidence_note: '' };
+    const imageBlob = await imageRes.blob();
+
+    // 3. Upload the image as a document to the thread
+    const formData = new FormData();
+    formData.append('file', imageBlob, 'captured_image.jpg');
+    const docRes = await fetch(`${BACKBOARD_BASE_URL}/threads/${threadId}/documents`, {
+      method: 'POST',
+      headers: { 'X-API-Key': BACKBOARD_API_KEY },
+      body: formData
+    });
+    if (docRes.ok) {
+      // Wait briefly for document processing
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+
+    // 4. Ask Backboard to identify if the image depicts a forest fire
+    const msgRes = await fetch(`${BACKBOARD_BASE_URL}/threads/${threadId}/messages`, {
       method: 'POST',
       headers: { 'X-API-Key': BACKBOARD_API_KEY, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        content: `Please look at this image: ${imageUrl}\n\nDoes this image depict a forest fire or wildfire? Additional context from other AI analysis: "${analysisText}". Reply with ONLY: CONFIRMED_FIRE or NO_FIRE, followed by a brief one-sentence reason.`,
+        content: `I have uploaded an image captured in a Canadian wilderness area. Does this image depict a forest fire or wildfire? Additional context from other AI models: "${analysisText}". Reply with ONLY: CONFIRMED_FIRE or NO_FIRE, followed by a brief one-sentence reason.`,
         stream: false
       })
     });
