@@ -1,6 +1,42 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.20';
 import { crypto } from 'https://deno.land/std@0.208.0/crypto/mod.ts';
 
+const BACKBOARD_API_KEY = Deno.env.get("BACKBOARD_API_KEY");
+const BACKBOARD_BASE_URL = "https://app.backboard.io/api";
+
+async function ragFireVerification(analysisText, wildfireDetected) {
+  try {
+    // Create a thread and ask RAG to verify
+    const threadRes = await fetch(`${BACKBOARD_BASE_URL}/threads`, {
+      method: 'POST',
+      headers: { 'X-API-Key': BACKBOARD_API_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ assistant_id: 'wildfire-verifier' })
+    });
+    // If thread creation fails, skip RAG and trust Gemini/Cloudinary results
+    if (!threadRes.ok) return { verified: wildfireDetected, confidence_note: '' };
+
+    const thread = await threadRes.json();
+    const msgRes = await fetch(`${BACKBOARD_BASE_URL}/threads/${thread.thread_id}/messages`, {
+      method: 'POST',
+      headers: { 'X-API-Key': BACKBOARD_API_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        content: `Based on this image analysis, is there a confirmed wildfire or fire present? Analysis: "${analysisText}". AI detection result: ${wildfireDetected ? 'fire detected' : 'no fire detected'}. Reply with ONLY: CONFIRMED_FIRE or NO_FIRE, followed by a brief one-sentence reason.`,
+        stream: false
+      })
+    });
+    if (!msgRes.ok) return { verified: wildfireDetected, confidence_note: '' };
+    const msg = await msgRes.json();
+    const content = msg.content || '';
+    const ragSaysfire = content.includes('CONFIRMED_FIRE');
+    const ragSaysNoFire = content.includes('NO_FIRE');
+    if (ragSaysfire) return { verified: true, confidence_note: `RAG: ${content}` };
+    if (ragSaysNoFire) return { verified: false, confidence_note: `RAG: ${content}` };
+    return { verified: wildfireDetected, confidence_note: '' };
+  } catch {
+    return { verified: wildfireDetected, confidence_note: '' };
+  }
+}
+
 const CLOUDINARY_CLOUD_NAME = Deno.env.get("CLOUDINARY_CLOUD_NAME");
 const CLOUDINARY_API_KEY = Deno.env.get("CLOUDINARY_API_KEY");
 const CLOUDINARY_API_SECRET = Deno.env.get("CLOUDINARY_API_SECRET");
