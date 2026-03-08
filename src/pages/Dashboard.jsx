@@ -53,8 +53,8 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div>
-          <h1 className="text-4xl sm:text-5xl font-bold dark:text-white light:text-gray-900">Dashboard</h1>
-          <p className="text-lg dark:text-slate-400 light:text-slate-600 mt-3">Real-time wildfire intelligence overview</p>
+          <h1 className="text-4xl sm:text-5xl font-bold text-white">Dashboard</h1>
+          <p className="text-lg text-slate-400 mt-3">Real-time wildfire intelligence overview</p>
         </div>
         <div className="flex gap-2">
           <Button
@@ -83,7 +83,7 @@ export default function Dashboard() {
             <p className="text-base font-semibold text-red-400">EXTREME Threat Detected</p>
             <p className="text-sm dark:text-slate-400 light:text-slate-600 mt-2">
               {extremeZones.map((z) => z.name).join(", ")} — immediate attention required
-            </p>
+                </p>
           </div>
           <Link to={createPageUrl("RiskMap")}>
             <Button size="sm" className="bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30">
@@ -106,7 +106,7 @@ export default function Dashboard() {
         {/* Highest Risk Zones */}
         <div className="lg:col-span-2 space-y-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold dark:text-white light:text-gray-900 flex items-center gap-3">
+            <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
               <Activity className="w-6 h-6 text-amber-400" />
               Highest Risk Zones
             </h2>
@@ -139,7 +139,7 @@ export default function Dashboard() {
         {/* Recent Alerts */}
         <div className="space-y-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold dark:text-white light:text-gray-900 flex items-center gap-3">
+            <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
               <Bell className="w-6 h-6 text-amber-400" />
               Recent Alerts
             </h2>
@@ -174,7 +174,7 @@ export default function Dashboard() {
                { label: "Alert System", status: "Online" },
              ].map((s) => (
                <div key={s.label} className="flex items-center justify-between text-sm">
-                 <span className="dark:text-slate-400 light:text-slate-600">{s.label}</span>
+                 <span className="text-slate-400">{s.label}</span>
                  <span className="text-green-400 font-medium flex items-center gap-2">
                    <span className="w-2 h-2 rounded-full bg-green-400" />
                    {s.status}

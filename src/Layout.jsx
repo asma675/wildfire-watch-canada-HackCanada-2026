@@ -101,7 +101,7 @@ export default function Layout({ children, currentPageName }) {
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69abd0aca9b6f6b19517dd6d/84466b33c_image.png" 
               alt="Wildfire Watch Logo"
-              className="w-12 h-12 object-contain"
+              className="w-12 h-12 object-contain rounded-full"
             />
             <div>
               <h1 className="text-lg font-bold text-white tracking-tight">Wildfire Watch</h1>
@@ -181,7 +181,7 @@ export default function Layout({ children, currentPageName }) {
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69abd0aca9b6f6b19517dd6d/84466b33c_image.png" 
               alt="Wildfire Watch Logo"
-              className="w-9 h-9 object-contain"
+              className="w-9 h-9 object-contain rounded-full"
             />
             <div>
               <h1 className="text-base font-bold text-white">Wildfire Watch</h1>
