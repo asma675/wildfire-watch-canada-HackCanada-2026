@@ -205,8 +205,8 @@ Deno.serve(async (req) => {
     const analysisNote = cloudinaryTagsInfo ? ` [Cloudinary tags: ${cloudinaryTagsInfo}]` : '';
     const combinedAnalysis = (wildfireAnalysis.analysis || '') + analysisNote;
 
-    // Use Backboard RAG to cross-verify the fire detection result
-    const ragResult = await ragFireVerification(combinedAnalysis, combinedFireDetected);
+    // Use Backboard RAG to cross-verify the fire detection result using the actual image URL
+    const ragResult = await ragFireVerification(cloudinaryData.secure_url, combinedAnalysis, combinedFireDetected);
     const ragNote = ragResult.confidence_note ? ` [RAG verification: ${ragResult.confidence_note}]` : '';
 
     wildfireAnalysis = {
