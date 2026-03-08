@@ -38,6 +38,11 @@ export default function Layout({ children, currentPageName }) {
   const [hasEvacuation, setHasEvacuation] = React.useState(false);
   const themeContext = useTheme();
   const { theme = 'dark', toggleTheme = () => {} } = themeContext || {};
+  
+  // Hide layout on landing page
+  if (currentPageName === "Landing") {
+    return children;
+  }
 
   React.useEffect(() => {
     const loadUser = async () => {
