@@ -183,7 +183,7 @@ export default function HealthImpactContent() {
                         {block.items.map((item, ii) => (
                           <div key={ii} className="flex items-start gap-3 py-1">
                             <span className={`w-1.5 h-1.5 rounded-full ${c.dot} mt-2 flex-shrink-0`} />
-                            <p className="text-sm text-slate-300 leading-relaxed">{item}</p>
+                            <p className="text-sm text-slate-100 leading-relaxed">{item}</p>
                           </div>
                         ))}
                       </div>
