@@ -243,7 +243,7 @@ export default function Layout({ children, currentPageName }) {
               <AlertTriangle className="w-4 h-4 text-amber-500/50" />
               <span>For informational purposes only. Always follow official emergency guidance.</span>
             </div>
-            <span>Built by Asma Ahmed · © 2025 Wildfire Watch Canada</span>
+            <span>Built by Asma Ahmed, Aaron Dsouza and Anika Pillai · © 2025 Wildfire Watch Canada</span>
           </div>
         </footer>
       </main>
